@@ -2,13 +2,12 @@ package pojo;
 
 import java.math.BigDecimal;
 
-public abstract class Product {
+public class Product {
     
     //Product id is implicit to the index in the storage array
     private String name;
     private BigDecimal price;
     private int hours;
-
 
     public Product(String name, BigDecimal price, int hours) {
         setName(name);

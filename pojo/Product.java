@@ -10,15 +10,13 @@ public class Product {
     private int hours;
 
     public Product(String name, BigDecimal price, int hours) {
-        setName(name);
-        setPrice(price);
-        setHours(hours);
+        this.setName(name);
+        this.setPrice(price);
+        this.setHours(hours);
     }
 
-    public Product(Product source) {
-        setName(source.name);
-        setPrice(source.price);
-        setHours(source.hours);
+    public Product clone() {
+        return new Product(this.getName(), this.getPrice(), this.getHours());
     }
 
     public String getName() {

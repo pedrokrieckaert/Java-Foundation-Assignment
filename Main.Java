@@ -80,8 +80,8 @@ public class Main {
      * @return Product
      */
     public static Product promptForProduct(Scanner scan) {
+        System.out.print("\nPlease enter the name or id of a product: ");
         while (true) {
-            System.out.print("\nPlease enter the name or id of a product: ");
             //Check if the input is an integer
             if(scan.hasNextInt()) {
                 int index = scan.nextInt();
@@ -98,23 +98,21 @@ public class Main {
             //If the input was a String
             } else {
                 String input = scan.nextLine();
-                Product temp; //Null Product for validation
-
                 //Validate if the input is null or blank
-                if (!isNullOrBlank(input)) {
-                    temp = service.retrieveProductByName(input);
-                } else {
-                    System.out.println("Query is blank.");
+                if (isNullOrBlank(input)) {
+                    scan.skip("");
                     continue;
                 }
 
+                Product temp = service.retrieveProductByName(input);
+                
                 //If the return from service was null, means that the input wasn't found in the product names
                 if (temp == null) {
                     System.out.println("There is no product by that name.");
                 } else {
                     //Return the product object once validated
                     return temp;
-                }
+                }                     
             }
         }
     }

@@ -14,7 +14,11 @@ public class ProductService {
         this.productRepo.createProduct(product);
     }
 
-    public Product retrieveProduct(int index) {
-        return this.productRepo.retrieveProduct(index);
+    public Product retrieveProductById(int index) {
+        return this.productRepo.retrieveProductById(index);
+    }
+
+    public Product retrieveProductByName(String name) {
+        return this.productRepo.retrieveProductByName(name);
     }
 }

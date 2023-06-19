@@ -12,7 +12,16 @@ public class ProductRepo {
         this.datastore.add(product.clone());
     }
 
-    public Product retrieveProduct(int index) {
+    public Product retrieveProductById(int index) {
         return this.datastore.get(index).clone();
+    }
+
+    public Product retrieveProductByName(String name) {
+        for (Product product : this.datastore) {
+            if (product.getName().equals(name)) {
+                return product.clone();
+            }
+        }
+        return null;
     }
 }

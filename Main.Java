@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import pojo.Product;
 import repository.ProductRepo;
@@ -23,6 +24,19 @@ public class Main {
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }
+
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("id: ");
+        int tempIndex = scan.nextInt();
+        scan.nextLine();
+        System.out.println(service.retrieveProductById(tempIndex).getName());
+
+        System.out.println("name: ");
+        String tempName = scan.nextLine();
+        System.out.println(service.retrieveProductByName(tempName).getName());
+
+        scan.close();
     }
 
     /**

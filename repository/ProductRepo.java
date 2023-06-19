@@ -18,7 +18,7 @@ public class ProductRepo {
 
     public Product retrieveProductByName(String name) {
         for (Product product : this.datastore) {
-            if (product.getName().equals(name)) {
+            if (product.getName().equalsIgnoreCase(name)) {
                 return product.clone();
             }
         }

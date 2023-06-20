@@ -14,7 +14,12 @@ public class OpeningHoursService {
         this.openingHoursRepo.createOpeningHours(hours);
     }
 
-    public OpeningHours retrievOpeningHours(int id) {
-        return this.openingHoursRepo.retrieveOpeningHours(id);
+    /**
+     * Retrieve opening hour object
+     * @param dayNumber int - day of the week 1 - 7
+     * @return OpeningHours
+     */
+    public OpeningHours retrievOpeningHours(int dayNumber) {
+        return this.openingHoursRepo.retrieveOpeningHours(dayNumber);
     }
 }

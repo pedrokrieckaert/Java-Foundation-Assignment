@@ -6,13 +6,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import pojo.OpeningHours;
 import pojo.Product;
+import repository.OpeningHoursRepo;
 import repository.ProductRepo;
+import service.OpeningHoursService;
 import service.ProductService;
 
 public class Main {
-    static ProductRepo repo = new ProductRepo();
-    static ProductService service = new ProductService(repo);
+    static ProductRepo productRepo = new ProductRepo();
+    static ProductService productService = new ProductService(productRepo);
+    static OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
+    static OpeningHoursService openingHoursService = new OpeningHoursService(openingHoursRepo);
 
     static Path[] paths = new Path[] {Paths.get("database/PhotoShop_OpeningHours.csv"), Paths.get("database/PhotoShop_PriceList.csv")};
 
@@ -21,6 +26,7 @@ public class Main {
 
         try {
             loadProducts();
+            loadOpeningHours();
         } catch(FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch(IOException e) {
@@ -67,10 +73,39 @@ public class Main {
                 String[] productData = line.split(";");
                 
                 //Create product object
-                Product product = new Product(productData[1], new BigDecimal(productData[2]), Integer.parseInt(productData[3].substring(0, 2)));
+                Product product = new Product(productData[1], 
+                    new BigDecimal(productData[2]), 
+                    Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of '00:00'
+                );
                 
                 //Adds product object to the product repository through the product service
-                service.createProduct(product);
+                productService.createProduct(product);
+            });
+    }
+
+    /**
+     * Fetches store opening hours from the database and stores it in the opening hours repository
+     * @throws IOException
+     */
+    public static void loadOpeningHours() throws IOException {
+        Files.lines(paths[0])
+            .forEach(line -> {
+                String[] openingHoursData = line.split(";");
+
+                //Validate that the first row contains valid data
+                try {
+                    int i = Integer.parseInt(openingHoursData[0]);
+                } catch (NumberFormatException nfe) {
+                    return; //skip loop
+                }
+
+                OpeningHours openingHour = new OpeningHours(Integer.parseInt(openingHoursData[0]), 
+                    openingHoursData[1], 
+                    Integer.parseInt(openingHoursData[2].substring(0, 2)),
+                    Integer.parseInt(openingHoursData[3].substring(0, 2))
+                    );
+
+                openingHoursService.createOpeningHours(openingHour);
             });
     }
 
@@ -88,7 +123,7 @@ public class Main {
 
                 //Validate if the input is within repository bounds
                 if (!invalidIndex(index)) {
-                    return service.retrieveProductById(index);
+                    return productService.retrieveProductById(index);
                 } else {
                     System.out.println("Id does not exist, please select a valid ID.");
                     scan.nextLine();
@@ -104,7 +139,7 @@ public class Main {
                     continue;
                 }
 
-                Product temp = service.retrieveProductByName(input);
+                Product temp = productService.retrieveProductByName(input);
                 
                 //If the return from service was null, means that the input wasn't found in the product names
                 if (temp == null) {

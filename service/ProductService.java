@@ -14,6 +14,11 @@ public class ProductService {
         this.productRepo.createProduct(product);
     }
 
+    /**
+     * Retrieve product object
+     * @param index int - array index starting at 0
+     * @return Product
+     */
     public Product retrieveProductById(int index) {
         return this.productRepo.retrieveProductById(index);
     }

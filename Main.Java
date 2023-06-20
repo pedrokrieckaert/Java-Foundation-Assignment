@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
+
 import pojo.OpeningHours;
 import pojo.Product;
 import repository.OpeningHoursRepo;
@@ -150,5 +152,9 @@ public class Main {
                 }                     
             }
         }
+    }
+
+    public static void saveOrder() {
+        Gson gson = new Gson();
     }
 }

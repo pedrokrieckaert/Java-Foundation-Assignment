@@ -1,5 +1,6 @@
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +16,7 @@ import repository.ProductRepo;
 import service.OpeningHoursService;
 import service.ProductService;
 
-public class Main {
+class Main {
     static ProductRepo productRepo = new ProductRepo();
     static ProductService productService = new ProductService(productRepo);
     static OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
@@ -29,8 +30,6 @@ public class Main {
         try {
             loadProducts();
             loadOpeningHours();
-        } catch(FileNotFoundException e) {
-            System.out.println(e.getMessage());
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }
@@ -38,6 +37,8 @@ public class Main {
         Product test = promptForProduct(scan);
 
         System.out.println(test.getName());
+
+        saveOrder(test);
 
         scan.close();
     }
@@ -61,8 +62,8 @@ public class Main {
     }
 
     /**
-     * Fetches product details from the database and stores it in the product repositroy
-     * @throws IOException
+     * Fetches product details from the database and stores it in the product repository
+     * @throws IOException File Not Found
      */
     public static void loadProducts() throws IOException {
         Files.lines(paths[1])
@@ -77,7 +78,7 @@ public class Main {
                 //Create product object
                 Product product = new Product(productData[1], 
                     new BigDecimal(productData[2]), 
-                    Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of '00:00'
+                    Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of "00:00"
                 );
                 
                 //Adds product object to the product repository through the product service
@@ -87,7 +88,7 @@ public class Main {
 
     /**
      * Fetches store opening hours from the database and stores it in the opening hours repository
-     * @throws IOException
+     * @throws IOException File not found
      */
     public static void loadOpeningHours() throws IOException {
         Files.lines(paths[0])
@@ -112,7 +113,7 @@ public class Main {
     }
 
     /**
-     * CLI prompt to retrieve a product from the repository by Id or Name
+     * CLI prompt to retrieve a product from the repository by id or Name
      * @param scan Scanner
      * @return Product
      */
@@ -129,7 +130,6 @@ public class Main {
                 } else {
                     System.out.println("Id does not exist, please select a valid ID.");
                     scan.nextLine();
-                    continue;
                 }
 
             //If the input was a String
@@ -154,7 +154,15 @@ public class Main {
         }
     }
 
-    public static void saveOrder() {
+    public static void saveOrder(Product product) {
         Gson gson = new Gson();
+        try {
+            Writer writer = new FileWriter("database/shoppingCart.json");
+            gson.toJson(product, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }

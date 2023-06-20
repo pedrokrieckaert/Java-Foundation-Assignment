@@ -94,7 +94,7 @@ public class Main {
 
                 //Validate that the first row contains valid data
                 try {
-                    int i = Integer.parseInt(openingHoursData[0]);
+                    Integer.parseInt(openingHoursData[0]);
                 } catch (NumberFormatException nfe) {
                     return; //skip loop
                 }

@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import com.google.gson.Gson;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import pojo.OpeningHours;
@@ -40,11 +40,17 @@ class Main {
 
         Product test = promptForProduct(scan);
 
+        int productQuantity = 4;
+
         System.out.println(test.getName());
 
+        JsonObject amountOfProducts = new JsonObject();
+        amountOfProducts.addProperty("name", test.getName());
+        amountOfProducts.addProperty("amount", productQuantity);
+
         try {
-            List<Product> cart = readOrder();
-            cart.add(test);
+            List<JsonObject> cart = readOrder();
+            cart.add(amountOfProducts);
             saveOrder(cart);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -181,10 +187,10 @@ class Main {
      * @return List of Product or an empty List
      * @throws IOException File not found
      */
-    public static List<Product> readOrder() throws IOException {
+    public static List<JsonObject> readOrder() throws IOException {
         if (checkOrder()) { //If the file exists and is not empty
             JsonReader reader = new JsonReader(new FileReader(shoppingCart));
-            Type listOfProductObject = new TypeToken<List<Product>>() {}.getType();
+            Type listOfProductObject = new TypeToken<List<JsonObject>>() {}.getType();
 
             Gson gson = new Gson();
 
@@ -199,8 +205,8 @@ class Main {
      * @param cart List Product
      * @throws IOException File not found
      */
-    public static void saveOrder(List<Product> cart) throws IOException{
-        Gson gson = new Gson();
+    public static void saveOrder(List<JsonObject> cart) throws IOException{
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         Writer writer = new FileWriter(shoppingCart);
 

@@ -1,14 +1,19 @@
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import pojo.OpeningHours;
 import pojo.Product;
 import repository.OpeningHoursRepo;
@@ -23,6 +28,7 @@ class Main {
     static OpeningHoursService openingHoursService = new OpeningHoursService(openingHoursRepo);
 
     static Path[] paths = new Path[] {Paths.get("database/PhotoShop_OpeningHours.csv"), Paths.get("database/PhotoShop_PriceList.csv")};
+    static String shoppingCart = "database/shoppingCart.json";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -38,7 +44,13 @@ class Main {
 
         System.out.println(test.getName());
 
-        saveOrder(test);
+        try {
+            List<Product> cart = readOrder();
+            cart.add(test);
+            saveOrder(cart);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
         scan.close();
     }
@@ -154,15 +166,21 @@ class Main {
         }
     }
 
-    public static void saveOrder(Product product) {
+    public static List<Product> readOrder() throws IOException {
+        JsonReader reader = new JsonReader(new FileReader(shoppingCart));
+        Type listOfProductObject = new TypeToken<List<Product>>() {}.getType();
+
         Gson gson = new Gson();
-        try {
-            Writer writer = new FileWriter("database/shoppingCart.json");
-            gson.toJson(product, writer);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+
+        return gson.fromJson(reader, listOfProductObject);
+    }
+
+    public static void saveOrder(List<Product> cart) throws IOException{
+        Gson gson = new Gson();
+
+        Writer writer = new FileWriter(shoppingCart);
+        gson.toJson(cart, writer);
+        writer.flush();
+        writer.close();
     }
 }

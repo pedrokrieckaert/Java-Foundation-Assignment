@@ -9,7 +9,6 @@ import java.util.*;
 import com.google.gson.Gson;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import pojo.CartItem;
@@ -45,7 +44,7 @@ class Main {
 
         CartItem item = new CartItem(test, productQuantity);
 
-        System.out.println((item.toString()));
+        System.out.println((item));
 
         try {
             List<CartItem> cart = readOrder();
@@ -91,7 +90,8 @@ class Main {
                 String[] productData = line.split(";");
                 
                 //Create product object
-                Product product = new Product(productData[1], 
+                Product product = new Product(Integer.parseInt(productData[0]),
+                    productData[1],
                     new BigDecimal(productData[2]), 
                     Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of "00:00"
                 );

@@ -5,18 +5,27 @@ import java.math.BigDecimal;
 public class Product {
     
     //Product id is implicit to the index in the storage array
+    private int id;
     private String name;
     private BigDecimal price;
     private int hours;
 
-    public Product(String name, BigDecimal price, int hours) {
+    public Product(int id, String name, BigDecimal price, int hours) {
+        this.setId(id);
         this.setName(name);
         this.setPrice(price);
         this.setHours(hours);
     }
 
     public Product clone() {
-        return new Product(this.getName(), this.getPrice(), this.getHours());
+        return new Product(this.getId(), this.getName(), this.getPrice(), this.getHours());
+    }
+
+    public int getId() {return this.id;};
+
+    public void setId(int id) {
+        if (id < 0) throw new IllegalArgumentException("Id cannot be less than 0.");
+        else this.id = id;
     }
 
     public String getName() {

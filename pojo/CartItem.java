@@ -5,17 +5,17 @@ import java.math.BigDecimal;
 public class CartItem extends Product{
     private int amount;
 
-    public CartItem(String name, BigDecimal price, int hours, int amount) {
-        super(name, price, hours);
+    public CartItem(int id, String name, BigDecimal price, int hours, int amount) {
+        super(id, name, price, hours);
         this.setAmount(amount);
     }
 
     public CartItem(Product product, int amount){
-        super(product.getName(), product.getPrice(), product.getHours());
+        super(product.getId(), product.getName(), product.getPrice(), product.getHours());
         this.setAmount(amount);
     }
 
-    public CartItem clone() {return new CartItem(super.getName(), super.getPrice(), super.getHours(), this.getAmount());}
+    public CartItem clone() {return new CartItem(super.getId(), super.getName(), super.getPrice(), super.getHours(), this.getAmount());}
 
     public int getAmount() {
         return amount;

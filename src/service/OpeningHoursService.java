@@ -1,7 +1,7 @@
-package service;
+package src.service;
 
-import pojo.OpeningHours;
-import repository.OpeningHoursRepo;
+import src.data.pojo.OpeningHours;
+import src.data.repository.OpeningHoursRepo;
 
 public class OpeningHoursService {
     OpeningHoursRepo openingHoursRepo;

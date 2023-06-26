@@ -1,4 +1,4 @@
-package pojo;
+package src.data.pojo;
 
 public class OpeningHours {
     private int dayNumber;

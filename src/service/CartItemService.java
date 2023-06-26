@@ -1,7 +1,7 @@
-package service;
+package src.service;
 
-import pojo.CartItem;
-import repository.CartItemRepo;
+import src.data.pojo.CartItem;
+import src.data.repository.CartItemRepo;
 
 public class CartItemService {
     CartItemRepo itemRepo;

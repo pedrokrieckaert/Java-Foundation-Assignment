@@ -1,9 +1,9 @@
-package repository;
+package src.data.repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import pojo.OpeningHours;
+import src.data.pojo.OpeningHours;
 
 public class OpeningHoursRepo {
     //Map the opening hours using day number as the key (1-7)(Sunday-Saturday)

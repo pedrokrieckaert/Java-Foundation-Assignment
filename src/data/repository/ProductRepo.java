@@ -1,8 +1,8 @@
-package repository;
+package src.data.repository;
 
 import java.util.ArrayList;
 
-import pojo.Product;
+import src.data.pojo.Product;
 
 public class ProductRepo {
     //Store products in array list, the product id is intrinsic to the index

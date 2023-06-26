@@ -1,3 +1,5 @@
+package src;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -12,15 +14,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import pojo.CartItem;
-import pojo.OpeningHours;
-import pojo.Product;
-import repository.CartItemRepo;
-import repository.OpeningHoursRepo;
-import repository.ProductRepo;
-import service.CartItemService;
-import service.OpeningHoursService;
-import service.ProductService;
+import src.data.pojo.CartItem;
+import src.data.pojo.OpeningHours;
+import src.data.pojo.Order;
+import src.data.pojo.Product;
+import src.data.repository.CartItemRepo;
+import src.data.repository.OpeningHoursRepo;
+import src.data.repository.ProductRepo;
+import src.service.CartItemService;
+import src.service.OpeningHoursService;
+import src.service.ProductService;
 
 class Main {
     static ProductRepo productRepo = new ProductRepo();
@@ -62,16 +65,16 @@ class Main {
         Gson gson = new Gson();
 
         JsonObject order = new JsonObject();
-        order.add("Order Summary", orderSum);
+        order.add("summary", orderSum);
 
 
         try {
             List<CartItem> cart = readOrder();
             cart.add(item);
-            order.add("Cart", gson.toJsonTree(cart));
+            order.add("cart", gson.toJsonTree(cart));
 
             System.out.println(order);
-            saveOrder(cart);
+            saveOrder(order);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -89,7 +92,7 @@ class Main {
     }
 
     /**
-     * Check if scanned int is within repository bounds
+     * Check if scanned int is within src.data.repository bounds
      * @param index int
      * @return boolean
      */
@@ -98,7 +101,7 @@ class Main {
     }
 
     /**
-     * Fetches product details from the database and stores it in the product repository
+     * Fetches product details from the database and stores it in the product src.data.repository
      * @throws IOException File Not Found
      */
     public static void loadProducts() throws IOException {
@@ -118,13 +121,13 @@ class Main {
                     Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of "00:00"
                 );
                 
-                //Adds product object to the product repository through the product service
+                //Adds product object to the product src.data.repository through the product src.service
                 productService.createProduct(product);
             });
     }
 
     /**
-     * Fetches store opening hours from the database and stores it in the opening hours repository
+     * Fetches store opening hours from the database and stores it in the opening hours src.data.repository
      * @throws IOException File not found
      */
     public static void loadOpeningHours() throws IOException {
@@ -150,7 +153,7 @@ class Main {
     }
 
     /**
-     * CLI prompt to retrieve a product from the repository by id or Name
+     * CLI prompt to retrieve a product from the src.data.repository by id or Name
      * @param scan Scanner
      * @return Product
      */
@@ -161,7 +164,7 @@ class Main {
             if(scan.hasNextInt()) {
                 int index = scan.nextInt();
 
-                //Validate if the input is within repository bounds
+                //Validate if the input is within src.data.repository bounds
                 if (!invalidIndex(index)) {
                     return productService.retrieveProductById(index);
                 } else {
@@ -180,7 +183,7 @@ class Main {
 
                 Product temp = productService.retrieveProductByName(input);
                 
-                //If the return from service was null, means that the input wasn't found in the product names
+                //If the return from src.service was null, means that the input wasn't found in the product names
                 if (temp == null) {
                     System.out.println("There is no product by that name.");
                 } else {
@@ -211,7 +214,7 @@ class Main {
     public static List<CartItem> readOrder() throws IOException {
         if (checkOrder()) { //If the file exists and is not empty
             JsonReader reader = new JsonReader(new FileReader(shoppingCart));
-            Type listOfProductObject = new TypeToken<List<CartItem>>() {}.getType();
+            Type listOfProductObject = new TypeToken<Order>() {}.getType();
 
             Gson gson = new Gson();
 
@@ -226,7 +229,7 @@ class Main {
      * @param cart List Product
      * @throws IOException File not found
      */
-    public static void saveOrder(List<CartItem> cart) throws IOException{
+    public static void saveOrder(JsonObject cart) throws IOException{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         Writer writer = new FileWriter(shoppingCart);

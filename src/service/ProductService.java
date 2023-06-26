@@ -1,7 +1,7 @@
-package service;
+package src.service;
 
-import pojo.Product;
-import repository.ProductRepo;
+import src.data.pojo.Product;
+import src.data.repository.ProductRepo;
 
 public class ProductService {
     ProductRepo productRepo;

@@ -59,11 +59,18 @@ class Main {
         int totalHours = cartItemService.getCartItem(1).getHours() * cartItemService.getCartItem(1).getAmount();
         orderSum.addProperty("totalHours", totalHours);
 
-        System.out.println(orderSum);
+        Gson gson = new Gson();
+
+        JsonObject order = new JsonObject();
+        order.add("Order Summary", orderSum);
+
 
         try {
             List<CartItem> cart = readOrder();
             cart.add(item);
+            order.add("Cart", gson.toJsonTree(cart));
+
+            System.out.println(order);
             saveOrder(cart);
         } catch (IOException e) {
             System.out.println(e.getMessage());

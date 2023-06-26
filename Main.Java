@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import pojo.CartItem;
 import pojo.OpeningHours;
 import pojo.Product;
 import repository.OpeningHoursRepo;
@@ -46,7 +47,13 @@ class Main {
 
         JsonObject amountOfProducts = new JsonObject();
         amountOfProducts.addProperty("name", test.getName());
+        amountOfProducts.addProperty("price", test.getPrice());
+        amountOfProducts.addProperty("hours", test.getHours());
         amountOfProducts.addProperty("amount", productQuantity);
+
+        CartItem item = new CartItem(test, productQuantity);
+
+        System.out.println((item.toString()));
 
         try {
             List<JsonObject> cart = readOrder();

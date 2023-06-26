@@ -43,21 +43,13 @@ class Main {
 
         int productQuantity = 4;
 
-        System.out.println(test.getName());
-
-        JsonObject amountOfProducts = new JsonObject();
-        amountOfProducts.addProperty("name", test.getName());
-        amountOfProducts.addProperty("price", test.getPrice());
-        amountOfProducts.addProperty("hours", test.getHours());
-        amountOfProducts.addProperty("amount", productQuantity);
-
         CartItem item = new CartItem(test, productQuantity);
 
         System.out.println((item.toString()));
 
         try {
-            List<JsonObject> cart = readOrder();
-            cart.add(amountOfProducts);
+            List<CartItem> cart = readOrder();
+            cart.add(item);
             saveOrder(cart);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -194,10 +186,10 @@ class Main {
      * @return List of Product or an empty List
      * @throws IOException File not found
      */
-    public static List<JsonObject> readOrder() throws IOException {
+    public static List<CartItem> readOrder() throws IOException {
         if (checkOrder()) { //If the file exists and is not empty
             JsonReader reader = new JsonReader(new FileReader(shoppingCart));
-            Type listOfProductObject = new TypeToken<List<JsonObject>>() {}.getType();
+            Type listOfProductObject = new TypeToken<List<CartItem>>() {}.getType();
 
             Gson gson = new Gson();
 
@@ -212,7 +204,7 @@ class Main {
      * @param cart List Product
      * @throws IOException File not found
      */
-    public static void saveOrder(List<JsonObject> cart) throws IOException{
+    public static void saveOrder(List<CartItem> cart) throws IOException{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         Writer writer = new FileWriter(shoppingCart);

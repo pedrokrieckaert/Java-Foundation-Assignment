@@ -9,6 +9,7 @@ import java.util.*;
 import com.google.gson.Gson;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import pojo.CartItem;
@@ -51,6 +52,14 @@ class Main {
         cartItemService.addCartItem(item);
 
         System.out.println(cartItemService.getCartItem(1));
+
+        JsonObject orderSum = new JsonObject();
+        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
+        orderSum.addProperty("totalPrice", totalPrice);
+        int totalHours = cartItemService.getCartItem(1).getHours() * cartItemService.getCartItem(1).getAmount();
+        orderSum.addProperty("totalHours", totalHours);
+
+        System.out.println(orderSum);
 
         try {
             List<CartItem> cart = readOrder();

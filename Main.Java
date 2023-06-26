@@ -14,8 +14,10 @@ import com.google.gson.stream.JsonReader;
 import pojo.CartItem;
 import pojo.OpeningHours;
 import pojo.Product;
+import repository.CartItemRepo;
 import repository.OpeningHoursRepo;
 import repository.ProductRepo;
+import service.CartItemService;
 import service.OpeningHoursService;
 import service.ProductService;
 
@@ -24,6 +26,8 @@ class Main {
     static ProductService productService = new ProductService(productRepo);
     static OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
     static OpeningHoursService openingHoursService = new OpeningHoursService(openingHoursRepo);
+    static CartItemRepo cartItemRepo = new CartItemRepo();
+    static CartItemService cartItemService = new CartItemService(cartItemRepo);
 
     static Path[] paths = new Path[] {Paths.get("database/PhotoShop_OpeningHours.csv"), Paths.get("database/PhotoShop_PriceList.csv")};
     static String shoppingCart = "database/shoppingCart.json";
@@ -44,7 +48,9 @@ class Main {
 
         CartItem item = new CartItem(test, productQuantity);
 
-        System.out.println((item));
+        cartItemService.addCartItem(item);
+
+        System.out.println(cartItemService.getCartItem(1));
 
         try {
             List<CartItem> cart = readOrder();

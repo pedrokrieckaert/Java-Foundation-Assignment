@@ -11,7 +11,7 @@ public class ProductService {
     }
 
     public void createProduct(Product product) {
-        this.productRepo.createProduct(product);
+        this.productRepo.create(product);
     }
 
     /**
@@ -20,10 +20,10 @@ public class ProductService {
      * @return Product
      */
     public Product retrieveProductById(int index) {
-        return this.productRepo.retrieveProductById(index);
+        return this.productRepo.retrieveById(index);
     }
 
     public Product retrieveProductByName(String name) {
-        return this.productRepo.retrieveProductByName(name);
+        return this.productRepo.retrieveByName(name);
     }
 }

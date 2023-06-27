@@ -28,18 +28,13 @@ class Main {
     static OpeningHoursService openingHoursService = new OpeningHoursService(openingHoursRepo);
     static CartItemRepo cartItemRepo = new CartItemRepo();
     static CartItemService cartItemService = new CartItemService(cartItemRepo);
-
-    static Path[] paths = new Path[] {
-            Paths.get("database/PhotoShop_PriceList.csv"),
-            Paths.get("database/PhotoShop_OpeningHours.csv")
-    };
     static String shoppingCart = "database/shoppingCart.json";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         openingHoursRepo.load();
-        System.out.println(openingHoursService.retrievOpeningHours(2).getOpenHour().getHours());
+        productRepo.load();
 
 //        Product test = promptForProduct(scan);
 //

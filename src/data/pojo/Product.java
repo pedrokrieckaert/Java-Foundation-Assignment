@@ -1,6 +1,7 @@
 package src.data.pojo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Product {
     
@@ -8,13 +9,17 @@ public class Product {
     private int id;
     private String name;
     private BigDecimal price;
-    private int hours;
+    private Date hours;
 
-    public Product(int id, String name, BigDecimal price, int hours) {
+    public Product(int id, String name, BigDecimal price, Date hours) {
         this.setId(id);
         this.setName(name);
         this.setPrice(price);
         this.setHours(hours);
+    }
+
+    public Product() {
+
     }
 
     public Product clone() {
@@ -46,12 +51,11 @@ public class Product {
         else this.price = price;
     }
 
-    public int getHours() {
+    public Date getHours() {
         return this.hours;
     }
 
-    public void setHours(int hours) {
-        if (hours < 0) throw new IllegalArgumentException("Hours cannot be less than 0.");
-        else this.hours = hours;
+    public void setHours(Date hours) {
+        this.hours = hours;
     }
 }

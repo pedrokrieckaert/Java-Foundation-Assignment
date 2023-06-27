@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -192,7 +193,10 @@ public class CSVReader<T> {
             } catch (ParseException e) {
 
             }
-        } else {
+        } else if (field.getType().getName().equals("java.math.BigDecimal")) {
+            BigDecimal bigDecimalValue = new BigDecimal(value);
+            field.set(refObject, bigDecimalValue);
+        }else {
             field.set(refObject, value);
         }
         field.setAccessible(false);

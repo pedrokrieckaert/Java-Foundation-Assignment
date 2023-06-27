@@ -40,29 +40,4 @@ public class OpeningHoursRepo {
             create(msg);
         }
     }
-    /**
-     * Fetches store opening hours from the database and stores it in the opening hours src.data.repository
-     * @throws IOException File not found
-     */
-//    public static void loadOpeningHours(Path path) throws IOException {
-//        Files.lines(path)
-//                .forEach(line -> {
-//                    String[] openingHoursData = line.split(";");
-//
-//                    //Validate that the first row contains valid data
-//                    try {
-//                        Integer.parseInt(openingHoursData[0]);
-//                    } catch (NumberFormatException nfe) {
-//                        return; //skip loop
-//                    }
-//
-//                    OpeningHours openingHour = new OpeningHours(Integer.parseInt(openingHoursData[0]),
-//                            openingHoursData[1],
-//                            Integer.parseInt(openingHoursData[2].substring(0, 2)),
-//                            Integer.parseInt(openingHoursData[3].substring(0, 2))
-//                    );
-//
-//                    openingHoursService.createOpeningHours(openingHour);
-//                });
-//    }
 }

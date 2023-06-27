@@ -39,7 +39,7 @@ class Main {
         Scanner scan = new Scanner(System.in);
 
         openingHoursRepo.load();
-        System.out.println(openingHoursService.retrievOpeningHours(1).getDay());
+        System.out.println(openingHoursService.retrievOpeningHours(2).getOpenHour().getHours());
 
 //        Product test = promptForProduct(scan);
 //

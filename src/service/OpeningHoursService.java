@@ -11,7 +11,7 @@ public class OpeningHoursService {
     }
 
     public void createOpeningHours(OpeningHours hours) {
-        this.openingHoursRepo.createOpeningHours(hours);
+        this.openingHoursRepo.create(hours);
     }
 
     /**
@@ -20,6 +20,6 @@ public class OpeningHoursService {
      * @return OpeningHours
      */
     public OpeningHours retrievOpeningHours(int dayNumber) {
-        return this.openingHoursRepo.retrieveOpeningHours(dayNumber);
+        return this.openingHoursRepo.retrieve(dayNumber);
     }
 }

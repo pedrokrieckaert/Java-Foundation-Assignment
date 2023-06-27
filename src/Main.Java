@@ -2,7 +2,6 @@ package src;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -11,7 +10,6 @@ import com.google.gson.Gson;
 
 import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
-import src.data.pojo.OpeningHours;
 import src.data.pojo.Product;
 import src.data.repository.CartItemRepo;
 import src.data.repository.OpeningHoursRepo;
@@ -31,53 +29,52 @@ class Main {
     static CartItemRepo cartItemRepo = new CartItemRepo();
     static CartItemService cartItemService = new CartItemService(cartItemRepo);
 
-    static Path[] paths = new Path[] {Paths.get("database/PhotoShop_OpeningHours.csv"), Paths.get("database/PhotoShop_PriceList.csv")};
+    static Path[] paths = new Path[] {
+            Paths.get("database/PhotoShop_PriceList.csv"),
+            Paths.get("database/PhotoShop_OpeningHours.csv")
+    };
     static String shoppingCart = "database/shoppingCart.json";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        try {
-            loadProducts();
-            loadOpeningHours();
-        } catch(IOException e) {
-            System.out.println(e.getMessage());
-        }
+        openingHoursRepo.load();
+        System.out.println(openingHoursService.retrievOpeningHours(1).getDay());
 
-        Product test = promptForProduct(scan);
-
-        int productQuantity = 4;
-
-        CartItem item = new CartItem(test, productQuantity);
-
-        cartItemService.addCartItem(item);
-
-        System.out.println(cartItemService.getCartItem(1));
-
-        JsonObject orderSum = new JsonObject();
-        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
-        orderSum.addProperty("totalPrice", totalPrice);
-        int totalHours = cartItemService.getCartItem(1).getHours() * cartItemService.getCartItem(1).getAmount();
-        orderSum.addProperty("totalHours", totalHours);
-
-        Gson gson = new Gson();
-
-        JsonObject order = new JsonObject();
-        order.add("summary", orderSum);
-
-
-        try {
-            List<CartItem> cart = readOrder(shoppingCart);
-            cart.add(item);
-            order.add("cart", gson.toJsonTree(cart));
-
-            System.out.println(order);
-            saveOrder(order, shoppingCart);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        scan.close();
+//        Product test = promptForProduct(scan);
+//
+//        int productQuantity = 4;
+//
+//        CartItem item = new CartItem(test, productQuantity);
+//
+//        cartItemService.addCartItem(item);
+//
+//        System.out.println(cartItemService.getCartItem(1));
+//
+//        JsonObject orderSum = new JsonObject();
+//        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
+//        orderSum.addProperty("totalPrice", totalPrice);
+//        int totalHours = cartItemService.getCartItem(1).getHours() * cartItemService.getCartItem(1).getAmount();
+//        orderSum.addProperty("totalHours", totalHours);
+//
+//        Gson gson = new Gson();
+//
+//        JsonObject order = new JsonObject();
+//        order.add("summary", orderSum);
+//
+//
+//        try {
+//            List<CartItem> cart = readOrder(shoppingCart);
+//            cart.add(item);
+//            order.add("cart", gson.toJsonTree(cart));
+//
+//            System.out.println(order);
+//            saveOrder(order, shoppingCart);
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        scan.close();
     }
 
     /**
@@ -96,58 +93,6 @@ class Main {
      */
     public static boolean invalidIndex(int index) {
         return index < 0 || index > 11;
-    }
-
-    /**
-     * Fetches product details from the database and stores it in the product src.data.repository
-     * @throws IOException File Not Found
-     */
-    public static void loadProducts() throws IOException {
-        Files.lines(paths[1])
-            .forEach(line -> {
-                /* productData[]
-                * [1] - Product Name
-                * [2] - Product Price
-                * [3] - Product Hours
-                */
-                String[] productData = line.split(";");
-                
-                //Create product object
-                Product product = new Product(Integer.parseInt(productData[0]),
-                    productData[1],
-                    new BigDecimal(productData[2]), 
-                    Integer.parseInt(productData[3].substring(0, 2)) //Substring to take only first two characters of "00:00"
-                );
-                
-                //Adds product object to the product src.data.repository through the product src.service
-                productService.createProduct(product);
-            });
-    }
-
-    /**
-     * Fetches store opening hours from the database and stores it in the opening hours src.data.repository
-     * @throws IOException File not found
-     */
-    public static void loadOpeningHours() throws IOException {
-        Files.lines(paths[0])
-            .forEach(line -> {
-                String[] openingHoursData = line.split(";");
-
-                //Validate that the first row contains valid data
-                try {
-                    Integer.parseInt(openingHoursData[0]);
-                } catch (NumberFormatException nfe) {
-                    return; //skip loop
-                }
-
-                OpeningHours openingHour = new OpeningHours(Integer.parseInt(openingHoursData[0]), 
-                    openingHoursData[1], 
-                    Integer.parseInt(openingHoursData[2].substring(0, 2)),
-                    Integer.parseInt(openingHoursData[3].substring(0, 2))
-                    );
-
-                openingHoursService.createOpeningHours(openingHour);
-            });
     }
 
     /**

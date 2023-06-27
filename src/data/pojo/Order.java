@@ -9,9 +9,9 @@ public class Order {
     private List<CartItem> cart;
 
     public Order(int totalPrice, int totalHours, List<CartItem> cart) {
-        setTotalPrice(totalPrice);
-        setTotalHours(totalHours);
-        setCart(cart);
+        this.setTotalPrice(totalPrice);
+        this.setTotalHours(totalHours);
+        this.setCart(cart);
     }
 
     public int getTotalPrice() {

@@ -37,40 +37,40 @@ class Main {
         openingHoursRepo.load();
         productRepo.load();
 
-//        Product test = promptForProduct(scan);
-//
-//        int productQuantity = 4;
-//
-//        CartItem item = new CartItem(test, productQuantity);
-//
-//        cartItemService.addCartItem(item);
-//
-//        System.out.println(cartItemService.getCartItem(1));
-//
-//        JsonObject orderSum = new JsonObject();
-//        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
-//        orderSum.addProperty("totalPrice", totalPrice);
-//        int totalHours = cartItemService.getCartItem(1).getHours() * cartItemService.getCartItem(1).getAmount();
-//        orderSum.addProperty("totalHours", totalHours);
-//
-//        Gson gson = new Gson();
-//
-//        JsonObject order = new JsonObject();
-//        order.add("summary", orderSum);
-//
-//
-//        try {
-//            List<CartItem> cart = readOrder(shoppingCart);
-//            cart.add(item);
-//            order.add("cart", gson.toJsonTree(cart));
-//
-//            System.out.println(order);
-//            saveOrder(order, shoppingCart);
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//
-//        scan.close();
+        Product test = promptForProduct(scan);
+
+        int productQuantity = 4;
+
+        CartItem item = new CartItem(test, productQuantity);
+
+        cartItemService.addCartItem(item);
+
+        System.out.println(cartItemService.getCartItem(1));
+
+        JsonObject orderSum = new JsonObject();
+        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
+        orderSum.addProperty("totalPrice", totalPrice);
+        int totalHours = cartItemService.getCartItem(1).getHoursInt() * cartItemService.getCartItem(1).getAmount();
+        orderSum.addProperty("totalHours", totalHours);
+
+        Gson gson = new Gson();
+
+        JsonObject order = new JsonObject();
+        order.add("summary", orderSum);
+
+
+        try {
+            List<CartItem> cart = readOrder(shoppingCart).getCart();
+            cart.add(item);
+            order.add("cart", gson.toJsonTree(cart));
+
+            System.out.println(order);
+            saveOrder(order, shoppingCart);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        scan.close();
     }
 
     /**

@@ -33,7 +33,7 @@ public class JSONReader {
      * @return List of Product or an empty List
      * @throws IOException File not found
      */
-    public static List<CartItem> readOrder(String source) throws IOException {
+    public static Order readOrder(String source) throws IOException {
         if (checkOrder(source)) { //If the file exists and is not empty
             JsonReader reader = new JsonReader(new FileReader(source));
             Type listOfProductObject = new TypeToken<Order>() {}.getType();
@@ -42,7 +42,7 @@ public class JSONReader {
 
             return gson.fromJson(reader, listOfProductObject);
         } else { //If the file does not exist or is empty
-            return new ArrayList<>();
+            return null;
         }
     }
 

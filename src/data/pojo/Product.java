@@ -55,6 +55,8 @@ public class Product {
         return this.hours;
     }
 
+    public int getHoursInt() { return this.hours.getHours(); }
+
     public void setHours(Date hours) {
         this.hours = hours;
     }

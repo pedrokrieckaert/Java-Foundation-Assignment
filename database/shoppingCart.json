@@ -9,7 +9,14 @@
       "id": 1,
       "name": "Paper 10 x 15 mat",
       "price": 1.40,
-      "hours": 1
+      "hours": "Jan 1, 1970, 1:00:00 AM"
+    },
+    {
+      "amount": 4,
+      "id": 1,
+      "name": "Paper 10 x 15 mat",
+      "price": 1.40,
+      "hours": "Jan 1, 1970, 1:00:00 AM"
     }
   ]
 }

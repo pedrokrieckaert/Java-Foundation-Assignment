@@ -1,17 +1,21 @@
-package pojo;
+package src.data.pojo;
 
 public class OpeningHours {
     private int dayNumber;
     private String day;
-    private int openHour;
-    private int closeHour;
+    private String openHour;
+    private String closeHour;
 
 
-    public OpeningHours(int dayNumber, String day, int openHour, int closeHour) {
+    public OpeningHours(int dayNumber, String day, String openHour, String closeHour) {
         setDayNumber(dayNumber);
         setDay(day);
         setOpenHour(openHour);
         setCloseHour(closeHour);
+    }
+
+    public OpeningHours() {
+
     }
 
     public OpeningHours clone() {
@@ -34,19 +38,19 @@ public class OpeningHours {
         this.day = day;
     }
 
-    public int getOpenHour() {
+    public String getOpenHour() {
         return this.openHour;
     }
 
-    public void setOpenHour(int openHour) {
+    public void setOpenHour(String openHour) {
         this.openHour = openHour;
     }
 
-    public int getCloseHour() {
+    public String getCloseHour() {
         return this.closeHour;
     }
 
-    public void setCloseHour(int closeHour) {
+    public void setCloseHour(String closeHour) {
         this.closeHour = closeHour;
     }
     

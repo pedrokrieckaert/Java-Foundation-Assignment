@@ -1,0 +1,15 @@
+{
+  "summary": {
+    "totalPrice": 7.00,
+    "totalHours": 5
+  },
+  "cart": [
+    {
+      "amount": 5,
+      "id": 1,
+      "name": "Paper 10 x 15 mat",
+      "price": 1.40,
+      "hours": "01:00"
+    }
+  ]
+}

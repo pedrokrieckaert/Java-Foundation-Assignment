@@ -1,22 +1,35 @@
-package pojo;
+package src.data.pojo;
 
 import java.math.BigDecimal;
 
 public class Product {
     
     //Product id is implicit to the index in the storage array
+    private int id;
     private String name;
     private BigDecimal price;
-    private int hours;
+    private String hours;
 
-    public Product(String name, BigDecimal price, int hours) {
+    public Product(int id, String name, BigDecimal price, String hours) {
+        this.setId(id);
         this.setName(name);
         this.setPrice(price);
         this.setHours(hours);
     }
 
+    public Product() {
+
+    }
+
     public Product clone() {
-        return new Product(this.getName(), this.getPrice(), this.getHours());
+        return new Product(this.getId(), this.getName(), this.getPrice(), this.getHours());
+    }
+
+    public int getId() {return this.id;};
+
+    public void setId(int id) {
+        if (id < 0) throw new IllegalArgumentException("Id cannot be less than 0.");
+        else this.id = id;
     }
 
     public String getName() {
@@ -37,12 +50,13 @@ public class Product {
         else this.price = price;
     }
 
-    public int getHours() {
+    public String getHours() {
         return this.hours;
     }
 
-    public void setHours(int hours) {
-        if (hours < 0) throw new IllegalArgumentException("Hours cannot be less than 0.");
-        else this.hours = hours;
+    public int getHoursInt() { return Integer.parseInt(this.hours.substring(0,2)); }
+
+    public void setHours(String hours) {
+        this.hours = hours;
     }
 }

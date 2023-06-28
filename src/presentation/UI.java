@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
 import src.data.pojo.Order;
 import src.data.pojo.Product;
-import src.data.repository.OpeningHoursRepo;
-import src.data.repository.ProductRepo;
 import src.service.CartItemService;
 import src.service.OpeningHoursService;
 import src.service.ProductService;
@@ -100,7 +98,7 @@ public class UI {
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
         orderSum.addProperty("totalPrice", totalPrice);
 
-        int totalHours = 4; //cartItemService.getCartItem(1).getHoursInt() * cartItemService.getCartItem(1).getAmount();
+        int totalHours = cartItemService.calcTotalHours();
         orderSum.addProperty("totalHours", totalHours);
 
         Gson gson = new Gson();
@@ -126,13 +124,9 @@ public class UI {
     }
 
     public static void testProcess(){
-        Scanner scan = new Scanner(System.in);
-
         Product product = promptForProduct();
 
         CartItem item = promptForQuantity(product);
-
-        System.out.println(item);
 
         cartItemService.addCartItem(item);
 

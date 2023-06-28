@@ -1,9 +1,23 @@
 {
   "summary": {
     "totalPrice": 96.00,
-    "totalHours": 4
+    "totalHours": 48
   },
   "cart": [
+    {
+      "amount": 4,
+      "id": 5,
+      "name": "Canvas 30 x 40 mat",
+      "price": 24.00,
+      "hours": "12:00"
+    },
+    {
+      "amount": 4,
+      "id": 5,
+      "name": "Canvas 30 x 40 mat",
+      "price": 24.00,
+      "hours": "12:00"
+    },
     {
       "amount": 4,
       "id": 5,

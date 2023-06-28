@@ -4,7 +4,7 @@ import src.data.pojo.Product;
 import src.data.repository.ProductRepo;
 
 public class ProductService {
-    ProductRepo productRepo = new ProductRepo();
+    static ProductRepo productRepo = new ProductRepo();
 
     public ProductService(){
         productRepo.load();

@@ -1,7 +1,6 @@
 package src.data.pojo;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class CartItem extends Product{
     private int amount;

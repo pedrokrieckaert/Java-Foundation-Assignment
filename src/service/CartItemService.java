@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class CartItemService {
-    CartItemRepo itemRepo = new CartItemRepo();
+    static CartItemRepo itemRepo = new CartItemRepo();
 
     public CartItemService() {}
 
@@ -20,16 +20,32 @@ public class CartItemService {
         List<Integer> keys = itemRepo.getKeys();
 
         for (int i : keys) {
+            CartItem item = itemRepo.retrieve(i);
             totalPrice = totalPrice
-                    .add(itemRepo
-                            .retrieve(i)
+                    .add(item
                             .getPrice()
                             .multiply(BigDecimal
-                                    .valueOf(itemRepo
-                                            .retrieve(i)
+                                    .valueOf(item
                                             .getAmount())));
         }
 
         return totalPrice;
+    }
+
+    public int calcTotalHours() {
+        int totalHours = 0;
+        List<Integer> keys = itemRepo.getKeys();
+
+        for (int i : keys) {
+            CartItem item = itemRepo.retrieve(i);
+            totalHours +=
+                    Integer.parseInt(item
+                            .getHours()
+                            .substring(0,2))
+                    * item
+                    .getAmount();
+        }
+
+        return totalHours;
     }
 }

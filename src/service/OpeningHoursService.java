@@ -4,7 +4,7 @@ import src.data.pojo.OpeningHours;
 import src.data.repository.OpeningHoursRepo;
 
 public class OpeningHoursService {
-    OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
+    static OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
 
     public OpeningHoursService(){
         openingHoursRepo.load();

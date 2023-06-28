@@ -6,10 +6,6 @@ import src.data.repository.ProductRepo;
 public class ProductService {
     ProductRepo productRepo = new ProductRepo();
 
-    public ProductService(ProductRepo repo) {
-        this.productRepo = repo;
-    }
-
     public ProductService(){
         productRepo.load();
     }

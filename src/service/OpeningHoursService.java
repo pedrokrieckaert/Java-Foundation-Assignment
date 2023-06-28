@@ -6,10 +6,6 @@ import src.data.repository.OpeningHoursRepo;
 public class OpeningHoursService {
     OpeningHoursRepo openingHoursRepo = new OpeningHoursRepo();
 
-    public OpeningHoursService(OpeningHoursRepo repo) {
-        this.openingHoursRepo = repo;
-    }
-
     public OpeningHoursService(){
         openingHoursRepo.load();
     }

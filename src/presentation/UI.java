@@ -94,21 +94,13 @@ public class UI {
 
     }
 
-    public static void testProcess(){
-        Scanner scan = new Scanner(System.in);
-
-        Product product = promptForProduct();
-
-        CartItem item = promptForQuantity(product);
-
-        cartItemService.addCartItem(item);
-
-        System.out.println(cartItemService.getCartItem(1));
-
+    public static void finalizeOrder(CartItem item){
         JsonObject orderSum = new JsonObject();
-        BigDecimal totalPrice = cartItemService.getCartItem(1).getPrice().multiply(BigDecimal.valueOf(cartItemService.getCartItem(1).getAmount()));
+
+        BigDecimal totalPrice = cartItemService.calcTotalPrice();
         orderSum.addProperty("totalPrice", totalPrice);
-        int totalHours = cartItemService.getCartItem(1).getHoursInt() * cartItemService.getCartItem(1).getAmount();
+
+        int totalHours = 4; //cartItemService.getCartItem(1).getHoursInt() * cartItemService.getCartItem(1).getAmount();
         orderSum.addProperty("totalHours", totalHours);
 
         Gson gson = new Gson();
@@ -131,5 +123,19 @@ public class UI {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void testProcess(){
+        Scanner scan = new Scanner(System.in);
+
+        Product product = promptForProduct();
+
+        CartItem item = promptForQuantity(product);
+
+        System.out.println(item);
+
+        cartItemService.addCartItem(item);
+
+        finalizeOrder(item);
     }
 }

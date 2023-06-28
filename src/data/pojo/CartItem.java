@@ -1,11 +1,11 @@
-package pojo;
+package src.data.pojo;
 
 import java.math.BigDecimal;
 
 public class CartItem extends Product{
     private int amount;
 
-    public CartItem(int id, String name, BigDecimal price, int hours, int amount) {
+    public CartItem(int id, String name, BigDecimal price, String hours, int amount) {
         super(id, name, price, hours);
         this.setAmount(amount);
     }

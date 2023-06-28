@@ -12,9 +12,21 @@ public class CartItemService {
 
     public CartItemService() {}
 
-    public void addCartItem(CartItem item) {this.itemRepo.create(item);}
+    public void addCartItem(CartItem item) {
+        try {
+            if (itemRepo.retrieve(item.getId()) == null){
+                itemRepo.create(item);
+            } else {
+                itemRepo.update(item.getId(), item);
+            }
+        } catch (NullPointerException e) {
+            itemRepo.create(item);
+        }
+    }
 
-    public CartItem getCartItem(int id) {return this.itemRepo.retrieve(id);}
+    public CartItem getCartItem(int id) {
+        return itemRepo.retrieve(id);
+    }
 
     public List<CartItem> getCart() {
         List<CartItem> cart = new ArrayList<>();

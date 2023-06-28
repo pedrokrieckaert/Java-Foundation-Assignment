@@ -1,28 +1,14 @@
 {
   "summary": {
-    "totalPrice": 96.00,
-    "totalHours": 48
+    "totalPrice": 233.50,
+    "totalHours": 108
   },
   "cart": [
     {
-      "amount": 4,
-      "id": 5,
-      "name": "Canvas 30 x 40 mat",
-      "price": 24.00,
-      "hours": "12:00"
-    },
-    {
-      "amount": 4,
-      "id": 5,
-      "name": "Canvas 30 x 40 mat",
-      "price": 24.00,
-      "hours": "12:00"
-    },
-    {
-      "amount": 4,
-      "id": 5,
-      "name": "Canvas 30 x 40 mat",
-      "price": 24.00,
+      "amount": 5,
+      "id": 6,
+      "name": "Canvas 30 x 40 high gloss",
+      "price": 27.50,
       "hours": "12:00"
     }
   ]

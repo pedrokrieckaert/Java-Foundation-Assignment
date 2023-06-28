@@ -30,7 +30,7 @@ public class UI {
      * CLI prompt to retrieve a product from the src.data.repository by id or Name
      * @return Product
      */
-    public static Product promptForProduct() {
+    private static Product promptForProduct() {
         Scanner scan = new Scanner(System.in);
         System.out.print("\nPlease enter the name or id of a product: ");
         while (true) {
@@ -68,7 +68,7 @@ public class UI {
         }
     }
 
-    public static CartItem promptForQuantity(Product product) {
+    private static CartItem promptForQuantity(Product product) {
         Scanner scan = new Scanner(System.in);
         System.out.print("\nPlease select the quantity: ");
         int quantity = 0;
@@ -92,7 +92,32 @@ public class UI {
 
     }
 
-    public static void finalizeOrder(CartItem item){
+    private static boolean promptEndProcess() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\nDo you want to continue? (y/n): ");
+
+        while (true) {
+            String input = scan.nextLine();
+            if (isNullOrBlank(input)) {
+                scan.skip("");
+                continue;
+            }
+
+            if (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                System.out.println("Please provide a valid input (y/n): ");
+                continue;
+            } else {
+                switch (input.toLowerCase()){
+                    case "y":
+                        return true;
+                    case "n":
+                        return false;
+                }
+            }
+        }
+    }
+
+    private static void finalizeOrder(CartItem item){
         JsonObject orderSum = new JsonObject();
 
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
@@ -123,12 +148,16 @@ public class UI {
         }
     }
 
-    public static void testProcess(){
-        Product product = promptForProduct();
+    public static void process(){
+        CartItem item = null;
+        boolean end = true;
 
-        CartItem item = promptForQuantity(product);
-
-        cartItemService.addCartItem(item);
+        while (end) {
+            Product product = promptForProduct();
+            item = promptForQuantity(product);
+            cartItemService.addCartItem(item);
+            end = promptEndProcess();
+        }
 
         finalizeOrder(item);
     }

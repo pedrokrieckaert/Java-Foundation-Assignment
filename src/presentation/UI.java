@@ -70,14 +70,36 @@ public class UI {
         }
     }
 
+    public static CartItem promptForQuantity(Product product) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\nPlease select the quantity: ");
+        int quantity = 0;
+
+        while (true) {
+            if (scan.hasNextInt()) {
+                quantity = scan.nextInt();
+
+                if (invalidIndex(quantity)) {
+                    System.out.println("Please input a valid number (not negative): ");
+                    continue;
+                }
+            } else {
+                System.out.println("Please input a number: ");
+                scan.next();
+                continue;
+            }
+
+            return new CartItem(product, quantity);
+        }
+
+    }
+
     public static void testProcess(){
         Scanner scan = new Scanner(System.in);
 
-        Product test = promptForProduct();
+        Product product = promptForProduct();
 
-        int productQuantity = 4;
-
-        CartItem item = new CartItem(test, productQuantity);
+        CartItem item = promptForQuantity(product);
 
         cartItemService.addCartItem(item);
 

@@ -4,6 +4,7 @@ import src.data.pojo.CartItem;
 import src.data.repository.CartItemRepo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartItemService {
@@ -14,6 +15,17 @@ public class CartItemService {
     public void addCartItem(CartItem item) {this.itemRepo.create(item);}
 
     public CartItem getCartItem(int id) {return this.itemRepo.retrieve(id);}
+
+    public List<CartItem> getCart() {
+        List<CartItem> cart = new ArrayList<>();
+        List<Integer> keys = itemRepo.getKeys();
+
+        for (int i : keys) {
+            cart.add(getCartItem(i));
+        }
+
+        return cart;
+    }
 
     public BigDecimal calcTotalPrice() {
         BigDecimal totalPrice = new BigDecimal(0);

@@ -7,15 +7,14 @@ import src.data.pojo.Order;
 import src.data.pojo.Product;
 import src.service.CartItemService;
 import src.service.OpeningHoursService;
+import src.service.OrderService;
 import src.service.ProductService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static src.data.reader.JSONReader.readOrder;
 import static src.data.reader.JSONReader.saveOrder;
 import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
@@ -24,6 +23,7 @@ public class UI {
     static ProductService productService = new ProductService();
     static OpeningHoursService openingHoursService = new OpeningHoursService();
     static CartItemService cartItemService = new CartItemService();
+    static OrderService orderService = new OrderService();
     static String shoppingCart = "database/shoppingCart.json";
 
     /**
@@ -107,44 +107,43 @@ public class UI {
                 System.out.println("Please provide a valid input (y/n): ");
                 continue;
             } else {
-                switch (input.toLowerCase()){
-                    case "y":
+                switch (input.toLowerCase()) {
+                    case "y" -> {
                         return true;
-                    case "n":
+                    }
+                    case "n" -> {
                         return false;
+                    }
                 }
             }
         }
     }
 
-    private static void finalizeOrder(CartItem item){
+    private static void finalizeOrder() {
+        Gson gson = new Gson();
         JsonObject orderSum = new JsonObject();
+        JsonObject jsonOrder = new JsonObject();
+        List<CartItem> cart = cartItemService.getCart();
+        Order order;
 
+        //Total Price
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
         orderSum.addProperty("totalPrice", totalPrice);
 
+        //Total Hours
         int totalHours = cartItemService.calcTotalHours();
         orderSum.addProperty("totalHours", totalHours);
 
-        Gson gson = new Gson();
+        jsonOrder.add("summary", orderSum);
 
-        JsonObject newOrder = new JsonObject();
-        newOrder.add("summary", orderSum);
+        order = orderService.create(totalPrice, totalHours, cart);
 
+        jsonOrder.add("cart", gson.toJsonTree(order.getCart()));
 
         try {
-            Order order = readOrder(shoppingCart);
-            List<CartItem> cart = new ArrayList<>();
-            if (!(order == null)) {
-                cart = order.getCart();
-            }
-            cart.add(item);
-            newOrder.add("cart", gson.toJsonTree(cart));
-
-            System.out.println(order);
-            saveOrder(newOrder, shoppingCart);
+            saveOrder(jsonOrder, shoppingCart);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -159,6 +158,6 @@ public class UI {
             end = promptEndProcess();
         }
 
-        finalizeOrder(item);
+        finalizeOrder();
     }
 }

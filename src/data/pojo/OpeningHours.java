@@ -1,15 +1,13 @@
 package src.data.pojo;
 
-import java.util.Date;
-
 public class OpeningHours {
     private int dayNumber;
     private String day;
-    private Date openHour;
-    private Date closeHour;
+    private String openHour;
+    private String closeHour;
 
 
-    public OpeningHours(int dayNumber, String day, Date openHour, Date closeHour) {
+    public OpeningHours(int dayNumber, String day, String openHour, String closeHour) {
         setDayNumber(dayNumber);
         setDay(day);
         setOpenHour(openHour);
@@ -40,19 +38,19 @@ public class OpeningHours {
         this.day = day;
     }
 
-    public Date getOpenHour() {
+    public String getOpenHour() {
         return this.openHour;
     }
 
-    public void setOpenHour(Date openHour) {
+    public void setOpenHour(String openHour) {
         this.openHour = openHour;
     }
 
-    public Date getCloseHour() {
+    public String getCloseHour() {
         return this.closeHour;
     }
 
-    public void setCloseHour(Date closeHour) {
+    public void setCloseHour(String closeHour) {
         this.closeHour = closeHour;
     }
     

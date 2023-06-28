@@ -6,7 +6,7 @@ import java.util.Date;
 public class CartItem extends Product{
     private int amount;
 
-    public CartItem(int id, String name, BigDecimal price, Date hours, int amount) {
+    public CartItem(int id, String name, BigDecimal price, String hours, int amount) {
         super(id, name, price, hours);
         this.setAmount(amount);
     }

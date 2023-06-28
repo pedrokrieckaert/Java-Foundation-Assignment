@@ -9,9 +9,9 @@ public class Product {
     private int id;
     private String name;
     private BigDecimal price;
-    private Date hours;
+    private String hours;
 
-    public Product(int id, String name, BigDecimal price, Date hours) {
+    public Product(int id, String name, BigDecimal price, String hours) {
         this.setId(id);
         this.setName(name);
         this.setPrice(price);
@@ -51,13 +51,13 @@ public class Product {
         else this.price = price;
     }
 
-    public Date getHours() {
+    public String getHours() {
         return this.hours;
     }
 
-    public int getHoursInt() { return this.hours.getHours(); }
+    public int getHoursInt() { return Integer.parseInt(this.hours.substring(0,2)); }
 
-    public void setHours(Date hours) {
+    public void setHours(String hours) {
         this.hours = hours;
     }
 }

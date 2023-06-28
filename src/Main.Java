@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
+import src.data.pojo.Order;
 import src.data.pojo.Product;
 import src.data.repository.CartItemRepo;
 import src.data.repository.OpeningHoursRepo;
@@ -55,17 +56,21 @@ class Main {
 
         Gson gson = new Gson();
 
-        JsonObject order = new JsonObject();
-        order.add("summary", orderSum);
+        JsonObject newOrder = new JsonObject();
+        newOrder.add("summary", orderSum);
 
 
         try {
-            List<CartItem> cart = readOrder(shoppingCart).getCart();
+            Order order = readOrder(shoppingCart);
+            List<CartItem> cart = new ArrayList<>();
+            if (!(order == null)) {
+                cart = order.getCart();
+            }
             cart.add(item);
-            order.add("cart", gson.toJsonTree(cart));
+            newOrder.add("cart", gson.toJsonTree(cart));
 
             System.out.println(order);
-            saveOrder(order, shoppingCart);
+            saveOrder(newOrder, shoppingCart);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

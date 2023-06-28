@@ -31,7 +31,11 @@ public class Order {
     }
 
     public List<CartItem> getCart() {
-        return cart;
+        if (this.cart == null) {
+            return new ArrayList<>();
+        } else {
+            return cart;
+        }
     }
 
     //Create deep copy

@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CSVReader<T> {
@@ -185,14 +183,6 @@ public class CSVReader<T> {
         if (field.getType().getName().equals("int")) {
             int intValue = Integer.parseInt(value);
             field.set(refObject, intValue);
-        } else if (field.getType().getName().equals("java.util.Date")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            try {
-                Date dateValue = sdf.parse(value);
-                field.set(refObject, dateValue);
-            } catch (ParseException e) {
-
-            }
         } else if (field.getType().getName().equals("java.math.BigDecimal")) {
             BigDecimal bigDecimalValue = new BigDecimal(value);
             field.set(refObject, bigDecimalValue);

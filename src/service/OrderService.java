@@ -54,11 +54,20 @@ public class OrderService {
         int pickUpTime = 0;
         int dayDisplaced = 0;
 
-        if (checkNextDay(curDate ,timeTable.get(dayIndex))) {
-            dayIndex++;
-            dayDisplaced++;
-        } else {
-            hoursRemaining += displaceStartTime(curDate ,timeTable.get(dayIndex));
+        ShopStatus shopStatus = checkShopOpen(curDate ,timeTable.get(dayIndex));
+
+        switch (shopStatus) {
+            case OPEN-> hoursRemaining += displaceStartTime(curDate ,timeTable.get(dayIndex));
+
+            case CLOSED -> {
+                //Do nothing
+            }
+
+            case NEXT -> {
+                dayIndex++;
+                dayDisplaced++;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + shopStatus);
         }
 
         while (hoursRemaining > 0) {
@@ -92,10 +101,16 @@ public class OrderService {
         return timeTable.get(dayIndex).getDay() + " " + displacedDate(curDate ,dayDisplaced) + " after " + pickUpTime + ":00";
     }
 
-    private boolean checkNextDay(String curDate, OpeningHours day) {
+    private ShopStatus checkShopOpen(String curDate, OpeningHours day) {
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 
-        return timeOfOrder >= day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt();
+        if (timeOfOrder < day.getCloseHourInt()) {
+            return ShopStatus.OPEN;
+        } else if (timeOfOrder >= day.getOpenHourInt()) {
+            return ShopStatus.CLOSED;
+        } else {
+            return ShopStatus.NEXT;
+        }
     }
 
     private String displacedDate(String curDate, int diff) {

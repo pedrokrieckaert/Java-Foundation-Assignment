@@ -51,16 +51,24 @@ public class OrderService {
     public String calcPickUpWindow(List<OpeningHours> timeTable) {
         int days = timeTable.size();
         int dayIndex = getOrderDay();
-        int hoursRemaining = orderBuffer.getTotalHours() + displaceStartTime(timeTable.get(dayIndex));
+        int hoursRemaining = orderBuffer.getTotalHours();
         int pickUpTime = 0;
         int dayDisplaced = 0;
 
+        if (checkNextDay(timeTable.get(dayIndex))) {
+            dayIndex++;
+            dayDisplaced++;
+        } else {
+            hoursRemaining += displaceStartTime(timeTable.get(dayIndex));
+        }
+
         while (hoursRemaining > 0) {
-            for (dayIndex = 0; dayIndex < days; dayIndex++) {
+            for (; dayIndex < days; dayIndex++) {
                 hoursRemaining -= timeTable.get(dayIndex).getHoursOpen();
-                dayDisplaced++;
 
                 if (hoursRemaining <= 0) break;
+
+                dayDisplaced++;
             }
         }
 
@@ -85,6 +93,17 @@ public class OrderService {
         return timeTable.get(dayIndex).getDay() + " " + displacedDate(dayDisplaced) + " after " + pickUpTime + ":00";
     }
 
+    private boolean checkNextDay(OpeningHours day) {
+        String curDate = orderBuffer.getOrderDate();
+        int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
+
+        if (timeOfOrder > day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private String displacedDate(int diff) {
         String curDate = orderBuffer.getOrderDate();
         DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("EEEE yyyy/MM/dd HH:mm");
@@ -101,10 +120,6 @@ public class OrderService {
         String curDate = orderBuffer.getOrderDate();
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 
-        if (timeOfOrder > day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt()) {
-            return day.getCloseHourInt() - timeOfOrder;
-        }
-
-        return 0;
+        return day.getCloseHourInt() - timeOfOrder;
     }
 }

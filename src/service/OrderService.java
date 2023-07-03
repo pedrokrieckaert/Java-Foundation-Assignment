@@ -51,7 +51,7 @@ public class OrderService {
     public String calcPickUpWindow(List<OpeningHours> timeTable) {
         int days = timeTable.size();
         int dayIndex = getOrderDay();
-        int hoursRemaining = orderBuffer.getTotalHours();
+        int hoursRemaining = orderBuffer.getTotalHours() + displaceStartTime(timeTable.get(dayIndex));
         int pickUpTime = 0;
         int dayDisplaced = 0;
 
@@ -95,5 +95,16 @@ public class OrderService {
         DateTimeFormatter resultFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
         return date.format(resultFormat);
+    }
+
+    private int displaceStartTime(OpeningHours day) {
+        String curDate = orderBuffer.getOrderDate();
+        int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
+
+        if (timeOfOrder > day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt()) {
+            return day.getCloseHourInt() - timeOfOrder;
+        }
+
+        return 0;
     }
 }

@@ -5,6 +5,7 @@ public class OpeningHours {
     private String day;
     private String openHour;
     private String closeHour;
+    private int hoursOpen;
 
 
     public OpeningHours(int dayNumber, String day, String openHour, String closeHour) {
@@ -12,6 +13,7 @@ public class OpeningHours {
         setDay(day);
         setOpenHour(openHour);
         setCloseHour(closeHour);
+        setHoursOpen();
     }
 
     public OpeningHours() {
@@ -42,6 +44,10 @@ public class OpeningHours {
         return this.openHour;
     }
 
+    public int getOpenHourInt() {
+        return Integer.parseInt(this.openHour.substring(0,2));
+    }
+
     public void setOpenHour(String openHour) {
         this.openHour = openHour;
     }
@@ -49,9 +55,17 @@ public class OpeningHours {
     public String getCloseHour() {
         return this.closeHour;
     }
+    public int getCloseHourInt() {
+        return Integer.parseInt(this.closeHour.substring(0,2));
+    }
 
     public void setCloseHour(String closeHour) {
         this.closeHour = closeHour;
     }
-    
+    public int getHoursOpen() {
+        return hoursOpen;
+    }
+    public void setHoursOpen() {
+        this.hoursOpen = getCloseHourInt() - getOpenHourInt();
+    }
 }

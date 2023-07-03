@@ -1,11 +1,11 @@
 {
   "summary": {
-    "totalPrice": 7.00,
-    "totalHours": 5
+    "totalPrice": 2.80,
+    "totalHours": 2
   },
   "cart": [
     {
-      "amount": 5,
+      "amount": 2,
       "id": 1,
       "name": "Paper 10 x 15 mat",
       "price": 1.40,

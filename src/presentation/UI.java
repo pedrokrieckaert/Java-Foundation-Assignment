@@ -136,9 +136,11 @@ public class UI {
 
         jsonOrder.add("summary", orderSum);
 
-        order = orderService.create(totalPrice, totalHours, cart);
+        orderService.createNewOrder(totalPrice, totalHours, cart);
 
-        jsonOrder.add("cart", gson.toJsonTree(order.getCart()));
+        jsonOrder.add("cart", gson.toJsonTree(orderService.retrieveBufferOrder().getCart()));
+
+        System.out.println(orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList()));
 
         try {
             saveOrder(jsonOrder, shoppingCart);

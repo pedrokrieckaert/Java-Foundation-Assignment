@@ -6,11 +6,8 @@ import src.data.pojo.Order;
 import src.data.repository.OrderRepo;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderService {
@@ -49,17 +46,19 @@ public class OrderService {
     }
 
     public String calcPickUpWindow(List<OpeningHours> timeTable) {
+        String curDate = orderBuffer.getOrderDate();
+
         int days = timeTable.size();
         int dayIndex = getOrderDay();
         int hoursRemaining = orderBuffer.getTotalHours();
         int pickUpTime = 0;
         int dayDisplaced = 0;
 
-        if (checkNextDay(timeTable.get(dayIndex))) {
+        if (checkNextDay(curDate ,timeTable.get(dayIndex))) {
             dayIndex++;
             dayDisplaced++;
         } else {
-            hoursRemaining += displaceStartTime(timeTable.get(dayIndex));
+            hoursRemaining += displaceStartTime(curDate ,timeTable.get(dayIndex));
         }
 
         while (hoursRemaining > 0) {
@@ -90,34 +89,26 @@ public class OrderService {
             pickUpTime = timeTable.get(dayIndex).getCloseHourInt() + hoursRemaining;
         }
 
-        return timeTable.get(dayIndex).getDay() + " " + displacedDate(dayDisplaced) + " after " + pickUpTime + ":00";
+        return timeTable.get(dayIndex).getDay() + " " + displacedDate(curDate ,dayDisplaced) + " after " + pickUpTime + ":00";
     }
 
-    private boolean checkNextDay(OpeningHours day) {
-        String curDate = orderBuffer.getOrderDate();
+    private boolean checkNextDay(String curDate, OpeningHours day) {
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 
-        if (timeOfOrder > day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt()) {
-            return false;
-        } else {
-            return true;
-        }
+        return timeOfOrder >= day.getOpenHourInt() && timeOfOrder < day.getCloseHourInt();
     }
 
-    private String displacedDate(int diff) {
-        String curDate = orderBuffer.getOrderDate();
-        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("EEEE yyyy/MM/dd HH:mm");
-        LocalDate date = LocalDate.parse(curDate, inputFormat);
+    private String displacedDate(String curDate, int diff) {
+        LocalDate date = LocalDate.parse(curDate, Order.dtf);
 
         date = date.plusDays(diff);
 
-        DateTimeFormatter resultFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter resultFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         return date.format(resultFormat);
     }
 
-    private int displaceStartTime(OpeningHours day) {
-        String curDate = orderBuffer.getOrderDate();
+    private int displaceStartTime(String curDate, OpeningHours day) {
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 
         return day.getCloseHourInt() - timeOfOrder;

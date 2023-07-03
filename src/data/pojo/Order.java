@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Order {
     private String orderDate;
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE yyyy-MM-dd HH:mm");
     private String pickUpDate;
     private int totalPrice;
     private int totalHours;
@@ -76,8 +77,7 @@ public class Order {
     }
 
     public void setOrderDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE yyyy/MM/dd HH:mm");
         LocalDateTime now = LocalDateTime.now();
-        this.orderDate = dtf.format(now);
+        this.orderDate = this.dtf.format(now);
     }
 }

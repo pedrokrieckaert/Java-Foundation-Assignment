@@ -6,7 +6,10 @@ import src.data.pojo.Order;
 import src.data.repository.OrderRepo;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderService {
@@ -30,9 +33,23 @@ public class OrderService {
 
     }
 
+    public int getOrderDay() {
+        String curDate = orderBuffer.getOrderDate();
+        String dotw = curDate.substring(0, curDate.indexOf(" ")).toUpperCase();
+        int dayIndex = 0;
+
+        for (DayOfTheWeekEnum day : DayOfTheWeekEnum.values()) {
+            if (dotw.equals(day.name())) {
+                dayIndex = day.dayIndex;
+            }
+        }
+
+        return dayIndex;
+    }
+
     public String calcPickUpWindow(List<OpeningHours> timeTable) {
         int days = timeTable.size();
-        int dayIndex = 0;
+        int dayIndex = getOrderDay();
         int hoursRemaining = orderBuffer.getTotalHours();
         int pickUpTime = 0;
 

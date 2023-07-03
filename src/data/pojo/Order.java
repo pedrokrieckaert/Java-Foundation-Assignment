@@ -1,9 +1,13 @@
 package src.data.pojo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
+    private String orderDate;
     private int totalPrice;
     private int totalHours;
     private String pickUpTime;
@@ -14,6 +18,7 @@ public class Order {
         this.setTotalPrice(totalPrice);
         this.setTotalHours(totalHours);
         this.setCart(cart);
+        this.setOrderDate();
     }
 
     public int getTotalPrice() {
@@ -64,5 +69,15 @@ public class Order {
 
     public void setPickUpDay(String pickUpDay) {
         this.pickUpDay = pickUpDay;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE yyyy/MM/dd HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        this.orderDate = dtf.format(now);
     }
 }

@@ -7,6 +7,7 @@ import src.data.repository.OrderRepo;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,10 +53,12 @@ public class OrderService {
         int dayIndex = getOrderDay();
         int hoursRemaining = orderBuffer.getTotalHours();
         int pickUpTime = 0;
+        int dayDisplaced = 0;
 
         while (hoursRemaining > 0) {
             for (dayIndex = 0; dayIndex < days; dayIndex++) {
                 hoursRemaining -= timeTable.get(dayIndex).getHoursOpen();
+                dayDisplaced++;
 
                 if (hoursRemaining <= 0) break;
             }
@@ -64,6 +67,7 @@ public class OrderService {
         //Does not open on Sunday (0) so skips to Monday (1)
         if (dayIndex == 0) {
             dayIndex++;
+            dayDisplaced++;
         }
 
         /*
@@ -72,11 +76,24 @@ public class OrderService {
          */
         if (hoursRemaining == 0) {
             dayIndex++;
+            dayDisplaced++;
             pickUpTime = timeTable.get(dayIndex).getOpenHourInt();
         } else {
             pickUpTime = timeTable.get(dayIndex).getCloseHourInt() + hoursRemaining;
         }
 
-        return timeTable.get(dayIndex).getDay() + " " + pickUpTime;
+        return timeTable.get(dayIndex).getDay() + " " + displacedDate(dayDisplaced) + " after " + pickUpTime + ":00";
+    }
+
+    private String displacedDate(int diff) {
+        String curDate = orderBuffer.getOrderDate();
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("EEEE yyyy/MM/dd HH:mm");
+        LocalDate date = LocalDate.parse(curDate, inputFormat);
+
+        date = date.plusDays(diff);
+
+        DateTimeFormatter resultFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+        return date.format(resultFormat);
     }
 }

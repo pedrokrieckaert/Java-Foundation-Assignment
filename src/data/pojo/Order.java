@@ -3,11 +3,11 @@ package src.data.pojo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Order {
     private String orderDate;
+    private String pickUpDate;
     private int totalPrice;
     private int totalHours;
     private String pickUpTime;

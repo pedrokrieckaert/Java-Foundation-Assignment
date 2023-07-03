@@ -98,7 +98,11 @@ public class OrderService {
             pickUpTime = timeTable.get(dayIndex).getCloseHourInt() + hoursRemaining;
         }
 
-        return timeTable.get(dayIndex).getDay() + " " + displacedDate(curDate ,dayDisplaced) + " after " + pickUpTime + ":00";
+        orderBuffer.setPickUpDay(timeTable.get(dayIndex).getDay());
+        orderBuffer.setPickUpTime(pickUpTime + ":00");
+        orderBuffer.setPickUpDate(displacedDate(curDate ,dayDisplaced));
+
+        return orderBuffer.pickUpDataToString();
     }
 
     private ShopStatus checkShopOpen(String curDate, OpeningHours day) {

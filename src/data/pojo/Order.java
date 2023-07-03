@@ -80,4 +80,16 @@ public class Order {
         LocalDateTime now = LocalDateTime.now();
         this.orderDate = this.dtf.format(now);
     }
+
+    public String getPickUpDate() {
+        return pickUpDate;
+    }
+
+    public void setPickUpDate(String pickUpDate) {
+        this.pickUpDate = pickUpDate;
+    }
+
+    public String pickUpDataToString() {
+        return this.pickUpDay + " " + this.pickUpDate + " " + this.pickUpTime;
+    }
 }

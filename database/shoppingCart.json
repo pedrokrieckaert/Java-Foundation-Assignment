@@ -1,7 +1,8 @@
 {
   "summary": {
     "totalPrice": 1.40,
-    "totalHours": 1
+    "totalProductionHours": 1,
+    "pickUp": "Monday 03-07-2023 14:00"
   },
   "cart": [
     {

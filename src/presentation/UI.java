@@ -124,7 +124,6 @@ public class UI {
         JsonObject orderSum = new JsonObject();
         JsonObject jsonOrder = new JsonObject();
         List<CartItem> cart = cartItemService.getCart();
-        Order order;
 
         //Total Price
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
@@ -132,13 +131,16 @@ public class UI {
 
         //Total Hours
         int totalHours = cartItemService.calcTotalHours();
-        orderSum.addProperty("totalHours", totalHours);
+        orderSum.addProperty("totalProductionHours", totalHours);
+
+        orderService.createNewOrder(totalPrice, totalHours, cart);
+
+        orderSum.addProperty("pickUp", orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList()));
 
         jsonOrder.add("summary", orderSum);
 
-        order = orderService.create(totalPrice, totalHours, cart);
+        jsonOrder.add("cart", gson.toJsonTree(orderService.retrieveBufferOrder().getCart()));
 
-        jsonOrder.add("cart", gson.toJsonTree(order.getCart()));
 
         try {
             saveOrder(jsonOrder, shoppingCart);

@@ -1,17 +1,25 @@
 package src.data.pojo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+    private String orderDate;
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE yyyy-MM-dd HH:mm");
+    private String pickUpDate;
     private int totalPrice;
     private int totalHours;
+    private String pickUpTime;
+    private String pickUpDay;
     private List<CartItem> cart;
 
     public Order(int totalPrice, int totalHours, List<CartItem> cart) {
         this.setTotalPrice(totalPrice);
         this.setTotalHours(totalHours);
         this.setCart(cart);
+        this.setOrderDate();
     }
 
     public int getTotalPrice() {
@@ -46,5 +54,42 @@ public class Order {
             cart.add(source.get(i).clone());
         }
         this.cart = cart;
+    }
+
+    public String getPickUpTime() {
+        return pickUpTime;
+    }
+
+    public void setPickUpTime(String pickUpTime) {
+        this.pickUpTime = pickUpTime;
+    }
+
+    public String getPickUpDay() {
+        return pickUpDay;
+    }
+
+    public void setPickUpDay(String pickUpDay) {
+        this.pickUpDay = pickUpDay;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.orderDate = this.dtf.format(now);
+    }
+
+    public String getPickUpDate() {
+        return pickUpDate;
+    }
+
+    public void setPickUpDate(String pickUpDate) {
+        this.pickUpDate = pickUpDate;
+    }
+
+    public String pickUpDataToString() {
+        return this.pickUpDay + " " + this.pickUpDate + " " + this.pickUpTime;
     }
 }

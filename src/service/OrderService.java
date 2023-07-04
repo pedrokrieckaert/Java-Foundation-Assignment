@@ -64,7 +64,7 @@ public class OrderService {
             }
 
             case NEXT -> {
-                dayIndex++;
+                incrementIndex(dayIndex, 1, days);
                 dayDisplaced++;
             }
             default -> throw new IllegalStateException("Unexpected value: " + shopStatus);
@@ -82,7 +82,7 @@ public class OrderService {
 
         //Does not open on Sunday (0) so skips to Monday (1)
         if (dayIndex == 0) {
-            dayIndex++;
+            incrementIndex(dayIndex, 1, days);
             dayDisplaced++;
         }
 
@@ -91,7 +91,7 @@ public class OrderService {
         If there are negative hours remaining: deduct from the closing hours of that day
          */
         if (hoursRemaining == 0) {
-            dayIndex++;
+            incrementIndex(dayIndex, 1, days);
             dayDisplaced++;
             pickUpTime = timeTable.get(dayIndex).getOpenHourInt();
         } else {
@@ -103,6 +103,10 @@ public class OrderService {
         orderBuffer.setPickUpDate(displacedDate(curDate ,dayDisplaced));
 
         return orderBuffer.pickUpDataToString();
+    }
+
+    private int incrementIndex(int i, int min, int max) {
+        return i++ >= max ? min : i++;
     }
 
     private ShopStatus checkShopOpen(String curDate, OpeningHours day) {

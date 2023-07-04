@@ -147,6 +147,8 @@ public class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Invoice.printCart(cart);
     }
 
     public static void process(){

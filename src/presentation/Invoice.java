@@ -16,23 +16,28 @@ public abstract class Invoice {
         System.out.println(padRight("Photo Type",padLarge)
                 + padRight("Price(€)",padSmall)
                 + padRight("Amount",padSmall)
-                + padRight("Total Costs(€)",padSmall)
+                + "Total Costs(€)"
         );
 
         for (CartItem item : cart) {
-            BigDecimal totalCost = item.getPrice().multiply(BigDecimal.valueOf(item.getAmount()));
+            BigDecimal totalItemCost = item.getPrice().multiply(BigDecimal.valueOf(item.getAmount()));
 
             System.out.println(
                     padRight(item.getName(),padLarge)
-                            + padRight(item.getPrice().toString(),padSmall)
-                            + padRight(String.valueOf(item.getAmount()),padSmall)
-                            + padRight(totalCost.toString(),padSmall)
+                            + padRight(padLeft(item.getPrice().toString(),8),padSmall)
+                            + padRight(padLeft(String.valueOf(item.getAmount()), 6),padSmall)
+                            + padRight(padLeft(totalItemCost.toString(),7),padSmall)
             );
         }
+
+        System.out.println("\n" + padRight("Total Costs", 60) + padLeft("250",7));
     }
 
     private static String padRight(String s, int n) {
-        String test = String.format("%-" + n + "s", s);
-        return test;
+        return String.format("%-" + n + "s", s);
+    }
+
+    private static  String padLeft(String s, int n) {
+        return String.format("%" + n + "s", s);
     }
 }

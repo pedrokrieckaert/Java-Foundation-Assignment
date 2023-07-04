@@ -64,8 +64,16 @@ public class OrderService {
             }
 
             case NEXT -> {
+                int tempIndex = dayIndex;
                 dayIndex = incrementIndex(dayIndex, 1, days);
-                dayDisplaced++;
+
+                /*
+                Check if the dayIndex is less than before
+                If it is, this means the index was reset to Monday (1)
+                Sunday (0) will be skipped meaning two days would've passed
+                They dayDisplaced needs to be incremented by 2 instead of 1
+                 */
+                dayDisplaced = tempIndex > dayIndex ? dayDisplaced + 2 : dayDisplaced + 1;
             }
             default -> throw new IllegalStateException("Unexpected value: " + shopStatus);
         }
@@ -76,6 +84,11 @@ public class OrderService {
 
                 if (hoursRemaining <= 0) break;
 
+                dayDisplaced++;
+            }
+
+            if (hoursRemaining > 0) {
+                dayIndex = 1;
                 dayDisplaced++;
             }
         }
@@ -92,8 +105,11 @@ public class OrderService {
         If there are negative hours remaining: deduct from the closing hours of that day
          */
         if (hoursRemaining == 0) {
+            int tempIndex = dayIndex;
             dayIndex = incrementIndex(dayIndex, 1, days);
-            dayDisplaced++;
+
+            dayDisplaced = tempIndex > dayIndex ? dayDisplaced + 2 : dayDisplaced + 1;
+
             pickUpTime = timeTable.get(dayIndex).getOpenHourInt();
         } else {
             pickUpTime = timeTable.get(dayIndex).getCloseHourInt() + hoursRemaining;

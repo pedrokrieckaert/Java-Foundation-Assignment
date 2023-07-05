@@ -147,6 +147,10 @@ public class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Invoice.printUserData();
+        Invoice.printPickUp(orderService.retrieveBufferOrder());
+        Invoice.printCart(cart, totalPrice.toString());
     }
 
     public static void process(){

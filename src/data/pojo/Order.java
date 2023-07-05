@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Order {
     private String orderDate;
-    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE dd-MM-yyyy HH:mm");
     private String pickUpDate;
     private int totalPrice;
     private int totalHours;

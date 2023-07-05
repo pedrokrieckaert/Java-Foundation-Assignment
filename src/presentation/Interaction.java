@@ -13,14 +13,28 @@ public abstract class Interaction {
     static <T> T testProduct(){
         Scanner scan = new Scanner(System.in);
 
-        if (scan.hasNextInt()) {
-            int input = scan.nextInt();
+        while(true) {
+            if (scan.hasNextInt()) {
+                int index = scan.nextInt();
 
-            return (T) Integer.valueOf(input);
-        } else {
-            String input = scan.nextLine();
+                //Validate if the input is within src.data.repository bounds
+                if (!invalidIndex(index)) {
+                    return (T) Integer.valueOf(index);
+                } else {
+                    System.out.println("Id does not exist, please select a valid ID.");
+                    scan.nextLine(); //Next line trap
+                }
+            } else {
+                String input = scan.nextLine();
 
-            return (T) input;
+                //Validate if the input is null or blank
+                if (isNullOrBlank(input)) {
+                    scan.skip("");
+                    continue;
+                }
+
+                return (T) input;
+            }
         }
     }
     /**

@@ -6,8 +6,6 @@ import src.data.pojo.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static src.presentation.InvoiceSpacingEnum.*;
-
 public abstract class Invoice {
     static final int padSmall = 15;
     static final int padLarge = 30;

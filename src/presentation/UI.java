@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import static src.data.reader.JSONReader.saveOrder;
+import static src.presentation.Interaction.*;
+import static src.presentation.Invoice.*;
 import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
@@ -25,99 +27,6 @@ public class UI {
     static CartItemService cartItemService = new CartItemService();
     static OrderService orderService = new OrderService();
     static String shoppingCart = "database/shoppingCart.json";
-
-    /**
-     * CLI prompt to retrieve a product from the src.data.repository by id or Name
-     * @return Product
-     */
-    private static Product promptForProduct() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease enter the name or id of a product: ");
-        while (true) {
-            //Check if the input is an integer
-            if(scan.hasNextInt()) {
-                int index = scan.nextInt();
-
-                //Validate if the input is within src.data.repository bounds
-                if (!invalidIndex(index)) {
-                    return productService.retrieveProductById(index);
-                } else {
-                    System.out.println("Id does not exist, please select a valid ID.");
-                    scan.nextLine();
-                }
-
-                //If the input was a String
-            } else {
-                String input = scan.nextLine();
-                //Validate if the input is null or blank
-                if (isNullOrBlank(input)) {
-                    scan.skip("");
-                    continue;
-                }
-
-                Product temp = productService.retrieveProductByName(input);
-
-                //If the return from src.service was null, means that the input wasn't found in the product names
-                if (temp == null) {
-                    System.out.println("There is no product by that name.");
-                } else {
-                    //Return the product object once validated
-                    return temp;
-                }
-            }
-        }
-    }
-
-    private static CartItem promptForQuantity(Product product) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease select the quantity: ");
-        int quantity = 0;
-
-        while (true) {
-            if (scan.hasNextInt()) {
-                quantity = scan.nextInt();
-
-                if (invalidIndex(quantity)) {
-                    System.out.println("Please input a valid number (not negative): ");
-                    continue;
-                }
-            } else {
-                System.out.println("Please input a number: ");
-                scan.next();
-                continue;
-            }
-
-            return new CartItem(product, quantity);
-        }
-
-    }
-
-    private static boolean promptEndProcess() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nDo you want to continue? (y/n): ");
-
-        while (true) {
-            String input = scan.nextLine();
-            if (isNullOrBlank(input)) {
-                scan.skip("");
-                continue;
-            }
-
-            if (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-                System.out.println("Please provide a valid input (y/n): ");
-                continue;
-            } else {
-                switch (input.toLowerCase()) {
-                    case "y" -> {
-                        return true;
-                    }
-                    case "n" -> {
-                        return false;
-                    }
-                }
-            }
-        }
-    }
 
     private static void finalizeOrder() {
         Gson gson = new Gson();
@@ -148,9 +57,9 @@ public class UI {
             e.printStackTrace();
         }
 
-        Invoice.printUserData();
-        Invoice.printPickUp(orderService.retrieveBufferOrder());
-        Invoice.printCart(cart, totalPrice.toString());
+        printUserData();
+        printPickUp(orderService.retrieveBufferOrder());
+        printCart(cart, totalPrice.toString());
     }
 
     public static void process(){
@@ -158,7 +67,7 @@ public class UI {
         boolean end = true;
 
         while (end) {
-            Product product = promptForProduct();
+            Product product = promptForProduct(productService);
             item = promptForQuantity(product);
             cartItemService.addCartItem(item);
             end = promptEndProcess();

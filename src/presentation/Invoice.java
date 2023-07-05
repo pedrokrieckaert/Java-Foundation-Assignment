@@ -11,7 +11,7 @@ public abstract class Invoice {
     static final int padLarge = 30;
     static final int padXL = 45;
 
-    public static void printUserData(){
+    static void printUserData(){
         System.out.println( "\n" +
                 padRight("Invoice of Photoshop order:", padLarge) + "35510" + "\n\n" +
                 padRight("Customer:", padLarge) + "Shop assistant:" + "\n" +
@@ -24,7 +24,7 @@ public abstract class Invoice {
         );
 
     }
-    public static void printPickUp(Order order) {
+    static void printPickUp(Order order) {
         System.out.println(
                 "Order Specifications:" + "\n" +
                 padRight("Order Number", padXL) + "35510" + "\n" +
@@ -35,7 +35,7 @@ public abstract class Invoice {
                         order.getPickUpTime() + "\n"
         );
     }
-    public static void printCart(List<CartItem> cart, String totalPrice) {
+    static void printCart(List<CartItem> cart, String totalPrice) {
         System.out.println(padRight("Photo Type:",padLarge)
                 + padRight("Price(€):",padSmall)
                 + padRight("Amount:",padSmall)

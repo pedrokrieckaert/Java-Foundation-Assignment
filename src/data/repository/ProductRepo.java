@@ -40,6 +40,22 @@ public class ProductRepo {
         return null;
     }
 
+    public <T> Product retrieve(T input) {
+        if (input instanceof Integer) {
+            return this.datastore.get(Integer.parseInt(String.valueOf(input)));
+
+        } else if (input instanceof String) {
+            for (Product product : this.datastore) {
+                if (product.getName().equalsIgnoreCase(input.toString())) {
+                    return product.clone();
+                }
+            }
+
+        }
+
+        return null;
+    }
+
     public void load() {
         CSVReader<Product> reader = new CSVReader<Product>(Product.class, file, false, ";")
                 .setOrder(ord)

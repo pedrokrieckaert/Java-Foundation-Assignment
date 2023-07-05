@@ -78,14 +78,6 @@ public class UI {
     }
 
     private static <T> Product fetchProduct(T input){
-        Product product = null;
-
-        if (input instanceof Integer) {
-            product = productService.retrieveProductById(Integer.valueOf(String.valueOf(input)));
-        } else if (input instanceof String) {
-            product = productService.retrieveProductByName(input.toString());
-        }
-
-        return product;
+        return productService.retrieveProduct(input);
     }
 }

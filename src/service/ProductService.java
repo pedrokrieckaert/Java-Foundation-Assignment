@@ -26,4 +26,8 @@ public class ProductService {
     public Product retrieveProductByName(String name) {
         return this.productRepo.retrieveByName(name);
     }
+
+    public <T> Product retrieveProduct(T input) {
+        return this.productRepo.retrieve(input);
+    }
 }

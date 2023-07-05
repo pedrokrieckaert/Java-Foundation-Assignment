@@ -148,6 +148,7 @@ public class UI {
             e.printStackTrace();
         }
 
+        Invoice.printUserData();
         Invoice.printPickUp(orderService.retrieveBufferOrder());
         Invoice.printCart(cart);
     }

@@ -12,20 +12,36 @@ public abstract class Invoice {
     static final int padSmall = 15;
     static final int padLarge = 30;
     static final int padXL = 45;
-    
+
+    public static void printUserData(){
+        System.out.println( "\n" +
+                padRight("Invoice of Photoshop order:", padLarge) + "35510" + "\n\n" +
+                padRight("Customer:", padLarge) + "Shop assistant:" + "\n" +
+                padRight("Theo Jansen", padLarge) + "Japie Bonestakie" + "\n" + //Users' name + Shop assistant name
+                padRight("Alblasserstraat 23", padLarge) + "145" + "\n" + //Address + Shop assistant ID
+                "3454 KR\n" + //Postcode
+                "Alkmaar\n" + //City
+                "t.jansen@gmail.nl\n" + //Email
+                "06-45867474\n" //Phone number
+        );
+
+    }
     public static void printPickUp(Order order) {
-        System.out.println("Order Specifications:");
-        System.out.println(padRight("Order Number", padXL) + "35510");
-        System.out.println(padRight("Order Date", padXL) + order.getOrderDate());
-        System.out.println(padRight("Production time in working hours", padXL) + order.getTotalHours() + ":00");
-        System.out.println(padRight("You can pick up your order after", padXL) + order.getPickUpDay() + " " + order.getPickUpDate() + " " + order.getPickUpTime());
-        System.out.println("");
+        System.out.println(
+                "Order Specifications:" + "\n" +
+                padRight("Order Number", padXL) + "35510" + "\n" +
+                padRight("Order Date", padXL) + order.getOrderDate() + "\n" +
+                padRight("You can pick up your order after", padXL) +
+                        order.getPickUpDay() + " " +
+                        order.getPickUpDate() + " " +
+                        order.getPickUpTime() + "\n"
+        );
     }
     public static void printCart(List<CartItem> cart) {
-        System.out.println(padRight("Photo Type",padLarge)
-                + padRight("Price(€)",padSmall)
-                + padRight("Amount",padSmall)
-                + "Total Costs(€)"
+        System.out.println(padRight("Photo Type:",padLarge)
+                + padRight("Price(€):",padSmall)
+                + padRight("Amount:",padSmall)
+                + "Total Costs(€):"
         );
 
         for (CartItem item : cart) {
@@ -39,7 +55,7 @@ public abstract class Invoice {
             );
         }
 
-        System.out.println("\n" + padRight("Total Costs", 60) + padLeft("250",7));
+        System.out.println("\n" + padRight("Total Costs:", 60) + padLeft("250",7));
     }
 
     private static String padRight(String s, int n) {

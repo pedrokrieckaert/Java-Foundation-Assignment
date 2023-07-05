@@ -37,7 +37,7 @@ public abstract class Invoice {
                         order.getPickUpTime() + "\n"
         );
     }
-    public static void printCart(List<CartItem> cart) {
+    public static void printCart(List<CartItem> cart, String totalPrice) {
         System.out.println(padRight("Photo Type:",padLarge)
                 + padRight("Price(€):",padSmall)
                 + padRight("Amount:",padSmall)
@@ -55,7 +55,7 @@ public abstract class Invoice {
             );
         }
 
-        System.out.println("\n" + padRight("Total Costs:", 60) + padLeft("250",7));
+        System.out.println("\n" + padRight("Total Costs:", 60) + padLeft(totalPrice,7));
     }
 
     private static String padRight(String s, int n) {

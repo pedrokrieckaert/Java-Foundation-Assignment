@@ -150,7 +150,7 @@ public class UI {
 
         Invoice.printUserData();
         Invoice.printPickUp(orderService.retrieveBufferOrder());
-        Invoice.printCart(cart);
+        Invoice.printCart(cart, totalPrice.toString());
     }
 
     public static void process(){

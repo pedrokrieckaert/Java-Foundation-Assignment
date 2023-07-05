@@ -10,6 +10,19 @@ import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
 public abstract class Interaction {
+    static <T> T testProduct(){
+        Scanner scan = new Scanner(System.in);
+
+        if (scan.hasNextInt()) {
+            int input = scan.nextInt();
+
+            return (T) Integer.valueOf(input);
+        } else {
+            String input = scan.nextLine();
+
+            return (T) input;
+        }
+    }
     /**
      * CLI prompt to retrieve a product from the src.data.repository by id or Name
      * @return Product

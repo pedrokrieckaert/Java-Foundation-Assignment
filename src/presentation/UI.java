@@ -63,6 +63,7 @@ public class UI {
     }
 
     public static void process(){
+        System.out.println(testProduct().toString());
         CartItem item = null;
         boolean end = true;
 

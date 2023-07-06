@@ -56,6 +56,16 @@ public class ProductRepo {
         return null;
     }
 
+    public List<Product> retrieveAll() {
+        List<Product> buffer = new ArrayList<Product>();
+
+        for (Product product : this.datastore) {
+            buffer.add(product.clone());
+        }
+
+        return buffer;
+    }
+
     public void load() {
         CSVReader<Product> reader = new CSVReader<Product>(Product.class, file, false, ";")
                 .setOrder(ord)

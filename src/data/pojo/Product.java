@@ -59,4 +59,9 @@ public class Product {
     public void setHours(String hours) {
         this.hours = hours;
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.id + "]" + " " + this.name + " " + this.price + " " + this.hours;
+    }
 }

@@ -67,7 +67,7 @@ public class UI {
 
             switch (action) {
                 case ADD -> processAddItem();
-                case PRODUCTS -> displayCart();
+                case PRODUCTS -> displayProducts(productService.retrieveProductList());
                 case HOURS -> displayHours();
                 case TERMINATE -> processTerminate();
             }

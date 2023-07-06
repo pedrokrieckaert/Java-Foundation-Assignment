@@ -60,21 +60,25 @@ public class UI {
     }
 
     public static void processFacade(){
-        ProcessActions action = promptForAction();
-        switch (action) {
-            case ADD:
-                processAddItem();
-                break;
-            case PRODUCTS:
-                displayCart();
-                break;
-            case HOURS:
-                displayHours();
-                break;
-            case TERMINATE:
-                processTerminate();
-                break;
+        ProcessActions action = null;
+
+        while (action != ProcessActions.TERMINATE) {
+            action = promptForAction();
+
+            switch (action) {
+                case ADD -> processAddItem();
+                case PRODUCTS -> displayCart();
+                case HOURS -> displayHours();
+                case TERMINATE -> processTerminate();
+            }
         }
+    }
+
+    private static <T> Product fetchProduct(T input){
+        return productService.retrieveProduct(input);
+    }
+
+    private static void processAddItem(){
         CartItem item = null;
         boolean end = true;
 
@@ -90,19 +94,39 @@ public class UI {
             cartItemService.addCartItem(item);
             end = promptEndProcess();
         }
-
-        finalizeOrder();
-    }
-
-    private static <T> Product fetchProduct(T input){
-        return productService.retrieveProduct(input);
-    }
-
-    private static void processAddItem(){
-        System.out.println("Add Item");
     }
 
     private static void processTerminate(){
-        System.out.println("Checkout");
+        Gson gson = new Gson();
+        JsonObject orderSum = new JsonObject();
+        JsonObject jsonOrder = new JsonObject();
+        List<CartItem> cart = cartItemService.getCart();
+
+        //Total Price
+        BigDecimal totalPrice = cartItemService.calcTotalPrice();
+        orderSum.addProperty("totalPrice", totalPrice);
+
+        //Total Hours
+        int totalHours = cartItemService.calcTotalHours();
+        orderSum.addProperty("totalProductionHours", totalHours);
+
+        orderService.createNewOrder(totalPrice, totalHours, cart);
+
+        orderSum.addProperty("pickUp", orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList()));
+
+        jsonOrder.add("summary", orderSum);
+
+        jsonOrder.add("cart", gson.toJsonTree(orderService.retrieveBufferOrder().getCart()));
+
+
+        try {
+            saveOrder(jsonOrder, shoppingCart);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        printUserData();
+        printPickUp(orderService.retrieveBufferOrder());
+        printCart(cart, totalPrice.toString());
     }
 }

@@ -63,12 +63,17 @@ public class UI {
     }
 
     public static void process(){
-        System.out.println(fetchProduct(testProduct()).toString());
         CartItem item = null;
         boolean end = true;
 
         while (end) {
-            Product product = promptForProduct(productService);
+            Product product = fetchProduct(promptForProduct());
+
+            while (product == null) {
+                System.out.print("\nSorry, that product doesn't exist. ");
+                product = fetchProduct(promptForProduct());
+            }
+
             item = promptForQuantity(product);
             cartItemService.addCartItem(item);
             end = promptEndProcess();

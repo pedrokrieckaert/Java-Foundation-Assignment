@@ -10,8 +10,10 @@ import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
 public abstract class Interaction {
-    static <T> T testProduct(){
+    static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
+
+        System.out.print("Please enter the name or id of a product: ");
 
         while(true) {
             if (scan.hasNextInt()) {
@@ -21,7 +23,7 @@ public abstract class Interaction {
                 if (!invalidIndex(index)) {
                     return (T) Integer.valueOf(index);
                 } else {
-                    System.out.println("Id does not exist, please select a valid ID.");
+                    System.out.print("\nInvalid id, please select a valid id (0 - 11): ");
                     scan.nextLine(); //Next line trap
                 }
             } else {
@@ -41,7 +43,7 @@ public abstract class Interaction {
      * CLI prompt to retrieve a product from the src.data.repository by id or Name
      * @return Product
      */
-    static Product promptForProduct(ProductService productService) {
+    static Product oldPromptForProduct(ProductService productService) {
         Scanner scan = new Scanner(System.in);
         System.out.print("\nPlease enter the name or id of a product: ");
         while (true) {

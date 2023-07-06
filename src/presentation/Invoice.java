@@ -28,6 +28,7 @@ public abstract class Invoice {
         System.out.println(
                 "Order Specifications:" + "\n" +
                 padRight("Order Number", padXL) + "35510" + "\n" +
+                padRight("Production time in working hours", padXL) + order.getTotalHours() + ":00" + "\n" +
                 padRight("Order Date", padXL) + order.getOrderDate() + "\n" +
                 padRight("You can pick up your order after", padXL) +
                         order.getPickUpDay() + " " +

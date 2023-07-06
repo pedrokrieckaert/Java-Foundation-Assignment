@@ -11,6 +11,6 @@ public abstract class DataDisplay {
     }
 
     static void displayCart() {
-        
+
     }
 }

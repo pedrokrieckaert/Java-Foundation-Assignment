@@ -3,7 +3,6 @@ package src.presentation;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
-import src.data.pojo.Order;
 import src.data.pojo.Product;
 import src.service.CartItemService;
 import src.service.OpeningHoursService;
@@ -13,13 +12,11 @@ import src.service.ProductService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Scanner;
 
 import static src.data.reader.JSONReader.saveOrder;
 import static src.presentation.Interaction.*;
 import static src.presentation.Invoice.*;
-import static src.validation.Validation.invalidIndex;
-import static src.validation.Validation.isNullOrBlank;
+import static src.presentation.DataDisplay.*;
 
 public class UI {
     static ProductService productService = new ProductService();
@@ -62,7 +59,22 @@ public class UI {
         printCart(cart, totalPrice.toString());
     }
 
-    public static void process(){
+    public static void processFacade(){
+        ProcessActions action = promptForAction();
+        switch (action) {
+            case ADD:
+                processAddItem();
+                break;
+            case PRODUCTS:
+                displayCart();
+                break;
+            case HOURS:
+                displayHours();
+                break;
+            case TERMINATE:
+                processTerminate();
+                break;
+        }
         CartItem item = null;
         boolean end = true;
 
@@ -84,5 +96,13 @@ public class UI {
 
     private static <T> Product fetchProduct(T input){
         return productService.retrieveProduct(input);
+    }
+
+    private static void processAddItem(){
+        System.out.println("Add Item");
+    }
+
+    private static void processTerminate(){
+        System.out.println("Checkout");
     }
 }

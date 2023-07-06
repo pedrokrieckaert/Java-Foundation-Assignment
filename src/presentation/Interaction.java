@@ -2,7 +2,6 @@ package src.presentation;
 
 import src.data.pojo.CartItem;
 import src.data.pojo.Product;
-import src.service.ProductService;
 
 import java.util.Scanner;
 
@@ -10,6 +9,57 @@ import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
 public abstract class Interaction {
+    static ProcessActions promptForAction() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("What would you like to do?");
+
+        for (ProcessActions action : ProcessActions.values()) {
+            System.out.println("[" + action.i + "]" + "\t" + action.s);
+        }
+
+        System.out.print("\nSelect index or name: ");
+
+        while(true) {
+            if (scan.hasNextInt()) {
+                int index = scan.nextInt();
+
+                if (!invalidIndex(index)) {
+                    for (ProcessActions action : ProcessActions.values()) {
+                        if (action.i == index) {
+                            return action;
+                        }
+                    }
+                } else {
+                    System.out.print("\nInvalid id, please select a valid id (0 - 11): ");
+                    scan.nextLine(); //Next line trap
+                }
+            } else {
+                String input = scan.nextLine();
+
+                if (isNullOrBlank(input)) {
+                    scan.skip("");
+                    continue;
+                }
+
+                for (ProcessActions action : ProcessActions.values()) {
+                    if (action.s.equalsIgnoreCase(input)) {
+                        return action;
+                    }
+                }
+            }
+        }
+    }
+
+    private static String actionStringSwitch(String input){
+
+        return null;
+    }
+
+    private static int actionIntSwitch(int input) {
+
+        return 0;
+    }
     static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
 

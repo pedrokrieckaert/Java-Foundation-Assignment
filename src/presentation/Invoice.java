@@ -6,11 +6,9 @@ import src.data.pojo.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-public abstract class Invoice {
-    static final int padSmall = 15;
-    static final int padLarge = 30;
-    static final int padXL = 45;
+import static src.presentation.StringPrintFormats.*;
 
+public abstract class Invoice {
     static void printUserData(){
         System.out.println( "\n" +
                 padRight("Invoice of Photoshop order:", padLarge) + "35510" + "\n\n" +
@@ -55,13 +53,5 @@ public abstract class Invoice {
         }
 
         System.out.println("\n" + padRight("Total Costs:", 60) + padLeft(totalPrice,7));
-    }
-
-    private static String padRight(String s, int n) {
-        return String.format("%-" + n + "s", s);
-    }
-
-    private static  String padLeft(String s, int n) {
-        return String.format("%" + n + "s", s);
     }
 }

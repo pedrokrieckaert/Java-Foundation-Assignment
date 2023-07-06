@@ -39,47 +39,6 @@ public abstract class Interaction {
             }
         }
     }
-    /**
-     * CLI prompt to retrieve a product from the src.data.repository by id or Name
-     * @return Product
-     */
-    static Product oldPromptForProduct(ProductService productService) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease enter the name or id of a product: ");
-        while (true) {
-            //Check if the input is an integer
-            if(scan.hasNextInt()) {
-                int index = scan.nextInt();
-
-                //Validate if the input is within src.data.repository bounds
-                if (!invalidIndex(index)) {
-                    return productService.retrieveProductById(index);
-                } else {
-                    System.out.println("Id does not exist, please select a valid ID.");
-                    scan.nextLine();
-                }
-
-                //If the input was a String
-            } else {
-                String input = scan.nextLine();
-                //Validate if the input is null or blank
-                if (isNullOrBlank(input)) {
-                    scan.skip("");
-                    continue;
-                }
-
-                Product temp = productService.retrieveProductByName(input);
-
-                //If the return from src.service was null, means that the input wasn't found in the product names
-                if (temp == null) {
-                    System.out.println("There is no product by that name.");
-                } else {
-                    //Return the product object once validated
-                    return temp;
-                }
-            }
-        }
-    }
 
     static CartItem promptForQuantity(Product product) {
         Scanner scan = new Scanner(System.in);

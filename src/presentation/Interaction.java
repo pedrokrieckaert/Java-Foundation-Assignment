@@ -50,11 +50,11 @@ public abstract class Interaction {
                 quantity = scan.nextInt();
 
                 if (invalidIndex(quantity)) {
-                    System.out.println("Please input a valid number (not negative): ");
+                    System.out.print("\nPlease input a positive number: ");
                     continue;
                 }
             } else {
-                System.out.println("Please input a number: ");
+                System.out.print("\nPlease input a valid positive number: ");
                 scan.next();
                 continue;
             }
@@ -76,7 +76,7 @@ public abstract class Interaction {
             }
 
             if (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-                System.out.println("Please provide a valid input (y/n): ");
+                System.out.print("\nPlease provide a valid input. Do you want to continue? (y/n): ");
                 continue;
             } else {
                 switch (input.toLowerCase()) {

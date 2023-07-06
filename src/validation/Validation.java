@@ -15,7 +15,7 @@ public abstract class Validation {
      * @param index int
      * @return boolean
      */
-    public static boolean invalidIndex(int index) {
-        return index < 0 || index > 11;
+    public static boolean invalidIndex(int index, int min, int max) {
+        return index < min || index > max;
     }
 }

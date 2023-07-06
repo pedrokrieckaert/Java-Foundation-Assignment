@@ -24,7 +24,7 @@ public abstract class Interaction {
             if (scan.hasNextInt()) {
                 int index = scan.nextInt();
 
-                if (!invalidIndex(index)) {
+                if (!invalidIndex(index, 1, ProcessActions.values().length)) {
                     for (ProcessActions action : ProcessActions.values()) {
                         if (action.i == index) {
                             return action;
@@ -70,7 +70,7 @@ public abstract class Interaction {
                 int index = scan.nextInt();
 
                 //Validate if the input is within src.data.repository bounds
-                if (!invalidIndex(index)) {
+                if (!invalidIndex(index, 0, 11)) {
                     return (T) Integer.valueOf(index);
                 } else {
                     System.out.print("\nInvalid id, please select a valid id (0 - 11): ");
@@ -99,7 +99,7 @@ public abstract class Interaction {
             if (scan.hasNextInt()) {
                 quantity = scan.nextInt();
 
-                if (invalidIndex(quantity)) {
+                if (invalidIndex(quantity, 0, 99999)) {
                     System.out.print("\nPlease input a positive number: ");
                     continue;
                 }

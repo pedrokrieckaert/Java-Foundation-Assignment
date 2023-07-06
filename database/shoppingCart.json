@@ -1,16 +1,16 @@
 {
   "summary": {
-    "totalPrice": 24.00,
-    "totalProductionHours": 12,
-    "pickUp": "Friday 07-07-2023 18:00"
+    "totalPrice": 824999917.50,
+    "totalProductionHours": 199999980,
+    "pickUp": "Satuday 07-09-+71715 11:00"
   },
   "cart": [
     {
-      "amount": 1,
-      "id": 5,
-      "name": "Canvas 30 x 40 mat",
-      "price": 24.00,
-      "hours": "12:00"
+      "amount": 9999999,
+      "id": 12,
+      "name": "Glass 100 x 150 high gloss",
+      "price": 82.50,
+      "hours": "20:00"
     }
   ]
 }

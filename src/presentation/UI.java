@@ -67,7 +67,7 @@ public class UI {
                 case ADD -> processAddItem();
                 case PRODUCTS -> displayProducts(productService.retrieveProductList());
                 case HOURS -> displayHours(openingHoursService.retrieveOpeningHoursList());
-                case CART -> printCart(cartItemService.getCart(), cartItemService.calcTotalPrice().toString());
+                case CART -> processCartDisplay();
                 case FINALIZE -> processFinalize();
                 case TERMINATE -> processTerminate();
             }
@@ -96,10 +96,23 @@ public class UI {
         }
     }
 
+    private static void processCartDisplay() {
+            List<CartItem> cart = cartItemService.getCart();
+
+            if(cart.size() == 0) {
+                System.out.println("Your cart is empty.");
+
+                promptContinue();
+            } else {
+                printCart(cart, cartItemService.calcTotalPrice().toString());
+            }
+    }
+
     private static void processFinalize(){
         List<CartItem> cart = cartItemService.getCart();
         if (cart.size() == 0) {
             System.out.println("Your cart is empty.");
+            promptContinue();
             return;
         }
 

@@ -25,8 +25,6 @@ public abstract class DataDisplay {
                 padRight(padLeft(product.getHours(),18), PAD_SMALL)
             );
         }
-
-        System.out.print("\n");
     }
 
     static void displayHours(List<OpeningHours> hours) {
@@ -43,7 +41,5 @@ public abstract class DataDisplay {
                     padRight(padLeft(hour.getCloseHour(),12), PAD_SMALL)
             );
         }
-
-        System.out.print("\n");
     }
 }

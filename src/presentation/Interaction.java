@@ -12,7 +12,7 @@ public abstract class Interaction {
     static ProcessActions promptForAction() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("What would you like to do?");
+        System.out.println("\nWhat would you like to do?");
 
         for (ProcessActions action : ProcessActions.values()) {
             System.out.println("[" + action.i + "]" + "\t" + action.s);
@@ -112,6 +112,15 @@ public abstract class Interaction {
             return new CartItem(product, quantity);
         }
 
+    }
+
+    static void promptContinue() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Press 'Enter' to continue...");
+
+        try {
+            scan.nextLine();
+        } catch (Exception e) { }
     }
 
     static boolean promptEndProcess() {

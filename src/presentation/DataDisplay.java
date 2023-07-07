@@ -46,8 +46,4 @@ public abstract class DataDisplay {
 
         System.out.print("\n");
     }
-
-    static void displayCart() {
-
-    }
 }

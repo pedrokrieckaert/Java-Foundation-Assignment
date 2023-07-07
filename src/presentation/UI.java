@@ -69,6 +69,7 @@ public class UI {
                 case ADD -> processAddItem();
                 case PRODUCTS -> displayProducts(productService.retrieveProductList());
                 case HOURS -> displayHours(openingHoursService.retrieveOpeningHoursList());
+                case CART -> printCart(cartItemService.getCart(), cartItemService.calcTotalPrice().toString());
                 case TERMINATE -> processTerminate();
             }
         }

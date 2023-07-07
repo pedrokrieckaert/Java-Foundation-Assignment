@@ -99,12 +99,12 @@ public abstract class Interaction {
             if (scan.hasNextInt()) {
                 quantity = scan.nextInt();
 
-                if (invalidIndex(quantity, 0, 99999)) {
-                    System.out.print("\nPlease input a positive number: ");
+                if (invalidIndex(quantity, 0, 9999)) {
+                    System.out.print("\nPlease input a number within range (0 - 9999): ");
                     continue;
                 }
             } else {
-                System.out.print("\nPlease input a valid positive number: ");
+                System.out.print("\nPlease input a number within range (0 - 9999): ");
                 scan.next();
                 continue;
             }

@@ -5,7 +5,8 @@ enum ProcessActions {
     PRODUCTS(2, "See products"),
     HOURS(3, "See opening times"),
     CART(4, "See your basket"),
-    TERMINATE(5, "Checkout");
+    FINALIZE(5, "Checkout"),
+    TERMINATE(6, "Exit");
 
     final int i;
     final String s;

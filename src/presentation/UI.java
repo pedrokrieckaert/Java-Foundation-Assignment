@@ -62,7 +62,7 @@ public class UI {
     public static void processFacade(){
         ProcessActions action = null;
 
-        while (action != ProcessActions.TERMINATE) {
+        while (action != ProcessActions.FINALIZE) {
             action = promptForAction();
 
             switch (action) {
@@ -70,6 +70,7 @@ public class UI {
                 case PRODUCTS -> displayProducts(productService.retrieveProductList());
                 case HOURS -> displayHours(openingHoursService.retrieveOpeningHoursList());
                 case CART -> printCart(cartItemService.getCart(), cartItemService.calcTotalPrice().toString());
+                case FINALIZE -> processFinalize();
                 case TERMINATE -> processTerminate();
             }
         }
@@ -97,7 +98,7 @@ public class UI {
         }
     }
 
-    private static void processTerminate(){
+    private static void processFinalize(){
         Gson gson = new Gson();
         JsonObject orderSum = new JsonObject();
         JsonObject jsonOrder = new JsonObject();
@@ -129,5 +130,13 @@ public class UI {
         printUserData();
         printPickUp(orderService.retrieveBufferOrder());
         printCart(cart, totalPrice.toString());
+    }
+
+    private static void processTerminate(){
+        boolean end = promptEndProcess();
+
+        if(end) {
+            System.exit(0);
+        }
     }
 }

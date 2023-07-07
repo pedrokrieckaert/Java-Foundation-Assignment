@@ -60,10 +60,8 @@ public class UI {
     }
 
     public static void processFacade(){
-        ProcessActions action = null;
-
-        while (action != ProcessActions.FINALIZE) {
-            action = promptForAction();
+        while (true) {
+            ProcessActions action = promptForAction();
 
             switch (action) {
                 case ADD -> processAddItem();
@@ -99,6 +97,9 @@ public class UI {
     }
 
     private static void processFinalize(){
+        if (!promptEndProcess("Are you sure you want to checkout?")) {
+            return;
+        }
         Gson gson = new Gson();
         JsonObject orderSum = new JsonObject();
         JsonObject jsonOrder = new JsonObject();
@@ -130,6 +131,8 @@ public class UI {
         printUserData();
         printPickUp(orderService.retrieveBufferOrder());
         printCart(cart, totalPrice.toString());
+
+        System.exit(0);
     }
 
     private static void processTerminate(){

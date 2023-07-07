@@ -94,7 +94,7 @@ public class UI {
 
             item = promptForQuantity(product);
             cartItemService.addCartItem(item);
-            end = promptEndProcess();
+            end = promptEndProcess("Would you like to add another item?");
         }
     }
 
@@ -133,7 +133,7 @@ public class UI {
     }
 
     private static void processTerminate(){
-        boolean end = promptEndProcess();
+        boolean end = promptEndProcess("Are you sure you would like to cancel?");
 
         if(end) {
             System.exit(0);

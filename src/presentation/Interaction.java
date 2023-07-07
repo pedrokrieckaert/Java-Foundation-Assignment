@@ -115,8 +115,11 @@ public abstract class Interaction {
     }
 
     static boolean promptEndProcess() {
+        return promptEndProcess("\nDo you want to continue?");
+    }
+    static boolean promptEndProcess(String prompt){
         Scanner scan = new Scanner(System.in);
-        System.out.print("\nDo you want to continue? (y/n): ");
+        System.out.print(prompt + " (y/n): ");
 
         while (true) {
             String input = scan.nextLine();

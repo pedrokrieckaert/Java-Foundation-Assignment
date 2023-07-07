@@ -60,8 +60,21 @@ public class UI {
     }
 
     public static void processFacade(){
+        ProcessActions action;
+        System.out.println(
+                " /$$      /$$           /$$                                            \n" +
+                "| $$  /$ | $$          | $$                                            \n" +
+                "| $$ /$$$| $$  /$$$$$$ | $$  /$$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$ \n" +
+                "| $$/$$ $$ $$ /$$__  $$| $$ /$$_____/ /$$__  $$| $$_  $$_  $$ /$$__  $$\n" +
+                "| $$$$_  $$$$| $$$$$$$$| $$| $$      | $$  \\ $$| $$ \\ $$ \\ $$| $$$$$$$$\n" +
+                "| $$$/ \\  $$$| $$_____/| $$| $$      | $$  | $$| $$ | $$ | $$| $$_____/\n" +
+                "| $$/   \\  $$|  $$$$$$$| $$|  $$$$$$$|  $$$$$$/| $$ | $$ | $$|  $$$$$$$\n" +
+                "|__/     \\__/ \\_______/|__/ \\_______/ \\______/ |__/ |__/ |__/ \\_______/"
+        );
+        System.out.println("To the Photo Shop.");
+
         while (true) {
-            ProcessActions action = promptForAction();
+            action = promptForAction();
 
             switch (action) {
                 case ADD -> processAddItem();

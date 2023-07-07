@@ -1,5 +1,6 @@
 package src.presentation;
 
+import src.data.pojo.OpeningHours;
 import src.data.pojo.Product;
 
 import java.util.List;
@@ -24,10 +25,26 @@ public abstract class DataDisplay {
                 padRight(padLeft(product.getHours(),18), PAD_SMALL)
             );
         }
+
+        System.out.print("\n");
     }
 
-    static void displayHours() {
+    static void displayHours(List<OpeningHours> hours) {
+        System.out.println(
+                padRight("Day:", PAD_SMALL) +
+                padRight("Opening time:", PAD_SMALL) +
+                padRight("Closing time:", PAD_SMALL)
+        );
 
+        for (OpeningHours hour : hours) {
+            System.out.println(
+                    padRight(hour.getDay(), PAD_SMALL) +
+                    padRight(padLeft(hour.getOpenHour(), 12), PAD_SMALL) +
+                    padRight(padLeft(hour.getCloseHour(),12), PAD_SMALL)
+            );
+        }
+
+        System.out.print("\n");
     }
 
     static void displayCart() {

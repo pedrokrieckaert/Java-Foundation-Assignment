@@ -97,13 +97,19 @@ public class UI {
     }
 
     private static void processFinalize(){
+        List<CartItem> cart = cartItemService.getCart();
+        if (cart.size() == 0) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
         if (!promptEndProcess("Are you sure you want to checkout?")) {
             return;
         }
+
         Gson gson = new Gson();
         JsonObject orderSum = new JsonObject();
         JsonObject jsonOrder = new JsonObject();
-        List<CartItem> cart = cartItemService.getCart();
 
         //Total Price
         BigDecimal totalPrice = cartItemService.calcTotalPrice();

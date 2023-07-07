@@ -35,6 +35,10 @@ public abstract class Invoice {
         );
     }
     static void printCart(List<CartItem> cart, String totalPrice) {
+        if(cart.size() == 0) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
         System.out.println(padRight("Photo Type:", PAD_LARGE)
                 + padRight("Price(€):", PAD_SMALL)
                 + padRight("Amount:", PAD_SMALL)

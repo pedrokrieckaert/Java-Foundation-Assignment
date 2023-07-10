@@ -11,71 +11,30 @@ import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
 public abstract class Interaction {
-    static ProcessActions promptForAction() {
+
+    static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("\nWhat would you like to do?");
-
-        for (ProcessActions action : ProcessActions.values()) {
-            System.out.println("[" + action.i + "]" + "\t" + action.s);
-        }
-
-        System.out.print("\nSelect index or name: ");
-
-        while(true) {
-            if (scan.hasNextInt()) {
-                int index = scan.nextInt();
-
-                if (!invalidIndex(index, 1, ProcessActions.values().length)) {
-                    for (ProcessActions action : ProcessActions.values()) {
-                        if (action.i == index) {
-                            return action;
-                        }
-                    }
-                } else {
-                    System.out.print("\nInvalid id, please select a valid id (0 - 11): ");
-                    scan.nextLine(); //Next line trap
-                }
-            } else {
-                String input = scan.nextLine();
-
-                if (isNullOrBlank(input)) {
-                    scan.skip("");
-                    continue;
-                }
-
-                for (ProcessActions action : ProcessActions.values()) {
-                    if (action.s.equalsIgnoreCase(input)) {
-                        return action;
-                    }
-                }
-            }
-        }
-    }
-
-    static ProcessCartActions promptCartAction() {
-        Scanner scan = new Scanner(System.in);
-
-        for (ProcessCartActions action : ProcessCartActions.values()) {
+        for (T action : actions) {
             System.out.println(action.toString());
         }
 
         while (true) {
-            Object input = scanIntOrString(scan, 1, ProcessCartActions.values().length);
+            Object input = scanIntOrString(scan, 1, actions.length);
 
             if (input instanceof Integer) {
                 int index = Integer.parseInt(String.valueOf(input));
 
-                for (ProcessCartActions action : ProcessCartActions.values()) {
-                    if (action.i == index) {
+                for (T action : actions) {
+                    if (action.getInt() == index) {
                         return action;
                     }
                 }
             } else if (input instanceof String) {
                 String name = input.toString();
 
-                for (ProcessCartActions action : ProcessCartActions.values()) {
-                    if (action.s.equalsIgnoreCase(name)) {
+                for (T action : actions) {
+                    if (action.getString().equalsIgnoreCase(name)) {
                         return action;
                     }
                 }
@@ -84,15 +43,6 @@ public abstract class Interaction {
         }
     }
 
-    private static String actionStringSwitch(String input){
-
-        return null;
-    }
-
-    private static int actionIntSwitch(int input) {
-
-        return 0;
-    }
     static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
 

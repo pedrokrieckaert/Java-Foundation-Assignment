@@ -12,7 +12,6 @@ import src.service.ProductService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Scanner;
 
 import static src.data.reader.JSONReader.saveOrder;
 import static src.presentation.Interaction.*;
@@ -61,7 +60,7 @@ public class UI {
     }
 
     public static void processFacade(){
-        ProcessActions action;
+        ProcessFacadeActions action;
         System.out.println(
                 " /$$      /$$           /$$                                            \n" +
                 "| $$  /$ | $$          | $$                                            \n" +
@@ -75,7 +74,7 @@ public class UI {
         System.out.println("To the Photo Shop.");
 
         while (true) {
-            action = promptForAction();
+            action = promptForAction(ProcessFacadeActions.values());
 
             switch (action) {
                 case ADD -> processAddItem();
@@ -129,7 +128,7 @@ public class UI {
         System.out.println("\nWhat would you like to do?");
 
         while (true) {
-            action = promptCartAction();
+            action = promptForAction(ProcessCartActions.values());
 
             switch (action) {
                 case EDIT -> processEditItem(cart);

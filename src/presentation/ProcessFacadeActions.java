@@ -1,14 +1,17 @@
 package src.presentation;
 
-enum ProcessCartActions implements ActionEnum{
-    EDIT (1, "Edit item"),
-    REMOVE (2, "Remove item"),
-    DONE (3, "Done");
+enum ProcessFacadeActions implements ActionEnum{
+    ADD(1, "Add item"),
+    PRODUCTS(2, "See products"),
+    HOURS(3, "See opening times"),
+    CART(4, "See your basket"),
+    FINALIZE(5, "Checkout"),
+    TERMINATE(6, "Exit");
 
     private final int i;
     private final String s;
 
-    ProcessCartActions(int i, String s) {
+    ProcessFacadeActions(int i, String s) {
         this.i = i;
         this.s = s;
     }

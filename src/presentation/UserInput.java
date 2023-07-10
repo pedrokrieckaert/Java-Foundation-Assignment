@@ -7,8 +7,6 @@ import static src.validation.Validation.isNullOrBlank;
 
 abstract class UserInput {
     static <T> T scanIntOrString(Scanner scan, int INT_MIN, int INT_MAX) {
-        System.out.print("\nSelect index or name: ");
-
         if (scan.hasNextInt()) {
             int index = scan.nextInt();
 

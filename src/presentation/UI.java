@@ -71,7 +71,8 @@ public class UI {
                 "| $$/   \\  $$|  $$$$$$$| $$|  $$$$$$$|  $$$$$$/| $$ | $$ | $$|  $$$$$$$\n" +
                 "|__/     \\__/ \\_______/|__/ \\_______/ \\______/ |__/ |__/ |__/ \\_______/"
         );
-        System.out.println("To the Photo Shop.");
+        System.out.println("To the Photo Shop.\n");
+        promptContinue();
 
         while (true) {
             action = promptForAction(ProcessFacadeActions.values());
@@ -105,7 +106,7 @@ public class UI {
 
             item = promptForQuantity(product);
             cartItemService.addCartItem(item);
-            end = promptEndProcess("Would you like to add another item?");
+            end = promptEndProcess("\nWould you like to add another item?");
         }
     }
 
@@ -125,8 +126,6 @@ public class UI {
     private static void processCartFacade(List<CartItem> cart){
         ProcessCartActions action;
 
-        System.out.println("\nWhat would you like to do?");
-
         while (true) {
             action = promptForAction(ProcessCartActions.values());
 
@@ -142,7 +141,7 @@ public class UI {
     private static void processEditItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
-        processRequestLoop("Edit another item?: ", () -> {
+        processRequestLoop("\nEdit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
             CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), promptForEditQuantity());
@@ -156,7 +155,7 @@ public class UI {
     private static void processRemoveItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
-        processRequestLoop("Remove another item?: ", () -> {
+        processRequestLoop("\nRemove another item?", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
             if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {

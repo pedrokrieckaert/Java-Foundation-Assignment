@@ -14,11 +14,14 @@ abstract class Interaction {
     static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {
         Scanner scan = new Scanner(System.in);
 
+        System.out.println("\nWhat would you like to do?");
+
         for (T action : actions) {
             System.out.println(action.toString());
         }
 
         while (true) {
+            System.out.print("Select index or name: ");
             Object input = scanIntOrString(scan, 1, actions.length);
 
             if (input instanceof Integer) {
@@ -47,7 +50,7 @@ abstract class Interaction {
     static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("Please enter the name or id of a product: ");
+        System.out.print("\nPlease enter the name or id of a product: ");
 
         while(true) {
             if (scan.hasNextInt()) {
@@ -76,7 +79,7 @@ abstract class Interaction {
 
     static CartItem promptForQuantity(Product product) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease select the quantity: ");
+        System.out.print("Please select the quantity: ");
         int quantity = 0;
 
         while (true) {
@@ -101,6 +104,7 @@ abstract class Interaction {
         Scanner scan = new Scanner(System.in);
 
         while (true) {
+            System.out.print("\nSelect index or name of product: ");
             Object input = scanIntOrString(scan, 0, cart.size() - 1);
 
             if (input instanceof Integer) {
@@ -118,7 +122,7 @@ abstract class Interaction {
     }
 
     static int promptForEditQuantity() {
-        System.out.print("\nSelect new quantity: ");
+        System.out.print("Select new quantity: ");
         Scanner scan = new Scanner(System.in);
 
         return scanInt(scan, 0, 999);

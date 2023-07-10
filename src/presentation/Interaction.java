@@ -39,6 +39,8 @@ public abstract class Interaction {
                     }
                 }
 
+                System.out.print("\nNo action by the name: '" + name + "'.");
+
             }
         }
     }

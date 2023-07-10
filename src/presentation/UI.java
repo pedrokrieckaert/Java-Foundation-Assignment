@@ -131,21 +131,21 @@ public class UI {
             action = promptForAction(ProcessCartActions.values());
 
             switch (action) {
-                case EDIT -> processEditItem(cart);
-                case REMOVE -> processRemoveItem(cart);
+                case EDIT -> processEditItem();
+                case REMOVE -> processRemoveItem();
                 case DONE -> {
                     return;
                 }
             }
         }
     }
-    private static void processEditItem(List<CartItem> cart) {
+    private static void processEditItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
         processRequestLoop("Edit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
-            CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
+            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), promptForEditQuantity());
 
             bufferCart.set(itemIndex, itemEdit);
         });
@@ -153,7 +153,7 @@ public class UI {
         cartItemService.updateCart(bufferCart);
     }
 
-    private static void processRemoveItem(List<CartItem> cart) {
+    private static void processRemoveItem() {
 
     }
 

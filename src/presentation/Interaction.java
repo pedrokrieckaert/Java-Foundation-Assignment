@@ -10,8 +10,7 @@ import static src.presentation.UserInput.scanIntOrString;
 import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
-public abstract class Interaction {
-
+abstract class Interaction {
     static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {
         Scanner scan = new Scanner(System.in);
 

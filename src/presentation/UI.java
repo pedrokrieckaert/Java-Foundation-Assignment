@@ -145,12 +145,15 @@ public class UI {
     }
     private static void processEditItem(List<CartItem> cart) {
         List<CartItem> bufferCart = cartItemService.getCart();
-        int itemIndex = promptForCartItem(bufferCart);
 
-        CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
+        processRequestLoop( () -> {
+            int itemIndex = promptForCartItem(bufferCart);
 
-        bufferCart.set(itemIndex, itemEdit);
-        System.out.println(bufferCart);
+            CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
+
+            bufferCart.set(itemIndex, itemEdit);
+        });
+
         cartItemService.updateCart(bufferCart);
     }
 
@@ -209,6 +212,16 @@ public class UI {
 
         if(end) {
             System.exit(0);
+        }
+    }
+
+    private static void processRequestLoop(Runnable function) {
+        boolean end = true;
+
+        while (end) {
+            function.run();
+
+            end = promptEndProcess();
         }
     }
 }

@@ -3,8 +3,10 @@ package src.presentation;
 import src.data.pojo.CartItem;
 import src.data.pojo.Product;
 
+import java.util.List;
 import java.util.Scanner;
 
+import static src.presentation.UserInput.scanIntOrString;
 import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
@@ -57,7 +59,7 @@ public abstract class Interaction {
             System.out.println(action.toString());
         }
 
-            return ProcessCartActions.DONE;
+            return ProcessCartActions.EDIT;
     }
 
     private static String actionStringSwitch(String input){
@@ -120,6 +122,29 @@ public abstract class Interaction {
             return new CartItem(product, quantity);
         }
 
+    }
+
+    static int promptForCartItem(List<CartItem> cart) {
+        Scanner scan = new Scanner(System.in);
+        Object input = scanIntOrString(scan, 0, cart.size() - 1);
+
+        if (input instanceof Integer) {
+            int index = Integer.parseInt(String.valueOf(input));
+
+            return index;
+        } else if (input instanceof String) {
+            for (int i = 0; i < cart.size(); i++) {
+                if (cart.get(i).getName().equalsIgnoreCase(input.toString())) {
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
+    static int promptForEditQuantity() {
+
+        return 1;
     }
 
     static void promptContinue() {

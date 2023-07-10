@@ -125,20 +125,37 @@ public class UI {
 
     private static void processCartFacade(List<CartItem> cart){
         ProcessCartActions action;
+        boolean end = true;
 
-        while (true) {
+        System.out.println("\nWhat would you like to do?");
+
+        while (end) {
             action = promptCartAction();
 
             switch (action) {
-                case EDIT:
-                    break;
-                case REMOVE:
-                    break;
-                case DONE:
+                case EDIT -> processEditItem(cart);
+                case REMOVE -> processRemoveItem(cart);
+                case DONE -> {
                     return;
+                }
             }
+
+            end = promptEndProcess();
         }
     }
+    private static void processEditItem(List<CartItem> cart) {
+        List<CartItem> bufferCart = cartItemService.getCart();
+        int itemIndex = promptForCartItem(bufferCart);
+        CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
+
+        bufferCart.set(itemIndex, itemEdit);
+        System.out.println(bufferCart);
+    }
+
+    private static void processRemoveItem(List<CartItem> cart) {
+
+    }
+
     private static void processFinalize(){
         List<CartItem> cart = cartItemService.getCart();
         if (cart.size() == 0) {

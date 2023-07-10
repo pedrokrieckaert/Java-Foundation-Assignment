@@ -12,6 +12,7 @@ import src.service.ProductService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Scanner;
 
 import static src.data.reader.JSONReader.saveOrder;
 import static src.presentation.Interaction.*;
@@ -118,9 +119,26 @@ public class UI {
                 promptContinue();
             } else {
                 printCart(cart, cartItemService.calcTotalPrice().toString());
+                processCartFacade(cart);
             }
     }
 
+    private static void processCartFacade(List<CartItem> cart){
+        ProcessCartActions action;
+
+        while (true) {
+            action = promptCartAction();
+
+            switch (action) {
+                case EDIT:
+                    break;
+                case REMOVE:
+                    break;
+                case DONE:
+                    return;
+            }
+        }
+    }
     private static void processFinalize(){
         List<CartItem> cart = cartItemService.getCart();
         if (cart.size() == 0) {

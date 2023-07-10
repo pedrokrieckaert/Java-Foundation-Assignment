@@ -51,6 +51,15 @@ public abstract class Interaction {
         }
     }
 
+    static ProcessCartActions promptCartAction() {
+
+        for (ProcessCartActions action : ProcessCartActions.values()) {
+            System.out.println(action.toString());
+        }
+
+            return ProcessCartActions.DONE;
+    }
+
     private static String actionStringSwitch(String input){
 
         return null;
@@ -98,13 +107,12 @@ public abstract class Interaction {
         while (true) {
             if (scan.hasNextInt()) {
                 quantity = scan.nextInt();
-
-                if (invalidIndex(quantity, 0, 9999)) {
-                    System.out.print("\nPlease input a number within range (0 - 9999): ");
+                if (invalidIndex(quantity, 1, 9999)) {
+                    System.out.print("\nOut of range.\nPlease input a number within range (1 - 9999): ");
                     continue;
                 }
             } else {
-                System.out.print("\nPlease input a number within range (0 - 9999): ");
+                System.out.print("\nNot a Number.\nPlease input a number within range (1 - 9999): ");
                 scan.next();
                 continue;
             }

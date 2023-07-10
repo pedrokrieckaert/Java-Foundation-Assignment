@@ -44,8 +44,18 @@ public class CartItemService {
     }
 
     public void updateCart(List<CartItem> newCart) {
-        for (CartItem item : newCart) {
-            itemRepo.update(item.getId(), item.clone());
+        List<Integer> keys = itemRepo.getKeys();
+        for (int key : keys) {
+            boolean keyUpdated = false;
+            for (CartItem item : newCart) {
+                if (item.getId() == key) {
+                    itemRepo.update(key, item);
+                    keyUpdated = true;
+                }
+            }
+            if (!keyUpdated) {
+                itemRepo.delete(key);
+            }
         }
     }
 

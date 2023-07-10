@@ -21,8 +21,12 @@ public class CartItemRepo {
     public CartItem retrieve(int id) {
         return this.datastore.get(id).clone();
     }
-    //currently only adds
+
     public void update(int id, CartItem item) {
         datastore.put(id, item.clone());
+    }
+
+    public void delete(int id) {
+        datastore.remove(id);
     }
 }

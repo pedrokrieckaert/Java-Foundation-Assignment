@@ -6,7 +6,7 @@ import src.data.pojo.Product;
 import java.util.List;
 import java.util.Scanner;
 
-import static src.presentation.UserInput.scanIntOrString;
+import static src.presentation.UserInput.*;
 import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
@@ -99,25 +99,29 @@ abstract class Interaction {
 
     static int promptForCartItem(List<CartItem> cart) {
         Scanner scan = new Scanner(System.in);
-        Object input = scanIntOrString(scan, 0, cart.size() - 1);
 
-        if (input instanceof Integer) {
-            int index = Integer.parseInt(String.valueOf(input));
+        while (true) {
+            Object input = scanIntOrString(scan, 0, cart.size() - 1);
 
-            return index;
-        } else if (input instanceof String) {
-            for (int i = 0; i < cart.size(); i++) {
-                if (cart.get(i).getName().equalsIgnoreCase(input.toString())) {
-                    return i;
+            if (input instanceof Integer) {
+                int index = Integer.parseInt(String.valueOf(input));
+
+                return index;
+            } else if (input instanceof String) {
+                for (int i = 0; i < cart.size(); i++) {
+                    if (cart.get(i).getName().equalsIgnoreCase(input.toString())) {
+                        return i;
+                    }
                 }
             }
         }
-        return 0;
     }
 
     static int promptForEditQuantity() {
+        System.out.print("\nSelect new quantity: ");
+        Scanner scan = new Scanner(System.in);
 
-        return 1;
+        return scanInt(scan, 0, 999);
     }
 
     static void promptContinue() {

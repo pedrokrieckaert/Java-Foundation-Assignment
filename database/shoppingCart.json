@@ -1,23 +1,16 @@
 {
   "summary": {
-    "totalPrice": 28.90,
-    "totalProductionHours": 13,
-    "pickUp": "Wednesday 12-07-2023 10:00"
+    "totalPrice": 5.60,
+    "totalProductionHours": 4,
+    "pickUp": "Tuesday 11-07-2023 10:00"
   },
   "cart": [
     {
-      "amount": 1,
+      "amount": 4,
       "id": 1,
       "name": "Paper 10 x 15 mat",
       "price": 1.40,
       "hours": "01:00"
-    },
-    {
-      "amount": 1,
-      "id": 6,
-      "name": "Canvas 30 x 40 high gloss",
-      "price": 27.50,
-      "hours": "12:00"
     }
   ]
 }

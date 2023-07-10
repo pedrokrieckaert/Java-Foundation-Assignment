@@ -23,10 +23,6 @@ public class CartItemRepo {
     }
     //currently only adds
     public void update(int id, CartItem item) {
-        CartItem temp = datastore.get(id).clone();
-
-        temp.setAmount(temp.getAmount() + item.getAmount());
-
-        datastore.put(temp.getId(), temp.clone());
+        datastore.put(id, item.clone());
     }
 }

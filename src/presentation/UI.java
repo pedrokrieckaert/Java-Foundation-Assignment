@@ -146,10 +146,12 @@ public class UI {
     private static void processEditItem(List<CartItem> cart) {
         List<CartItem> bufferCart = cartItemService.getCart();
         int itemIndex = promptForCartItem(bufferCart);
+
         CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
 
         bufferCart.set(itemIndex, itemEdit);
         System.out.println(bufferCart);
+        cartItemService.updateCart(bufferCart);
     }
 
     private static void processRemoveItem(List<CartItem> cart) {

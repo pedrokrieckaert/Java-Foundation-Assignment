@@ -54,12 +54,34 @@ public abstract class Interaction {
     }
 
     static ProcessCartActions promptCartAction() {
+        Scanner scan = new Scanner(System.in);
 
         for (ProcessCartActions action : ProcessCartActions.values()) {
             System.out.println(action.toString());
         }
 
-            return ProcessCartActions.EDIT;
+        while (true) {
+            Object input = scanIntOrString(scan, 1, ProcessCartActions.values().length);
+
+            if (input instanceof Integer) {
+                int index = Integer.parseInt(String.valueOf(input));
+
+                for (ProcessCartActions action : ProcessCartActions.values()) {
+                    if (action.i == index) {
+                        return action;
+                    }
+                }
+            } else if (input instanceof String) {
+                String name = input.toString();
+
+                for (ProcessCartActions action : ProcessCartActions.values()) {
+                    if (action.s.equalsIgnoreCase(name)) {
+                        return action;
+                    }
+                }
+
+            }
+        }
     }
 
     private static String actionStringSwitch(String input){

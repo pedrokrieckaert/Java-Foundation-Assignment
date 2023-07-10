@@ -3,7 +3,7 @@ package src.presentation;
 enum ProcessCartActions {
     EDIT (1, "Edit item"),
     REMOVE (2, "Remove item"),
-    DONE (2, "Done");
+    DONE (3, "Done");
 
     final int i;
     final String s;

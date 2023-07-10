@@ -125,11 +125,10 @@ public class UI {
 
     private static void processCartFacade(List<CartItem> cart){
         ProcessCartActions action;
-        boolean end = true;
 
         System.out.println("\nWhat would you like to do?");
 
-        while (end) {
+        while (true) {
             action = promptCartAction();
 
             switch (action) {
@@ -139,14 +138,12 @@ public class UI {
                     return;
                 }
             }
-
-            end = promptEndProcess();
         }
     }
     private static void processEditItem(List<CartItem> cart) {
         List<CartItem> bufferCart = cartItemService.getCart();
 
-        processRequestLoop( () -> {
+        processRequestLoop("Edit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
             CartItem itemEdit = new CartItem(cart.get(itemIndex), promptForEditQuantity());
@@ -215,13 +212,13 @@ public class UI {
         }
     }
 
-    private static void processRequestLoop(Runnable function) {
+    private static void processRequestLoop(String message ,Runnable function) {
         boolean end = true;
 
         while (end) {
             function.run();
 
-            end = promptEndProcess();
+            end = promptEndProcess(message);
         }
     }
 }

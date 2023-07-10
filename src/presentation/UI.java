@@ -154,7 +154,17 @@ public class UI {
     }
 
     private static void processRemoveItem() {
+        List<CartItem> bufferCart = cartItemService.getCart();
 
+        processRequestLoop("Remove another item?: ", () -> {
+            int itemIndex = promptForCartItem(bufferCart);
+
+            if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {
+                bufferCart.remove(itemIndex);
+            }
+        });
+
+        cartItemService.updateCart(bufferCart);
     }
 
     private static void processFinalize(){

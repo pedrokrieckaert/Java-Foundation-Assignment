@@ -84,7 +84,7 @@ abstract class Interaction {
             if (input instanceof Integer) {
                 int index = Integer.parseInt(String.valueOf(input));
 
-                return index;
+                return index - 1;
             } else if (input instanceof String) {
                 for (int i = 0; i < cart.size(); i++) {
                     if (cart.get(i).getName().equalsIgnoreCase(input.toString())) {

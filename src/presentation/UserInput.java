@@ -33,7 +33,7 @@ abstract class UserInput {
     static int scanInt (Scanner scan, int INT_MIN, int INT_MAX) {
         int input = Integer.MIN_VALUE;
 
-        while (input < INT_MIN) {
+        while (input < INT_MIN || input > INT_MAX) {
             if (scan.hasNextInt()) {
                 input = scan.nextInt();
                 if (invalidIndex(input, INT_MIN, INT_MAX)) {

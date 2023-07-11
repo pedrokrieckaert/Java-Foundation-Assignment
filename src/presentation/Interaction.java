@@ -68,24 +68,10 @@ abstract class Interaction {
     static CartItem promptForQuantity(Product product) {
         Scanner scan = new Scanner(System.in);
         System.out.print("Please select the quantity: ");
-        int quantity = 0;
 
-        while (true) {
-            if (scan.hasNextInt()) {
-                quantity = scan.nextInt();
-                if (invalidIndex(quantity, 1, 9999)) {
-                    System.out.print("\nOut of range.\nPlease input a number within range (1 - 9999): ");
-                    continue;
-                }
-            } else {
-                System.out.print("\nNot a Number.\nPlease input a number within range (1 - 9999): ");
-                scan.next();
-                continue;
-            }
+        int quantity = scanInt(scan, 0, 999);
 
-            return new CartItem(product, quantity);
-        }
-
+        return new CartItem(product, quantity);
     }
 
     static int promptForCartItem(List<CartItem> cart) {

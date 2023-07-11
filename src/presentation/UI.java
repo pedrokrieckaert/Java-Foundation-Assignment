@@ -102,7 +102,8 @@ public class UI {
                 product = fetchProduct(promptForProduct());
             }
 
-            CartItem item = promptForQuantity(product);
+            CartItem item = new CartItem(product, promptForQuantity("Please select quantity:"));
+
             cartItemService.addCartItem(item);
         });
     }
@@ -147,7 +148,7 @@ public class UI {
         processRequestLoop("\nEdit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
-            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), promptForEditQuantity());
+            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), promptForQuantity("Select new quantity:"));
 
             bufferCart.set(itemIndex, itemEdit);
         });
@@ -161,7 +162,9 @@ public class UI {
         processRequestLoop("\nRemove another item?", true,() -> {
             int itemIndex = promptForCartItem(bufferCart);
 
-            if (itemIndex == Integer.MIN_VALUE) { return false;}
+            if (itemIndex == Integer.MIN_VALUE) {
+                return false;
+            }
 
             if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {
                 bufferCart.remove(itemIndex);

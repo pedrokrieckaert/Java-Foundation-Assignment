@@ -64,14 +64,11 @@ abstract class Interaction {
             }
         }
     }
-
-    static CartItem promptForQuantity(Product product) {
+    static int promptForQuantity(String message) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Please select the quantity: ");
+        System.out.print(message + " ");
 
-        int quantity = scanInt(scan, 0, 999);
-
-        return new CartItem(product, quantity);
+        return scanInt(scan, 1, 999);
     }
     static int promptForCartItem(List<CartItem> cart) {
         Scanner scan = new Scanner(System.in);
@@ -97,13 +94,6 @@ abstract class Interaction {
                 }
             }
         }
-    }
-
-    static int promptForEditQuantity() {
-        System.out.print("Select new quantity: ");
-        Scanner scan = new Scanner(System.in);
-
-        return scanInt(scan, 0, 999);
     }
 
     static void promptContinue() {

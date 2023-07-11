@@ -115,12 +115,12 @@ public class UI {
 
                 promptContinue();
             } else {
-                printCart(cart, cartItemService.calcTotalPrice().toString());
-                processCartFacade(cart);
+                displayCart(cart, cartItemService.calcTotalPrice().toString());
+                processCartFacade();
             }
     }
 
-    private static void processCartFacade(List<CartItem> cart){
+    private static void processCartFacade(){
         ProcessCartActions action;
 
         while (true) {

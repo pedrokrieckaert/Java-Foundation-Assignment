@@ -35,9 +35,7 @@ public abstract class Invoice {
         );
     }
     static void printCart(List<CartItem> cart, String totalPrice) {
-        System.out.println(
-                padRight("ID: ", 6)
-                + padRight("Photo Type:", PAD_LARGE)
+        System.out.println( padRight("Photo Type:", PAD_LARGE)
                 + padRight("Price(€):", PAD_SMALL)
                 + padRight("Amount:", PAD_SMALL)
                 + "Total Costs(€):"
@@ -46,15 +44,13 @@ public abstract class Invoice {
         for (CartItem item : cart) {
             BigDecimal totalItemCost = item.getPrice().multiply(BigDecimal.valueOf(item.getAmount()));
 
-            System.out.println(
-                    padRight("[" + item.getId() + "]", 6)
-                    + padRight(item.getName(), PAD_LARGE)
+            System.out.println( padRight(item.getName(), PAD_LARGE)
                     + padRight(padLeft(item.getPrice().toString(),8), PAD_SMALL)
                     + padRight(padLeft(String.valueOf(item.getAmount()), 6), PAD_SMALL)
                     + padRight(padLeft(totalItemCost.toString(),7), PAD_SMALL)
             );
         }
 
-        System.out.println("\n" + padRight("Total Costs:", 66) + padLeft(totalPrice,7));
+        System.out.println("\n" + padRight("Total Costs:", 60) + padLeft(totalPrice,7));
     }
 }

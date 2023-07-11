@@ -1,8 +1,10 @@
 package src.presentation;
 
+import src.data.pojo.CartItem;
 import src.data.pojo.OpeningHours;
 import src.data.pojo.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static src.presentation.StringPrintFormats.*;
@@ -41,5 +43,32 @@ public abstract class DataDisplay {
                     padRight(padLeft(hour.getCloseHour(),12), PAD_SMALL)
             );
         }
+    }
+
+    static void displayCart(List<CartItem> cart, String totalPrice) {
+        System.out.println(
+                padRight("ID: ", 6)
+                        + padRight("Photo Type:", PAD_LARGE)
+                        + padRight("Price(€):", PAD_SMALL)
+                        + padRight("Amount:", PAD_SMALL)
+                        + "Total Costs(€):"
+        );
+
+        for (int i = 0; i < cart.size(); i++) {
+
+            CartItem item = cart.get(i);
+
+            BigDecimal totalItemCost = item.getPrice().multiply(BigDecimal.valueOf(item.getAmount()));
+
+            System.out.println(
+                    padRight("[" + (i + 1) + "]", 6)
+                            + padRight(item.getName(), PAD_LARGE)
+                            + padRight(padLeft(item.getPrice().toString(),8), PAD_SMALL)
+                            + padRight(padLeft(String.valueOf(item.getAmount()), 6), PAD_SMALL)
+                            + padRight(padLeft(totalItemCost.toString(),7), PAD_SMALL)
+            );
+        }
+
+        System.out.println("\n" + padRight("Total Costs:", 66) + padLeft(totalPrice,7));
     }
 }

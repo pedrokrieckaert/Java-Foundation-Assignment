@@ -73,12 +73,11 @@ abstract class Interaction {
 
         return new CartItem(product, quantity);
     }
-
     static int promptForCartItem(List<CartItem> cart) {
         Scanner scan = new Scanner(System.in);
 
         while (true) {
-            System.out.print("\nSelect index or name of product: ");
+            System.out.print("\nSelect index or name of product (type 'cancel' to cancel): ");
             Object input = scanIntOrString(scan, 1, cart.size());
 
             if (input instanceof Integer) {
@@ -86,6 +85,11 @@ abstract class Interaction {
 
                 return index - 1;
             } else if (input instanceof String) {
+
+                if (input.toString().equalsIgnoreCase("cancel")) {
+                    return Integer.MIN_VALUE;
+                }
+
                 for (int i = 0; i < cart.size(); i++) {
                     if (cart.get(i).getName().equalsIgnoreCase(input.toString())) {
                         return i;

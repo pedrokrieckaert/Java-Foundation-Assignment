@@ -161,6 +161,8 @@ public class UI {
         processRequestLoop("\nRemove another item?", true,() -> {
             int itemIndex = promptForCartItem(bufferCart);
 
+            if (itemIndex == Integer.MIN_VALUE) { return false;}
+
             if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {
                 bufferCart.remove(itemIndex);
             }

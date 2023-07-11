@@ -52,12 +52,12 @@ public class JSONReader {
      * @param target String - JSON file to write to.
      * @throws IOException File not found
      */
-    public static void saveOrder(JsonObject cart, String target) throws IOException{
+    public static void saveOrder(Order order, String target) throws IOException{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         Writer writer = new FileWriter(target);
 
-        gson.toJson(cart, writer); //Overwrites existing content
+        gson.toJson(order, writer); //Overwrites existing content
 
         writer.flush();
         writer.close();

@@ -24,7 +24,7 @@ public class UI {
     static OpeningHoursService openingHoursService = new OpeningHoursService();
     static CartItemService cartItemService = new CartItemService();
     static OrderService orderService = new OrderService();
-    static String shoppingCart = "database/shoppingCart.json";
+    static final String SHOPPING_CART = "database/shoppingCart.json";
 
     public static void processFacade(){
         ProcessFacadeActions action;
@@ -220,7 +220,7 @@ public class UI {
 
 
         try {
-            saveOrder(jsonOrder, shoppingCart);
+            saveOrder(orderService.retrieveBufferOrder(), SHOPPING_CART);
         } catch (IOException e) {
             e.printStackTrace();
         }

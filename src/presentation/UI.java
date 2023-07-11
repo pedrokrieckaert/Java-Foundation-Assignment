@@ -1,7 +1,5 @@
 package src.presentation;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
 import src.data.pojo.Product;
 import src.service.CartItemService;
@@ -9,7 +7,6 @@ import src.service.OpeningHoursService;
 import src.service.OrderService;
 import src.service.ProductService;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.*;
@@ -198,32 +195,15 @@ public class UI {
             return;
         }
 
-        Gson gson = new Gson();
-        JsonObject orderSum = new JsonObject();
-        JsonObject jsonOrder = new JsonObject();
-
         //Total Price
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
-        orderSum.addProperty("totalPrice", totalPrice);
 
         //Total Hours
         int totalHours = cartItemService.calcTotalHours();
-        orderSum.addProperty("totalProductionHours", totalHours);
 
         orderService.createNewOrder(totalPrice, totalHours, cart);
 
-        orderSum.addProperty("pickUp", orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList()));
-
-        jsonOrder.add("summary", orderSum);
-
-        jsonOrder.add("cart", gson.toJsonTree(orderService.retrieveBufferOrder().getCart()));
-
-
-        try {
-            saveOrder(orderService.retrieveBufferOrder(), SHOPPING_CART);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveOrder(orderService.retrieveBufferOrder(), SHOPPING_CART);
 
         printUserData();
         printPickUp(orderService.retrieveBufferOrder());

@@ -12,6 +12,7 @@ import src.service.ProductService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.*;
 
 import static src.data.reader.JSONReader.saveOrder;
 import static src.presentation.Interaction.*;
@@ -131,7 +132,13 @@ public class UI {
 
             switch (action) {
                 case EDIT -> processEditItem();
-                case REMOVE -> processRemoveItem();
+                case REMOVE -> {
+                    boolean exit = processRemoveItem();
+
+                    if (exit) {
+                        return;
+                    }
+                }
                 case DONE -> {
                     return;
                 }
@@ -152,18 +159,28 @@ public class UI {
         cartItemService.updateCart(bufferCart);
     }
 
-    private static void processRemoveItem() {
+    private static boolean processRemoveItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
-        processRequestLoop("\nRemove another item?", () -> {
+        processRequestLoop("\nRemove another item?", true,() -> {
             int itemIndex = promptForCartItem(bufferCart);
 
             if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {
                 bufferCart.remove(itemIndex);
             }
+
+            if (bufferCart.size() == 0) {
+                System.out.println("Your cart is now empty.");
+                promptContinue();
+                return false;
+            }
+
+            return true;
         });
 
         cartItemService.updateCart(bufferCart);
+
+        return bufferCart.size() == 0;
     }
 
     private static void processFinalize(){
@@ -220,13 +237,28 @@ public class UI {
         }
     }
 
-    private static void processRequestLoop(String message ,Runnable function) {
+    private static void processRequestLoop(String message, Runnable function) {
         boolean end = true;
 
         while (end) {
             function.run();
 
             end = promptEndProcess(message);
+        }
+    }
+
+    private static void processRequestLoop(String message, boolean escape, Callable function){
+        boolean end = true;
+        ExecutorService service = Executors.newSingleThreadExecutor();
+
+        while (end) {
+            Future<Boolean> exit = service.submit(function);
+
+            try {
+                end = exit.get();
+            } catch (Exception e) {
+                end = promptEndProcess(message);
+            }
         }
     }
 }

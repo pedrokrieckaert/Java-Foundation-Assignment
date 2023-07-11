@@ -105,6 +105,7 @@ public class UI {
             CartItem item = new CartItem(product, promptForQuantity("Please select quantity:"));
 
             cartItemService.addCartItem(item);
+            System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
         });
     }
 
@@ -147,10 +148,14 @@ public class UI {
 
         processRequestLoop("\nEdit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
+            int oldQ = bufferCart.get(itemIndex).getAmount();
+            int newQ = promptForQuantity("Select new quantity:");
 
-            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), promptForQuantity("Select new quantity:"));
+            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), newQ);
 
             bufferCart.set(itemIndex, itemEdit);
+
+            System.out.println("Updated [" + itemEdit.getName() + "] quantity: " + oldQ + " -> " + newQ);
         });
 
         cartItemService.updateCart(bufferCart);
@@ -166,12 +171,15 @@ public class UI {
                 return false;
             }
 
-            if (promptEndProcess("Are you sure you want to remove " + bufferCart.get(itemIndex).getName() + "?")) {
+            String name = bufferCart.get(itemIndex).getName();
+
+            if (promptEndProcess("Are you sure you want to remove " + name + "?")) {
+                System.out.println("Removed [" + name + "]");
                 bufferCart.remove(itemIndex);
             }
 
             if (bufferCart.size() == 0) {
-                System.out.println("Your cart is now empty.");
+                System.out.println("\nYour cart is now empty.");
                 promptContinue();
                 return false;
             }

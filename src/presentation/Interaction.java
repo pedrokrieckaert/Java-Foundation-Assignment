@@ -66,7 +66,7 @@ abstract class Interaction {
         Scanner scan = new Scanner(System.in);
         System.out.print(message + " ");
 
-        return scanInt(scan, 1, 999);
+        return scanInt(scan, 1, CartItem.MAX_AMOUNT);
     }
     static int promptForCartItem(List<CartItem> cart) {
         Scanner scan = new Scanner(System.in);

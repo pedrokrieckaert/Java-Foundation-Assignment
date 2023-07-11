@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class CartItem extends Product{
     private int amount;
+    public static final int MAX_AMOUNT = 999;
 
     public CartItem(int id, String name, BigDecimal price, String hours, int amount) {
         super(id, name, price, hours);

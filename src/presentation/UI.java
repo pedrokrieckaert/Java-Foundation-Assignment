@@ -78,8 +78,19 @@ public class UI {
 
             CartItem item = new CartItem(product, promptForQuantity("Please select quantity:"));
 
-            cartItemService.addCartItem(item);
-            System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
+            try {
+                int currentAmount = cartItemService.getCartItem(item.getId()).getAmount();
+
+                if (currentAmount == CartItem.MAX_AMOUNT) {
+                    System.out.println("Item [" + item.getName() + "] already at maximum amount: " + CartItem.MAX_AMOUNT);
+                } else {
+                    cartItemService.addCartItem(item);
+                    System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
+                }
+            } catch (NullPointerException e) {
+                cartItemService.addCartItem(item);
+                System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
+            }
 
             return false;
         });

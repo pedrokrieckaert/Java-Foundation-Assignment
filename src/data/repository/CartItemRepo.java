@@ -1,6 +1,6 @@
 package src.data.repository;
 
-import src.data.pojo.CartItem;
+import src.pojo.CartItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;

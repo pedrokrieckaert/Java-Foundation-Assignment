@@ -1,11 +1,10 @@
 package src.data.repository;
 
-import src.data.pojo.Order;
+import src.pojo.Order;
 
 import java.io.IOException;
 
 import static src.data.reader.JSONReader.readOrder;
-import static src.data.reader.JSONReader.saveOrder;
 
 public class OrderRepo {
     private Order order;

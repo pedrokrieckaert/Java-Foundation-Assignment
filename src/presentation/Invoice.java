@@ -1,7 +1,7 @@
 package src.presentation;
 
-import src.data.pojo.CartItem;
-import src.data.pojo.Order;
+import src.pojo.CartItem;
+import src.pojo.Order;
 
 import java.math.BigDecimal;
 import java.util.List;

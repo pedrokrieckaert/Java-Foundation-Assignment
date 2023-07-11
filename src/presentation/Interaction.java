@@ -1,6 +1,6 @@
 package src.presentation;
 
-import src.data.pojo.CartItem;
+import src.pojo.CartItem;
 
 import java.util.List;
 import java.util.Scanner;

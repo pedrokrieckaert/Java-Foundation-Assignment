@@ -1,7 +1,7 @@
 package src.presentation;
 
-import src.data.pojo.CartItem;
-import src.data.pojo.Product;
+import src.pojo.CartItem;
+import src.pojo.Product;
 import src.service.CartItemService;
 import src.service.OpeningHoursService;
 import src.service.OrderService;

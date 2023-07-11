@@ -1,8 +1,8 @@
 package src.service;
 
-import src.data.pojo.CartItem;
-import src.data.pojo.OpeningHours;
-import src.data.pojo.Order;
+import src.pojo.CartItem;
+import src.pojo.OpeningHours;
+import src.pojo.Order;
 import src.data.repository.OrderRepo;
 
 import java.math.BigDecimal;

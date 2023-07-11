@@ -1,6 +1,6 @@
 package src.service;
 
-import src.data.pojo.CartItem;
+import src.pojo.CartItem;
 import src.data.repository.CartItemRepo;
 
 import java.math.BigDecimal;

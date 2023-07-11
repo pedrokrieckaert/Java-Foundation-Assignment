@@ -1,14 +1,11 @@
 package src.data.repository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import src.data.pojo.OpeningHours;
+import src.pojo.OpeningHours;
 import src.data.reader.CSVReader;
 
 public class OpeningHoursRepo {

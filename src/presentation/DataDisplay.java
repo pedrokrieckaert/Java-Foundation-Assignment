@@ -1,8 +1,8 @@
 package src.presentation;
 
-import src.data.pojo.CartItem;
-import src.data.pojo.OpeningHours;
-import src.data.pojo.Product;
+import src.pojo.CartItem;
+import src.pojo.OpeningHours;
+import src.pojo.Product;
 
 import java.math.BigDecimal;
 import java.util.List;

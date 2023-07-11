@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import src.data.pojo.Product;
+import src.pojo.Product;
 import src.data.reader.CSVReader;
 
 public class ProductRepo {

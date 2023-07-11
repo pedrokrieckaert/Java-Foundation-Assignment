@@ -1,6 +1,6 @@
 package src.service;
 
-import src.data.pojo.OpeningHours;
+import src.pojo.OpeningHours;
 import src.data.repository.OpeningHoursRepo;
 
 import java.util.ArrayList;

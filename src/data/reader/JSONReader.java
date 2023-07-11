@@ -2,16 +2,12 @@ package src.data.reader;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import src.data.pojo.CartItem;
 import src.data.pojo.Order;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JSONReader {
     /**
@@ -48,18 +44,21 @@ public class JSONReader {
 
     /**
      * Overwrites a list of products to a JSON file
-     * @param cart List Product
+     * @param order List Product
      * @param target String - JSON file to write to.
-     * @throws IOException File not found
      */
-    public static void saveOrder(JsonObject cart, String target) throws IOException{
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static void saveOrder(Order order, String target) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        Writer writer = new FileWriter(target);
+            Writer writer = new FileWriter(target);
 
-        gson.toJson(cart, writer); //Overwrites existing content
+            gson.toJson(order, writer); //Overwrites existing content
 
-        writer.flush();
-        writer.close();
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

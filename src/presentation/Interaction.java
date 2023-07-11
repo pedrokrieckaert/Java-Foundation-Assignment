@@ -48,7 +48,7 @@ abstract class Interaction {
     static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("\nPlease enter the name or id of a product: ");
+        System.out.print("\nSelect product by id/name, or type 'cancel' to return: ");
 
         while(true) {
             Object input = scanIntOrString(scan, 1, 12);
@@ -72,7 +72,7 @@ abstract class Interaction {
         Scanner scan = new Scanner(System.in);
 
         while (true) {
-            System.out.print("\nSelect index or name of product (type 'cancel' to cancel): ");
+            System.out.print("\nSelect product by index/name, or type 'cancel' to return: ");
             Object input = scanIntOrString(scan, 1, cart.size());
 
             if (input instanceof Integer) {

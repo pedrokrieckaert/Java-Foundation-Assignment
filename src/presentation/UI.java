@@ -26,40 +26,6 @@ public class UI {
     static OrderService orderService = new OrderService();
     static String shoppingCart = "database/shoppingCart.json";
 
-    private static void finalizeOrder() {
-        Gson gson = new Gson();
-        JsonObject orderSum = new JsonObject();
-        JsonObject jsonOrder = new JsonObject();
-        List<CartItem> cart = cartItemService.getCart();
-
-        //Total Price
-        BigDecimal totalPrice = cartItemService.calcTotalPrice();
-        orderSum.addProperty("totalPrice", totalPrice);
-
-        //Total Hours
-        int totalHours = cartItemService.calcTotalHours();
-        orderSum.addProperty("totalProductionHours", totalHours);
-
-        orderService.createNewOrder(totalPrice, totalHours, cart);
-
-        orderSum.addProperty("pickUp", orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList()));
-
-        jsonOrder.add("summary", orderSum);
-
-        jsonOrder.add("cart", gson.toJsonTree(orderService.retrieveBufferOrder().getCart()));
-
-
-        try {
-            saveOrder(jsonOrder, shoppingCart);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        printUserData();
-        printPickUp(orderService.retrieveBufferOrder());
-        printCart(cart, totalPrice.toString());
-    }
-
     public static void processFacade(){
         ProcessFacadeActions action;
         System.out.println(
@@ -94,7 +60,7 @@ public class UI {
     }
 
     private static void processAddItem(){
-        processRequestLoop("\nWould you like to add another item?", true, () -> {
+        processRequestLoop("\nWould you like to add another item?", () -> {
             Object input = promptForProduct();
 
             if (input instanceof String) {
@@ -158,6 +124,11 @@ public class UI {
 
         processRequestLoop("\nEdit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
+
+            if (itemIndex == Integer.MIN_VALUE) {
+                return true;
+            }
+
             int oldQ = bufferCart.get(itemIndex).getAmount();
             int newQ = promptForQuantity("Select new quantity:");
 
@@ -166,6 +137,8 @@ public class UI {
             bufferCart.set(itemIndex, itemEdit);
 
             System.out.println("Updated [" + itemEdit.getName() + "] quantity: " + oldQ + " -> " + newQ);
+
+            return false;
         });
 
         cartItemService.updateCart(bufferCart);
@@ -174,7 +147,7 @@ public class UI {
     private static boolean processRemoveItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
-        processRequestLoop("\nRemove another item?", true,() -> {
+        processRequestLoop("\nRemove another item?", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
             if (itemIndex == Integer.MIN_VALUE) {
@@ -256,17 +229,7 @@ public class UI {
         }
     }
 
-    private static void processRequestLoop(String message, Runnable function) {
-        boolean end = false;
-
-        while (!end) {
-            function.run();
-
-            end = !promptBinaryChoice(message);
-        }
-    }
-
-    private static void processRequestLoop(String message, boolean escape, Callable function){
+    private static void processRequestLoop(String message, Callable function){
         boolean end = false;
         ExecutorService service = Executors.newSingleThreadExecutor();
 

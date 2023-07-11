@@ -94,8 +94,16 @@ public class UI {
     }
 
     private static void processAddItem(){
-        processRequestLoop("\nWould you like to add another item?", () -> {
-            Product product = fetchProduct(promptForProduct());
+        processRequestLoop("\nWould you like to add another item?", true, () -> {
+            Object input = promptForProduct();
+
+            if (input instanceof String) {
+                if (input.toString().equalsIgnoreCase("cancel")) {
+                    return false;
+                }
+            }
+
+            Product product = fetchProduct(input);
 
             while (product == null) {
                 System.out.print("\nSorry, that product doesn't exist. ");
@@ -106,6 +114,8 @@ public class UI {
 
             cartItemService.addCartItem(item);
             System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
+
+            return true;
         });
     }
 
@@ -265,6 +275,9 @@ public class UI {
 
             try {
                 end = exit.get();
+                if (end) {
+                    end = promptEndProcess(message);
+                }
             } catch (Exception e) {
                 end = promptEndProcess(message);
             }

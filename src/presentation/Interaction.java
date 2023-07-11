@@ -53,26 +53,14 @@ abstract class Interaction {
         System.out.print("\nPlease enter the name or id of a product: ");
 
         while(true) {
-            if (scan.hasNextInt()) {
-                int index = scan.nextInt();
+            Object input = scanIntOrString(scan, 1, 12);
 
-                //Validate if the input is within src.data.repository bounds
-                if (!invalidIndex(index, 0, 11)) {
-                    return (T) Integer.valueOf(index);
-                } else {
-                    System.out.print("\nInvalid id, please select a valid id (0 - 11): ");
-                    scan.nextLine(); //Next line trap
-                }
-            } else {
-                String input = scan.nextLine();
-
-                //Validate if the input is null or blank
-                if (isNullOrBlank(input)) {
-                    scan.skip("");
-                    continue;
-                }
-
-                return (T) input;
+            if (input instanceof Integer) {
+                int index = Integer.parseInt(String.valueOf(input));
+                return (T) Integer.valueOf(index);
+            } else if (input instanceof String) {
+                String name = input.toString();
+                return (T) name;
             }
         }
     }
@@ -105,7 +93,7 @@ abstract class Interaction {
 
         while (true) {
             System.out.print("\nSelect index or name of product: ");
-            Object input = scanIntOrString(scan, 0, cart.size() - 1);
+            Object input = scanIntOrString(scan, 1, cart.size());
 
             if (input instanceof Integer) {
                 int index = Integer.parseInt(String.valueOf(input));

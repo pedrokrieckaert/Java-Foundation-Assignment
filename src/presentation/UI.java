@@ -3,7 +3,6 @@ package src.presentation;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import src.data.pojo.CartItem;
-import src.data.pojo.Order;
 import src.data.pojo.Product;
 import src.service.CartItemService;
 import src.service.OpeningHoursService;
@@ -13,11 +12,12 @@ import src.service.ProductService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Scanner;
+import java.util.concurrent.*;
 
 import static src.data.reader.JSONReader.saveOrder;
-import static src.validation.Validation.invalidIndex;
-import static src.validation.Validation.isNullOrBlank;
+import static src.presentation.Interaction.*;
+import static src.presentation.Invoice.*;
+import static src.presentation.DataDisplay.*;
 
 public class UI {
     static ProductService productService = new ProductService();
@@ -26,104 +26,181 @@ public class UI {
     static OrderService orderService = new OrderService();
     static String shoppingCart = "database/shoppingCart.json";
 
-    /**
-     * CLI prompt to retrieve a product from the src.data.repository by id or Name
-     * @return Product
-     */
-    private static Product promptForProduct() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease enter the name or id of a product: ");
-        while (true) {
-            //Check if the input is an integer
-            if(scan.hasNextInt()) {
-                int index = scan.nextInt();
+    public static void processFacade(){
+        ProcessFacadeActions action;
+        System.out.println(
+                " /$$      /$$           /$$                                            \n" +
+                "| $$  /$ | $$          | $$                                            \n" +
+                "| $$ /$$$| $$  /$$$$$$ | $$  /$$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$ \n" +
+                "| $$/$$ $$ $$ /$$__  $$| $$ /$$_____/ /$$__  $$| $$_  $$_  $$ /$$__  $$\n" +
+                "| $$$$_  $$$$| $$$$$$$$| $$| $$      | $$  \\ $$| $$ \\ $$ \\ $$| $$$$$$$$\n" +
+                "| $$$/ \\  $$$| $$_____/| $$| $$      | $$  | $$| $$ | $$ | $$| $$_____/\n" +
+                "| $$/   \\  $$|  $$$$$$$| $$|  $$$$$$$|  $$$$$$/| $$ | $$ | $$|  $$$$$$$\n" +
+                "|__/     \\__/ \\_______/|__/ \\_______/ \\______/ |__/ |__/ |__/ \\_______/"
+        );
+        System.out.println("To the Photo Shop.\n");
+        promptContinue();
 
-                //Validate if the input is within src.data.repository bounds
-                if (!invalidIndex(index)) {
-                    return productService.retrieveProductById(index);
+        while (true) {
+            action = promptForAction(ProcessFacadeActions.values());
+
+            switch (action) {
+                case ADD -> processAddItem();
+                case PRODUCTS -> displayProducts(productService.retrieveProductList());
+                case HOURS -> displayHours(openingHoursService.retrieveOpeningHoursList());
+                case CART -> processCartDisplay();
+                case FINALIZE -> processFinalize();
+                case TERMINATE -> processTerminate();
+            }
+        }
+    }
+
+    private static <T> Product fetchProduct(T input){
+        return productService.retrieveProduct(input);
+    }
+
+    private static void processAddItem(){
+        processRequestLoop("\nWould you like to add another item?", () -> {
+            Object input = promptForProduct();
+
+            if (input instanceof String) {
+                if (input.toString().equalsIgnoreCase("cancel")) {
+                    return true;
+                }
+            }
+
+            Product product = fetchProduct(input);
+
+            while (product == null) {
+                System.out.print("\nSorry, that product doesn't exist. ");
+                product = fetchProduct(promptForProduct());
+            }
+
+            CartItem item = new CartItem(product, promptForQuantity("Please select quantity:"));
+
+            try {
+                int currentAmount = cartItemService.getCartItem(item.getId()).getAmount();
+
+                if (currentAmount == CartItem.MAX_AMOUNT) {
+                    System.out.println("Item [" + item.getName() + "] already at maximum amount: " + CartItem.MAX_AMOUNT);
                 } else {
-                    System.out.println("Id does not exist, please select a valid ID.");
-                    scan.nextLine();
+                    cartItemService.addCartItem(item);
+                    System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
                 }
-
-                //If the input was a String
-            } else {
-                String input = scan.nextLine();
-                //Validate if the input is null or blank
-                if (isNullOrBlank(input)) {
-                    scan.skip("");
-                    continue;
-                }
-
-                Product temp = productService.retrieveProductByName(input);
-
-                //If the return from src.service was null, means that the input wasn't found in the product names
-                if (temp == null) {
-                    System.out.println("There is no product by that name.");
-                } else {
-                    //Return the product object once validated
-                    return temp;
-                }
+            } catch (NullPointerException e) {
+                cartItemService.addCartItem(item);
+                System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
             }
-        }
+
+            return false;
+        });
     }
 
-    private static CartItem promptForQuantity(Product product) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nPlease select the quantity: ");
-        int quantity = 0;
+    private static void processCartDisplay() {
+            List<CartItem> cart = cartItemService.getCart();
+
+            if(cart.size() == 0) {
+                System.out.println("Your cart is empty.");
+
+                promptContinue();
+            } else {
+                displayCart(cart, cartItemService.calcTotalPrice().toString());
+                processCartFacade();
+            }
+    }
+
+    private static void processCartFacade(){
+        ProcessCartActions action;
 
         while (true) {
-            if (scan.hasNextInt()) {
-                quantity = scan.nextInt();
+            action = promptForAction(ProcessCartActions.values());
 
-                if (invalidIndex(quantity)) {
-                    System.out.println("Please input a valid number (not negative): ");
-                    continue;
+            switch (action) {
+                case EDIT -> processEditItem();
+                case REMOVE -> {
+                    boolean exit = processRemoveItem();
+
+                    if (exit) {
+                        return;
+                    }
                 }
-            } else {
-                System.out.println("Please input a number: ");
-                scan.next();
-                continue;
-            }
-
-            return new CartItem(product, quantity);
-        }
-
-    }
-
-    private static boolean promptEndProcess() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("\nDo you want to continue? (y/n): ");
-
-        while (true) {
-            String input = scan.nextLine();
-            if (isNullOrBlank(input)) {
-                scan.skip("");
-                continue;
-            }
-
-            if (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-                System.out.println("Please provide a valid input (y/n): ");
-                continue;
-            } else {
-                switch (input.toLowerCase()) {
-                    case "y" -> {
-                        return true;
-                    }
-                    case "n" -> {
-                        return false;
-                    }
+                case DONE -> {
+                    return;
                 }
             }
         }
     }
+    private static void processEditItem() {
+        List<CartItem> bufferCart = cartItemService.getCart();
 
-    private static void finalizeOrder() {
+        processRequestLoop("\nEdit another item?: ", () -> {
+            int itemIndex = promptForCartItem(bufferCart);
+
+            if (itemIndex == Integer.MIN_VALUE) {
+                return true;
+            }
+
+            int oldQ = bufferCart.get(itemIndex).getAmount();
+            int newQ = promptForQuantity("Select new quantity:");
+
+            CartItem itemEdit = new CartItem(bufferCart.get(itemIndex), newQ);
+
+            bufferCart.set(itemIndex, itemEdit);
+
+            System.out.println("Updated [" + itemEdit.getName() + "] quantity: " + oldQ + " -> " + newQ);
+
+            return false;
+        });
+
+        cartItemService.updateCart(bufferCart);
+    }
+
+    private static boolean processRemoveItem() {
+        List<CartItem> bufferCart = cartItemService.getCart();
+
+        processRequestLoop("\nRemove another item?", () -> {
+            int itemIndex = promptForCartItem(bufferCart);
+
+            if (itemIndex == Integer.MIN_VALUE) {
+                return true;
+            }
+
+            String name = bufferCart.get(itemIndex).getName();
+
+            if (promptBinaryChoice("Are you sure you want to remove " + name + "?")) {
+                System.out.println("Removed [" + name + "]");
+                bufferCart.remove(itemIndex);
+            }
+
+            if (bufferCart.size() == 0) {
+                System.out.println("\nYour cart is now empty.");
+                promptContinue();
+                return true;
+            }
+
+            return false;
+        });
+
+        cartItemService.updateCart(bufferCart);
+
+        return bufferCart.size() == 0;
+    }
+
+    private static void processFinalize(){
+        List<CartItem> cart = cartItemService.getCart();
+        if (cart.size() == 0) {
+            System.out.println("Your cart is empty.");
+            promptContinue();
+            return;
+        }
+
+        if (!promptBinaryChoice("Are you sure you want to checkout?")) {
+            return;
+        }
+
         Gson gson = new Gson();
         JsonObject orderSum = new JsonObject();
         JsonObject jsonOrder = new JsonObject();
-        List<CartItem> cart = cartItemService.getCart();
 
         //Total Price
         BigDecimal totalPrice = cartItemService.calcTotalPrice();
@@ -148,22 +225,36 @@ public class UI {
             e.printStackTrace();
         }
 
-        Invoice.printUserData();
-        Invoice.printPickUp(orderService.retrieveBufferOrder());
-        Invoice.printCart(cart, totalPrice.toString());
+        printUserData();
+        printPickUp(orderService.retrieveBufferOrder());
+        printCart(cart, totalPrice.toString());
+
+        System.exit(0);
     }
 
-    public static void process(){
-        CartItem item = null;
-        boolean end = true;
+    private static void processTerminate(){
+        boolean end = promptBinaryChoice("Are you sure you would like to cancel?");
 
-        while (end) {
-            Product product = promptForProduct();
-            item = promptForQuantity(product);
-            cartItemService.addCartItem(item);
-            end = promptEndProcess();
+        if(end) {
+            System.exit(0);
         }
+    }
 
-        finalizeOrder();
+    private static void processRequestLoop(String message, Callable function){
+        boolean end = false;
+        ExecutorService service = Executors.newSingleThreadExecutor();
+
+        while (!end) {
+            Future<Boolean> exit = service.submit(function);
+
+            try {
+                end = exit.get();
+                if (!end) {
+                    end = !promptBinaryChoice(message);
+                }
+            } catch (Exception e) {
+                end = !promptBinaryChoice(message);
+            }
+        }
     }
 }

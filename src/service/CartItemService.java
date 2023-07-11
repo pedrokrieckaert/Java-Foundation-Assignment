@@ -17,7 +17,11 @@ public class CartItemService {
             if (itemRepo.retrieve(item.getId()) == null){
                 itemRepo.create(item);
             } else {
-                itemRepo.update(item.getId(), item);
+                CartItem temp = itemRepo.retrieve(item.getId());
+
+                temp.setAmount(temp.getAmount() + item.getAmount());
+
+                itemRepo.update(item.getId(), temp);
             }
         } catch (NullPointerException e) {
             itemRepo.create(item);
@@ -37,6 +41,22 @@ public class CartItemService {
         }
 
         return cart;
+    }
+
+    public void updateCart(List<CartItem> newCart) {
+        List<Integer> keys = itemRepo.getKeys();
+        for (int key : keys) {
+            boolean keyUpdated = false;
+            for (CartItem item : newCart) {
+                if (item.getId() == key) {
+                    itemRepo.update(key, item);
+                    keyUpdated = true;
+                }
+            }
+            if (!keyUpdated) {
+                itemRepo.delete(key);
+            }
+        }
     }
 
     public BigDecimal calcTotalPrice() {

@@ -1,22 +1,29 @@
 {
   "summary": {
-    "totalPrice": 456.00,
-    "totalProductionHours": 111,
-    "pickUp": "Wednesday 19-07-2023 16:00"
+    "totalPrice": 64744.25,
+    "totalProductionHours": 16010,
+    "pickUp": "Wednesday 07-02-2029 11:00"
   },
   "cart": [
     {
-      "amount": 15,
-      "id": 1,
-      "name": "Paper 10 x 15 mat",
-      "price": 1.40,
-      "hours": "01:00"
+      "amount": 7,
+      "id": 4,
+      "name": "Paper30 x 40 high gloss",
+      "price": 5.00,
+      "hours": "02:00"
     },
     {
-      "amount": 6,
-      "id": 8,
-      "name": "Canvas 100 x 150 high gloss",
-      "price": 72.50,
+      "amount": 1,
+      "id": 5,
+      "name": "Canvas 30 x 40 mat",
+      "price": 24.00,
+      "hours": "12:00"
+    },
+    {
+      "amount": 999,
+      "id": 7,
+      "name": "Canvas 100 x 150 mat",
+      "price": 64.75,
       "hours": "16:00"
     }
   ]

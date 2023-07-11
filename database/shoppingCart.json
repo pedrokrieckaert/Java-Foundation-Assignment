@@ -1,15 +1,22 @@
 {
   "summary": {
-    "totalPrice": 5.60,
-    "totalProductionHours": 4,
-    "pickUp": "Tuesday 11-07-2023 10:00"
+    "totalPrice": 2.90,
+    "totalProductionHours": 2,
+    "pickUp": "Tuesday 11-07-2023 13:00"
   },
   "cart": [
     {
-      "amount": 4,
+      "amount": 1,
       "id": 1,
       "name": "Paper 10 x 15 mat",
       "price": 1.40,
+      "hours": "01:00"
+    },
+    {
+      "amount": 1,
+      "id": 2,
+      "name": "Paper 10 x 15 high gloss",
+      "price": 1.50,
       "hours": "01:00"
     }
   ]

@@ -94,10 +94,7 @@ public class UI {
     }
 
     private static void processAddItem(){
-        CartItem item = null;
-        boolean end = true;
-
-        while (end) {
+        processRequestLoop("\nWould you like to add another item?", () -> {
             Product product = fetchProduct(promptForProduct());
 
             while (product == null) {
@@ -105,10 +102,9 @@ public class UI {
                 product = fetchProduct(promptForProduct());
             }
 
-            item = promptForQuantity(product);
+            CartItem item = promptForQuantity(product);
             cartItemService.addCartItem(item);
-            end = promptEndProcess("\nWould you like to add another item?");
-        }
+        });
     }
 
     private static void processCartDisplay() {

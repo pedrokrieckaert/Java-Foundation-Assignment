@@ -1,13 +1,11 @@
 package src.presentation;
 
 import src.data.pojo.CartItem;
-import src.data.pojo.Product;
 
 import java.util.List;
 import java.util.Scanner;
 
 import static src.presentation.UserInput.*;
-import static src.validation.Validation.invalidIndex;
 import static src.validation.Validation.isNullOrBlank;
 
 abstract class Interaction {
@@ -105,10 +103,10 @@ abstract class Interaction {
         } catch (Exception e) { }
     }
 
-    static boolean promptEndProcess() {
-        return promptEndProcess("\nDo you want to continue?");
+    static boolean promptBinaryChoice() {
+        return promptBinaryChoice("\nDo you want to continue?");
     }
-    static boolean promptEndProcess(String prompt){
+    static boolean promptBinaryChoice(String prompt){
         Scanner scan = new Scanner(System.in);
         System.out.print(prompt + " (y/n): ");
 

@@ -99,7 +99,7 @@ public class UI {
 
             if (input instanceof String) {
                 if (input.toString().equalsIgnoreCase("cancel")) {
-                    return false;
+                    return true;
                 }
             }
 
@@ -115,7 +115,7 @@ public class UI {
             cartItemService.addCartItem(item);
             System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
 
-            return true;
+            return false;
         });
     }
 
@@ -178,12 +178,12 @@ public class UI {
             int itemIndex = promptForCartItem(bufferCart);
 
             if (itemIndex == Integer.MIN_VALUE) {
-                return false;
+                return true;
             }
 
             String name = bufferCart.get(itemIndex).getName();
 
-            if (promptEndProcess("Are you sure you want to remove " + name + "?")) {
+            if (promptBinaryChoice("Are you sure you want to remove " + name + "?")) {
                 System.out.println("Removed [" + name + "]");
                 bufferCart.remove(itemIndex);
             }
@@ -191,10 +191,10 @@ public class UI {
             if (bufferCart.size() == 0) {
                 System.out.println("\nYour cart is now empty.");
                 promptContinue();
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         });
 
         cartItemService.updateCart(bufferCart);
@@ -210,7 +210,7 @@ public class UI {
             return;
         }
 
-        if (!promptEndProcess("Are you sure you want to checkout?")) {
+        if (!promptBinaryChoice("Are you sure you want to checkout?")) {
             return;
         }
 
@@ -249,7 +249,7 @@ public class UI {
     }
 
     private static void processTerminate(){
-        boolean end = promptEndProcess("Are you sure you would like to cancel?");
+        boolean end = promptBinaryChoice("Are you sure you would like to cancel?");
 
         if(end) {
             System.exit(0);
@@ -257,29 +257,29 @@ public class UI {
     }
 
     private static void processRequestLoop(String message, Runnable function) {
-        boolean end = true;
+        boolean end = false;
 
-        while (end) {
+        while (!end) {
             function.run();
 
-            end = promptEndProcess(message);
+            end = !promptBinaryChoice(message);
         }
     }
 
     private static void processRequestLoop(String message, boolean escape, Callable function){
-        boolean end = true;
+        boolean end = false;
         ExecutorService service = Executors.newSingleThreadExecutor();
 
-        while (end) {
+        while (!end) {
             Future<Boolean> exit = service.submit(function);
 
             try {
                 end = exit.get();
-                if (end) {
-                    end = promptEndProcess(message);
+                if (!end) {
+                    end = !promptBinaryChoice(message);
                 }
             } catch (Exception e) {
-                end = promptEndProcess(message);
+                end = !promptBinaryChoice(message);
             }
         }
     }

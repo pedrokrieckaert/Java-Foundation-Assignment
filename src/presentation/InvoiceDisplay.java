@@ -6,7 +6,7 @@ import src.pojo.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static src.presentation.StringPrintFormats.*;
+import static src.utilities.StringPrintFormats.*;
 
 public abstract class InvoiceDisplay {
     static void printUserData(){

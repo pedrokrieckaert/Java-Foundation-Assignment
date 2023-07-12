@@ -2,8 +2,8 @@ package src.presentation;
 
 import java.util.Scanner;
 
-import static src.validation.Validation.invalidIndex;
-import static src.validation.Validation.isNullOrBlank;
+import static src.utilities.Validation.invalidIndex;
+import static src.utilities.Validation.isNullOrBlank;
 
 abstract class UserInput {
     static <T> T scanIntOrString(Scanner scan, int INT_MIN, int INT_MAX) {

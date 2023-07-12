@@ -1,4 +1,4 @@
-package src.validation;
+package src.utilities;
 
 public abstract class Validation {
     /**

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static src.presentation.UserInput.*;
-import static src.validation.Validation.isNullOrBlank;
+import static src.utilities.Validation.isNullOrBlank;
 
 abstract class UserInteraction {
     static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {

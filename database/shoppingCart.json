@@ -1,13 +1,13 @@
 {
-  "orderDate": "Wednesday 12-07-2023 14:32",
+  "orderDate": "Wednesday 12-07-2023 15:07",
   "pickUpDate": "13-07-2023",
-  "totalPrice": 20,
-  "totalHours": 8,
-  "pickUpTime": "14:00",
+  "totalPrice": 10,
+  "totalHours": 4,
+  "pickUpTime": "11:00",
   "pickUpDay": "Thursday",
   "cart": [
     {
-      "amount": 4,
+      "amount": 2,
       "id": 4,
       "name": "Paper30 x 40 high gloss",
       "price": 5.00,

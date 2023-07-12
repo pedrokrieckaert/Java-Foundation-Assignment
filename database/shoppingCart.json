@@ -1,13 +1,16 @@
 {
-  "orderDate": "Wednesday 12-07-2023 11:51",
-  "totalPrice": 4,
-  "totalHours": 2,
+  "orderDate": "Wednesday 12-07-2023 14:32",
+  "pickUpDate": "13-07-2023",
+  "totalPrice": 20,
+  "totalHours": 8,
+  "pickUpTime": "14:00",
+  "pickUpDay": "Thursday",
   "cart": [
     {
-      "amount": 1,
-      "id": 3,
-      "name": "Paper 30 x 40 mat",
-      "price": 4.50,
+      "amount": 4,
+      "id": 4,
+      "name": "Paper30 x 40 high gloss",
+      "price": 5.00,
       "hours": "02:00"
     }
   ]

@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static src.data.reader.JSONReader.saveOrder;
 import static src.presentation.UserInteraction.*;
 import static src.presentation.InvoiceDisplay.*;
 import static src.presentation.DataDisplay.*;
@@ -203,7 +202,9 @@ public class UserInterface {
 
         orderService.createNewOrder(totalPrice, totalHours, cart);
 
-        saveOrder(orderService.retrieveBufferOrder(), SHOPPING_CART);
+        orderService.calcPickUpWindow(openingHoursService.retrieveOpeningHoursList());
+
+        orderService.writeOrder(SHOPPING_CART);
 
         printUserData();
         printPickUp(orderService.retrieveBufferOrder());

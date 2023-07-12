@@ -16,7 +16,7 @@ public class OrderService {
     static Order orderBuffer;
 
     public OrderService () {
-        orderRepo.create("database/shoppingCart.json");
+
     }
 
     public void createNewOrder(BigDecimal totalPrice, int totalHours, List<CartItem> cart) {
@@ -27,8 +27,8 @@ public class OrderService {
         return orderBuffer;
     }
 
-    public void addItem(CartItem item) {
-
+    public void writeOrder(String writeTarget) {
+        orderRepo.create(orderBuffer, writeTarget);
     }
 
     public int getOrderDay() {

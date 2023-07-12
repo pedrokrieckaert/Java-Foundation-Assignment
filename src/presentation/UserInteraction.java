@@ -8,7 +8,7 @@ import java.util.Scanner;
 import static src.presentation.UserInput.*;
 import static src.validation.Validation.isNullOrBlank;
 
-abstract class Interaction {
+abstract class UserInteraction {
     static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {
         Scanner scan = new Scanner(System.in);
 

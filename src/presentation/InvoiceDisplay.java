@@ -8,7 +8,7 @@ import java.util.List;
 
 import static src.presentation.StringPrintFormats.*;
 
-public abstract class Invoice {
+public abstract class InvoiceDisplay {
     static void printUserData(){
         System.out.println( "\n" +
                 padRight("Invoice of Photoshop order:", PAD_LARGE) + "35510" + "\n\n" +

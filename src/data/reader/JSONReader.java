@@ -43,7 +43,7 @@ public class JSONReader {
     }
 
     /**
-     * Overwrites a list of products to a JSON file
+     * Writes a list of products to a JSON file
      * @param order List Product
      * @param target String - JSON file to write to.
      */

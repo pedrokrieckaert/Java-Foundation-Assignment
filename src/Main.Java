@@ -1,12 +1,9 @@
 package src;
 
-import src.presentation.UI;
+import src.presentation.UserInterface;
 
 class Main {
-    static String shoppingCart = "database/shoppingCart.json";
-    static UI ui = new UI();
-
     public static void main(String[] args) {
-        ui.processFacade();
+        UserInterface.processFacade();
     }
 }

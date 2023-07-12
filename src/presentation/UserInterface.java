@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import static src.data.reader.JSONReader.saveOrder;
-import static src.presentation.Interaction.*;
-import static src.presentation.Invoice.*;
+import static src.presentation.UserInteraction.*;
+import static src.presentation.InvoiceDisplay.*;
 import static src.presentation.DataDisplay.*;
 
-public class UI {
+public class UserInterface {
     static ProductService productService = new ProductService();
     static OpeningHoursService openingHoursService = new OpeningHoursService();
     static CartItemService cartItemService = new CartItemService();

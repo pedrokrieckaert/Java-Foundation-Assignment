@@ -1,10 +1,10 @@
 {
-  "orderDate": "Wednesday 12-07-2023 15:07",
-  "pickUpDate": "13-07-2023",
-  "totalPrice": 10,
-  "totalHours": 4,
-  "pickUpTime": "11:00",
-  "pickUpDay": "Thursday",
+  "orderDate": "Wednesday 12-07-2023 15:23",
+  "pickUpDate": "18-07-2023",
+  "totalPrice": 92,
+  "totalHours": 40,
+  "pickUpTime": "10:00",
+  "pickUpDay": "Tuesday",
   "cart": [
     {
       "amount": 2,
@@ -12,6 +12,13 @@
       "name": "Paper30 x 40 high gloss",
       "price": 5.00,
       "hours": "02:00"
+    },
+    {
+      "amount": 3,
+      "id": 6,
+      "name": "Canvas 30 x 40 high gloss",
+      "price": 27.50,
+      "hours": "12:00"
     }
   ]
 }

@@ -1,16 +1,16 @@
 {
-  "orderDate": "Wednesday 12-07-2023 15:51",
-  "pickUpDate": "13-07-2023",
+  "orderDate": "Thursday 13-07-2023 09:26",
+  "pickUpDate": "14-07-2023",
   "totalPrice": 16,
   "totalHours": 8,
-  "pickUpTime": "15:00",
-  "pickUpDay": "Thursday",
+  "pickUpTime": "9:00",
+  "pickUpDay": "Friday",
   "cart": [
     {
       "amount": 2,
-      "id": 1,
-      "name": "Paper 10 x 15 mat",
-      "price": 1.40,
+      "id": 2,
+      "name": "Paper 10 x 15 high gloss",
+      "price": 1.50,
       "hours": "01:00"
     },
     {

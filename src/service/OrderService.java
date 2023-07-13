@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderService {
     static OrderRepo orderRepo = new OrderRepo();
 
-    static Order orderBuffer;
+    private static Order orderBuffer;
 
     public OrderService () {
 
@@ -27,10 +27,17 @@ public class OrderService {
         return orderBuffer;
     }
 
+    /**
+     * Calls to write this Order to a JSON file.
+     * @param writeTarget String file path to write to
+     */
     public void writeOrder(String writeTarget) {
         orderRepo.create(orderBuffer, writeTarget);
     }
 
+    /**
+     * @return int index of the day this order is made
+     */
     public int getOrderDay() {
         String curDate = orderBuffer.getOrderDate();
         String dotw = curDate.substring(0, curDate.indexOf(" ")).toUpperCase();
@@ -45,6 +52,11 @@ public class OrderService {
         return dayIndex;
     }
 
+    /**
+     * Calculates the time and date of pickup for the order.
+     * @param timeTable List of OpeningHours
+     * @return String Date and Time of pickup
+     */
     public String calcPickUpWindow(List<OpeningHours> timeTable) {
         String curDate = orderBuffer.getOrderDate();
 
@@ -122,10 +134,23 @@ public class OrderService {
         return orderBuffer.pickUpDataToString();
     }
 
+    /**
+     * Increments an index up to a maximum value or resets it to a minimum value.
+     * @param i int Index to increment
+     * @param min int minimum possible value of Index
+     * @param max int maximum possible value of Index
+     * @return int Index
+     */
     private int incrementIndex(int i, int min, int max) {
         return i++ >= max ? min : i++;
     }
 
+    /**
+     * Checks if the time of order is within the shop's current day openings time.
+     * @param curDate String date of order
+     * @param day OpeningHours object of the order day
+     * @return ShopStatus Enum state of the shop
+     */
     private ShopStatus checkShopOpen(String curDate, OpeningHours day) {
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 
@@ -138,6 +163,12 @@ public class OrderService {
         }
     }
 
+    /**
+     * Adds the days displaced to complete the order to the date of the order.
+     * @param curDate String date of order
+     * @param diff int tallied days displaced to complete production
+     * @return String date of pickup
+     */
     private String displacedDate(String curDate, int diff) {
         LocalDate date = LocalDate.parse(curDate, Order.DTF);
 
@@ -148,6 +179,12 @@ public class OrderService {
         return date.format(resultFormat);
     }
 
+    /**
+     * Calculates a time displacement to factor any remaining time in the day to work.
+     * @param curDate String date of order
+     * @param day OpeningHours object of the order day
+     * @return int time remaining in the work day
+     */
     private int displaceStartTime(String curDate, OpeningHours day) {
         int timeOfOrder = Integer.parseInt(curDate.substring(curDate.lastIndexOf(" ") + 1, curDate.lastIndexOf(" ") + 3));
 

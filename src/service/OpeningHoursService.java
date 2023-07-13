@@ -17,15 +17,14 @@ public class OpeningHoursService {
         this.openingHoursRepo.create(hours);
     }
 
-    /**
-     * Retrieve opening hour object
-     * @param dayNumber int - day of the week 1 - 7
-     * @return OpeningHours
-     */
     public OpeningHours retrievOpeningHours(int dayNumber) {
         return this.openingHoursRepo.retrieve(dayNumber);
     }
 
+    /**
+     * Returns all the OpeningHours objects in the repository
+     * @return List of OpeningHours
+     */
     public List<OpeningHours> retrieveOpeningHoursList() {
         List<OpeningHours> timeTable = new ArrayList<>();
 

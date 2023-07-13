@@ -1,6 +1,6 @@
 package src.data.repository;
 
-import src.data.pojo.CartItem;
+import src.pojo.CartItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,10 @@ import java.util.Map;
 public class CartItemRepo {
     private Map<Integer, CartItem> datastore = new HashMap<>();
 
+    /**
+     * Returns an ArrayList of Map keys from this datastore.
+     * @return keys of this map
+     */
     public List<Integer> getKeys() {
         return new ArrayList<Integer>(datastore.keySet());
     }

@@ -1,4 +1,4 @@
-package src.data.pojo;
+package src.pojo;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package src.data.pojo;
+package src.pojo;
 
 public class OpeningHours {
     private int dayNumber;
@@ -44,6 +44,10 @@ public class OpeningHours {
         return this.openHour;
     }
 
+    /**
+     * Converts the string of time format hh:mm to an hour only integer.
+     * @return Integer value of this variable
+     */
     public int getOpenHourInt() {
         return Integer.parseInt(this.openHour.substring(0,2));
     }
@@ -55,6 +59,11 @@ public class OpeningHours {
     public String getCloseHour() {
         return this.closeHour;
     }
+
+    /**
+     * Converts the string of time format hh:mm to an hour only integer.
+     * @return Integer value of this variable
+     */
     public int getCloseHourInt() {
         return Integer.parseInt(this.closeHour.substring(0,2));
     }
@@ -65,7 +74,7 @@ public class OpeningHours {
     public int getHoursOpen() {
         return hoursOpen;
     }
-    public void setHoursOpen() {
+    private void setHoursOpen() {
         this.hoursOpen = getCloseHourInt() - getOpenHourInt();
     }
 }

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class CSVReader<T> {
-    private String seperator;
+    private String separator;
     private String file;
     private Map<String, Field> privateFields = new LinkedHashMap<String, Field>();
     private Class<T> genericType;
@@ -20,19 +20,19 @@ public class CSVReader<T> {
     private boolean initCompleted;
     private boolean hasHeader;
 
-    public CSVReader(final Class<T> type, String file, boolean hasHeader, String seperator) {
-        this.setSeperator(seperator);
+    public CSVReader(final Class<T> type, String file, boolean hasHeader, String separator) {
+        this.setSeparator(separator);
         this.setFile(file);
         this.setGenericType(type);
         this.setHasHeader(hasHeader);
     }
 
-    public String getSeperator() {
-        return seperator;
+    public String getSeparator() {
+        return separator;
     }
 
-    public void setSeperator(String seperator) {
-        this.seperator = seperator;
+    public void setSeparator(String separator) {
+        this.separator = separator;
     }
 
     public String getFile() {
@@ -60,7 +60,8 @@ public class CSVReader<T> {
     }
 
     /**
-     * @return the data
+     * Getter for this data, read from the specified CSV file as a new ArrayList.
+     * @return this data, stored in the class variable.
      */
     public List<T> getData() {
         if (null == data) data = new ArrayList<T>();
@@ -68,7 +69,8 @@ public class CSVReader<T> {
     }
 
     /**
-     * @param data the data to set
+     * Setter for this data
+     * @param data the data to set to this data
      */
     public void setData(List<T> data) {
         this.data = data;
@@ -107,6 +109,11 @@ public class CSVReader<T> {
         this.hasHeader = hasHeader;
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     */
     public CSVReader<T> read(List<String> order) {
         this.setOrder(order);
         init();
@@ -118,6 +125,11 @@ public class CSVReader<T> {
         return this;
     }
 
+    /**
+     * Initializes the CSVReader object by populating the privateFields map and reading data from the CSV file if not already initialized.
+     * The privateFields map contains private fields of the generic type.
+     * Data is read from the CSV file using the readData() method.
+     */
     private void init() {
         if (!this.initCompleted) {
             Field[] allFields = genericType.getDeclaredFields();
@@ -136,6 +148,17 @@ public class CSVReader<T> {
         }
     }
 
+    /**
+     * Reads the CSV file, checks for a header row, and assigns the read values to the object's fields
+     * in the order specified by a String array. <br>
+     * The read data is populated into the object's fields based on the specified order.
+     * If the file has a header row, it is skipped during assignment.
+     * Each line of the CSV file is processed and assigned to the corresponding fields of the object.
+     * The object's fields are assigned values in the order specified by the String array.
+     *
+     * @throws IllegalArgumentException if the value cannot be assigned to the field.
+     * @throws IllegalAccessException if there is an illegal access exception during field assignment.
+     */
     private void readData() throws InstantiationException, IllegalAccessException{
         BufferedReader reader = null;
         String line = null;
@@ -143,7 +166,7 @@ public class CSVReader<T> {
             reader = new BufferedReader(new FileReader(file));
 
             while ((line = reader.readLine()) != null) {
-                List<String> row = Arrays.asList(line.split(seperator));
+                List<String> row = Arrays.asList(line.split(separator));
 
                 if (this.hasHeader) {
                     setHeaders(row);
@@ -178,6 +201,16 @@ public class CSVReader<T> {
         }
     }
 
+    /**
+     * Assigns a value to a field of the given object using reflection.
+     *
+     * @param refObject the object to assign the value to.
+     * @param field the field to assign the value to.
+     * @param value the value to assign.
+     * @return the assigned field.
+     * @throws IllegalArgumentException if the value cannot be assigned to the field.
+     * @throws IllegalAccessException if there is an illegal access exception during field assignment.
+     */
     private Field assign(T refObject, Field field, String value) throws IllegalArgumentException, IllegalAccessException {
         field.setAccessible(true);
         if (field.getType().getName().equals("int")) {

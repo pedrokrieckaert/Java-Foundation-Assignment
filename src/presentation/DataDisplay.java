@@ -1,16 +1,20 @@
 package src.presentation;
 
-import src.data.pojo.CartItem;
-import src.data.pojo.OpeningHours;
-import src.data.pojo.Product;
+import src.pojo.CartItem;
+import src.pojo.OpeningHours;
+import src.pojo.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import static src.presentation.StringPrintFormats.*;
+import static src.utilities.StringPrintFormats.*;
 
 public abstract class DataDisplay {
 
+    /**
+     * Prints a table, of Product, with headers ID, Photo Type, Price, and Production Time
+     * @param products List of Product
+     */
     static void displayProducts(List<Product> products) {
         System.out.println(
                 padRight("ID: ", 6) +
@@ -29,6 +33,10 @@ public abstract class DataDisplay {
         }
     }
 
+    /**
+     * Prints a table, of OpeningHours, with headers Day, Opening time, and Closing time.
+     * @param hours List of OpeningHours
+     */
     static void displayHours(List<OpeningHours> hours) {
         System.out.println(
                 padRight("Day:", PAD_SMALL) +
@@ -45,6 +53,12 @@ public abstract class DataDisplay {
         }
     }
 
+    /**
+     * Prints a table, of CartItem, with headers ID, Photo Type, Price, Amount, and Total Costs.
+     * Also prints the sum total price of all cart items.
+     * @param cart List of CartItem
+     * @param totalPrice String of sum total price of the cart
+     */
     static void displayCart(List<CartItem> cart, String totalPrice) {
         System.out.println(
                 padRight("ID: ", 6)

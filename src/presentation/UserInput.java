@@ -2,10 +2,17 @@ package src.presentation;
 
 import java.util.Scanner;
 
-import static src.validation.Validation.invalidIndex;
-import static src.validation.Validation.isNullOrBlank;
+import static src.utilities.Validation.invalidIndex;
+import static src.utilities.Validation.isNullOrBlank;
 
 abstract class UserInput {
+    /**
+     * Scans the CLI for an int or String returning a generic of the input.
+     * @param scan Scanner
+     * @param INT_MIN Lower bound const for int value validation
+     * @param INT_MAX Upper bound const for int value validation
+     * @return T of the scanned input
+     */
     static <T> T scanIntOrString(Scanner scan, int INT_MIN, int INT_MAX) {
         if (scan.hasNextInt()) {
             int index = scan.nextInt();
@@ -30,6 +37,13 @@ abstract class UserInput {
         return null;
     }
 
+    /**
+     * Scans the CLI for an int and returns an int.
+     * @param scan Scanner
+     * @param INT_MIN Lower bound const for int value validation
+     * @param INT_MAX Upper bound const for int value validation
+     * @return int Scanned input
+     */
     static int scanInt (Scanner scan, int INT_MIN, int INT_MAX) {
         int input = Integer.MIN_VALUE;
 

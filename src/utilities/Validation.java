@@ -1,8 +1,8 @@
-package src.validation;
+package src.utilities;
 
 public abstract class Validation {
     /**
-     * Check if scanned line has input
+     * Check if a String object is null or value is blank.
      * @param input String
      * @return boolean
      */
@@ -11,7 +11,7 @@ public abstract class Validation {
     }
 
     /**
-     * Check if scanned int is within src.data.repository bounds
+     * Check if an int is within bounds of a maximum and minimum value
      * @param index int
      * @return boolean
      */

@@ -1,6 +1,6 @@
 package src.service;
 
-import src.data.pojo.Product;
+import src.pojo.Product;
 import src.data.repository.ProductRepo;
 
 import java.util.List;

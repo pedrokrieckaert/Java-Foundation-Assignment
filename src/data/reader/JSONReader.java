@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import src.data.pojo.Order;
+import src.pojo.Order;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -43,7 +43,7 @@ public class JSONReader {
     }
 
     /**
-     * Overwrites a list of products to a JSON file
+     * Writes a list of products to a JSON file
      * @param order List Product
      * @param target String - JSON file to write to.
      */

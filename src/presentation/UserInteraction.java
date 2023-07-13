@@ -9,6 +9,12 @@ import static src.presentation.UserInput.*;
 import static src.utilities.Validation.isNullOrBlank;
 
 abstract class UserInteraction {
+
+    /**
+     * Prints the values of an Enum interfaced by ActionEnum and prompts to select on of the values.
+     * @param actions Array of Enum values
+     * @return The selected Enum value
+     */
     static <T extends Enum<T> & ActionEnum> T promptForAction(T[] actions) {
         Scanner scan = new Scanner(System.in);
 
@@ -45,6 +51,10 @@ abstract class UserInteraction {
         }
     }
 
+    /**
+     * Prompts to select a product by the product's ID or name.
+     * @return Generic int or String identifier of the product
+     */
     static <T> T promptForProduct(){
         Scanner scan = new Scanner(System.in);
 
@@ -62,12 +72,24 @@ abstract class UserInteraction {
             }
         }
     }
+
+    /**
+     * Prompts to select a quantity for a product.
+     * @param message This prompt
+     * @return int amount of a product
+     */
     static int promptForQuantity(String message) {
         Scanner scan = new Scanner(System.in);
         System.out.print(message + " ");
 
         return scanInt(scan, 1, CartItem.MAX_AMOUNT);
     }
+
+    /**
+     * Prompts to select a product, from the cart, by the product's index in the cart or name.
+     * @param cart List of CartItem
+     * @return int Index of the selected product
+     */
     static int promptForCartItem(List<CartItem> cart) {
         Scanner scan = new Scanner(System.in);
 
@@ -94,18 +116,24 @@ abstract class UserInteraction {
         }
     }
 
+    /**
+     * Prompts for an 'Enter' input, pausing the program.
+     */
     static void promptContinue() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Press 'Enter' to continue...");
 
+        //try-catch block to accept an empty line
         try {
             scan.nextLine();
-        } catch (Exception e) { }
+        } catch (Exception ignored) { }
     }
 
-    static boolean promptBinaryChoice() {
-        return promptBinaryChoice("\nDo you want to continue?");
-    }
+    /**
+     * Prompts for a binary choice, yes or no, scanning for a string input of either 'y' or 'n'.
+     * @param prompt This prompt message
+     * @return boolean 'y' returns true, 'n' returns false
+     */
     static boolean promptBinaryChoice(String prompt){
         Scanner scan = new Scanner(System.in);
         System.out.print(prompt + " (y/n): ");

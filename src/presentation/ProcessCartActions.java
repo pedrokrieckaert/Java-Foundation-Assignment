@@ -1,5 +1,9 @@
 package src.presentation;
 
+/**
+ * Enumerator of actions during cart inspection.
+ * Contains a Name, int ID, String print message
+ */
 enum ProcessCartActions implements ActionEnum{
     EDIT (1, "Edit item"),
     REMOVE (2, "Remove item"),

@@ -1,5 +1,8 @@
 package src.presentation;
-
+/**
+ * Enumerator of actions during the master loop.
+ * Contains a Name, int ID, String print message
+ */
 enum ProcessFacadeActions implements ActionEnum{
     ADD(1, "Add item"),
     PRODUCTS(2, "See products"),

@@ -22,6 +22,9 @@ public class UserInterface {
     static OrderService orderService = new OrderService();
     static final String SHOPPING_CART = "database/shoppingCart.json";
 
+    /**
+     * Master loop of the program. Prompts for an ActionEnum choice.
+     */
     public static void processFacade(){
         ProcessFacadeActions action;
         System.out.println(
@@ -51,17 +54,26 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Requests the service layer for a Product to return.
+     * @param input Generic identifier of a product
+     * @return Product
+     */
     private static <T> Product fetchProduct(T input){
         return productService.retrieveProduct(input);
     }
 
+    /**
+     * Series of prompts and operations to correctly add an item to the cart.
+     * Function can be canceled.
+     */
     private static void processAddItem(){
         processRequestLoop("\nWould you like to add another item?", () -> {
             Object input = promptForProduct();
 
             if (input instanceof String) {
                 if (input.toString().equalsIgnoreCase("cancel")) {
-                    return true;
+                    return true; //Break loop
                 }
             }
 
@@ -88,10 +100,13 @@ public class UserInterface {
                 System.out.println("Added item [" + item.getName() + "] x" + item.getAmount());
             }
 
-            return false;
+            return false; //Continue loop
         });
     }
 
+    /**
+     * Prints the current content of the cart. If there is no cart, print a default message.
+     */
     private static void processCartDisplay() {
             List<CartItem> cart = cartItemService.getCart();
 
@@ -105,6 +120,9 @@ public class UserInterface {
             }
     }
 
+    /**
+     * Prompts for an ActionEnum choice for the cart. Contains exit logic if the cart becomes empty.
+     */
     private static void processCartFacade(){
         ProcessCartActions action;
 
@@ -126,14 +144,22 @@ public class UserInterface {
             }
         }
     }
+
+    /**
+     * Series of prompts and operations to change the amount of a product in the cart.
+     * A temporary buffer cart is created to store the changes.
+     * Once the process is finalized, the changes from the buffer cart are applied to the cart.
+     * Function, and changes, can be canceled.
+     */
     private static void processEditItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
         processRequestLoop("\nEdit another item?: ", () -> {
             int itemIndex = promptForCartItem(bufferCart);
 
+            //Since the prompt method can only return an int, an 'absurd' value is returned to validate the cancel
             if (itemIndex == Integer.MIN_VALUE) {
-                return true;
+                return true; //Break loop
             }
 
             int oldQ = bufferCart.get(itemIndex).getAmount();
@@ -145,12 +171,17 @@ public class UserInterface {
 
             System.out.println("Updated [" + itemEdit.getName() + "] quantity: " + oldQ + " -> " + newQ);
 
-            return false;
+            return false; //Continue loop
         });
 
         cartItemService.updateCart(bufferCart);
     }
 
+    /**
+     * Series of prompts and operations to remove an item from the cart.
+     * If the cart becomes empty or the operation is canceled, this function will end.
+     * @return boolean To break from the action request loop
+     */
     private static boolean processRemoveItem() {
         List<CartItem> bufferCart = cartItemService.getCart();
 
@@ -158,7 +189,7 @@ public class UserInterface {
             int itemIndex = promptForCartItem(bufferCart);
 
             if (itemIndex == Integer.MIN_VALUE) {
-                return true;
+                return true; //Break loop
             }
 
             String name = bufferCart.get(itemIndex).getName();
@@ -171,10 +202,10 @@ public class UserInterface {
             if (bufferCart.size() == 0) {
                 System.out.println("\nYour cart is now empty.");
                 promptContinue();
-                return true;
+                return true; //Break loop
             }
 
-            return false;
+            return false; //Continue loop
         });
 
         cartItemService.updateCart(bufferCart);
@@ -182,6 +213,11 @@ public class UserInterface {
         return bufferCart.size() == 0;
     }
 
+    /**
+     * Calculates the total price, total hours, and pick up time of the order.
+     * Then stores this into an Order object, before writing it to a JSON and printing the order invoice.
+     * <b>The program will exit.</b>
+     */
     private static void processFinalize(){
         List<CartItem> cart = cartItemService.getCart();
         if (cart.size() == 0) {
@@ -213,6 +249,9 @@ public class UserInterface {
         System.exit(0);
     }
 
+    /**
+     * Exits the program after a security prompt.
+     */
     private static void processTerminate(){
         boolean end = promptBinaryChoice("Are you sure you would like to cancel?");
 
@@ -221,6 +260,13 @@ public class UserInterface {
         }
     }
 
+    /**
+     * A custom while loop that will prompt to be concluded and otherwise continue.
+     * A lambda function parameter declares the code to be executed during the loop.
+     * As a Callable, it returns a boolean to terminate the loop from within the lambda function.
+     * @param message String to be displayed for the binary prompt to conclude the loop
+     * @param function Callable lambda that returns a boolean
+     */
     private static void processRequestLoop(String message, Callable function){
         boolean end = false;
         ExecutorService service = Executors.newSingleThreadExecutor();
